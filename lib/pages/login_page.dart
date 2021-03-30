@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                     RichText(
                       text: TextSpan(children: [
                         TextSpan(
-                            text: "Não possui uma conta? ",
+                            text: "Não possui uma conta?",
                             style: TextStyle(color: Colors.black)),
                         TextSpan(
                             text: "Registre-se",
