@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sit_eat/pages/register_page.dart';
 import 'package:sit_eat/utils/color.dart';
 import 'package:sit_eat/widgets/btn_widget.dart';
 import 'package:sit_eat/widgets/herder_container.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegPageState createState() => _RegPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.only(bottom: 30),
         child: Column(
           children: <Widget>[
-            //Login (principal)
+            //Cadastro
             HeaderContainer(" "),
             Expanded(
               flex: 1,
@@ -26,36 +25,27 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
+                    _textInput(hint: "Nome Completo", icon: Icons.person),
                     _textInput(hint: "E-mail", icon: Icons.email),
+                    _textInput(hint: "Número Celular", icon: Icons.call),
                     _textInput(hint: "Senha", icon: Icons.vpn_key),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "Esqueceu a senha?",
-                      ),
-                    ),
                     Expanded(
                       child: Center(
                         child: ButtonWidget(
+                          btnText: "REGISTRAR",
                           onClick: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => RegisterPage()));
+                            Navigator.pop(context);
                           },
-                          btnText: "ENTRAR",
                         ),
                       ),
                     ),
                     RichText(
                       text: TextSpan(children: [
                         TextSpan(
-                            text: "Não possui uma conta?",
+                            text: "Já possui cadastro? ",
                             style: TextStyle(color: Colors.black)),
                         TextSpan(
-                            text: "Registre-se",
-                            style: TextStyle(color: redColors)),
+                            text: "Entrar", style: TextStyle(color: redColors)),
                       ]),
                     )
                   ],
