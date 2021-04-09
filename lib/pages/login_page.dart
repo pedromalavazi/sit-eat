@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sit_eat/pages/register_page.dart';
+import 'package:provider/provider.dart';
+import 'package:sit_eat/services/authentication_service.dart';
 import 'package:sit_eat/utils/color.dart';
 import 'package:sit_eat/widgets/btn_widget.dart';
 import 'package:sit_eat/widgets/herder_container.dart';
@@ -10,6 +11,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,8 +30,18 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    _textInput(hint: "E-mail", icon: Icons.email),
-                    _textInput(hint: "Senha", icon: Icons.vpn_key),
+                    _textInput(
+                      controller: emailController,
+                      hint: "E-mail",
+                      icon: Icons.email,
+                    ),
+                    _textInput(
+                      controller: passwordController,
+                      hint: "Senha",
+                      icon: Icons.vpn_key,
+                      obscureText: true,
+                      enableSuggestions: false,
+                    ),
                     Container(
                       margin: EdgeInsets.only(top: 10),
                       alignment: Alignment.centerRight,
@@ -39,10 +53,10 @@ class _LoginPageState extends State<LoginPage> {
                       child: Center(
                         child: ButtonWidget(
                           onClick: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => RegisterPage()));
+                            context.read<AuthenticationService>().signIn(
+                                  email: emailController.text.trim(),
+                                  password: passwordController.text.trim(),
+                                );
                           },
                           btnText: "ENTRAR",
                         ),
@@ -68,7 +82,8 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _textInput({controller, hint, icon}) {
+  Widget _textInput(
+      {controller, hint, icon, obscureText = false, enableSuggestions = true}) {
     return Container(
       margin: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
@@ -83,6 +98,8 @@ class _LoginPageState extends State<LoginPage> {
           hintText: hint,
           prefixIcon: Icon(icon),
         ),
+        obscureText: obscureText,
+        enableSuggestions: enableSuggestions,
       ),
     );
   }
