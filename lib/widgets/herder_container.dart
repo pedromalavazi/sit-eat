@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sit_eat/utils/color.dart';
+import 'package:sit_eat/utils/color.red.dart';
 
 // ignore: must_be_immutable
 class HeaderContainer extends StatelessWidget {
@@ -10,7 +10,7 @@ class HeaderContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.4,
+      //height: MediaQuery.of(context).size.height * 0.4,
       decoration: BoxDecoration(
           gradient: LinearGradient(
               colors: [redColors, redLightColors],

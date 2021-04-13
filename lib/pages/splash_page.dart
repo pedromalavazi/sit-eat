@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:sit_eat/utils/color.dart';
-
-import 'login_page.dart';
+import 'package:sit_eat/pages/home_page.dart';
+import 'package:sit_eat/utils/color.grey.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -16,7 +15,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     Timer(const Duration(milliseconds: 4000), () {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginPage()));
+          context, MaterialPageRoute(builder: (context) => HomePage()));
     });
   }
 
@@ -26,7 +25,7 @@ class _SplashPageState extends State<SplashPage> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: [redColors, redLightColors],
+              colors: [greyColors, greyLightColors],
               end: Alignment.bottomCenter,
               begin: Alignment.topCenter),
         ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sit_eat/services/authentication_service.dart';
-import 'package:sit_eat/utils/color.dart';
+import 'package:sit_eat/utils/color.red.dart';
 import 'package:sit_eat/widgets/btn_widget.dart';
 import 'package:sit_eat/widgets/herder_container.dart';
 
@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: <Widget>[
             //Login (principal)
-            HeaderContainer(" "),
+            HeaderContainer(""),
             Expanded(
               flex: 1,
               child: Container(
@@ -30,18 +30,45 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    _textInput(
-                      controller: emailController,
-                      hint: "E-mail",
-                      icon: Icons.email,
+                    // LOGIN AREA
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Colors.white,
+                      ),
+                      padding: EdgeInsets.only(left: 10),
+                      child: TextFormField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "E-mail",
+                          prefixIcon: Icon(Icons.email),
+                        ),
+                      ),
                     ),
-                    _textInput(
-                      controller: passwordController,
-                      hint: "Senha",
-                      icon: Icons.vpn_key,
-                      obscureText: true,
-                      enableSuggestions: false,
+
+                    //PASSWORD AREA
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Colors.white,
+                      ),
+                      padding: EdgeInsets.only(left: 10),
+                      child: TextFormField(
+                        controller: passwordController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Senha",
+                          prefixIcon: Icon(Icons.vpn_key),
+                        ),
+                        obscureText: true,
+                        enableSuggestions: false,
+                      ),
                     ),
+
+                    //FORGET PASSWORD AREA
                     Container(
                       margin: EdgeInsets.only(top: 10),
                       alignment: Alignment.centerRight,
@@ -78,28 +105,6 @@ class _LoginPageState extends State<LoginPage> {
             )
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _textInput(
-      {controller, hint, icon, obscureText = false, enableSuggestions = true}) {
-    return Container(
-      margin: EdgeInsets.only(top: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        color: Colors.white,
-      ),
-      padding: EdgeInsets.only(left: 10),
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: hint,
-          prefixIcon: Icon(icon),
-        ),
-        obscureText: obscureText,
-        enableSuggestions: enableSuggestions,
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sit_eat/utils/color.dart';
+import 'package:sit_eat/utils/color.red.dart';
 import 'package:sit_eat/widgets/btn_widget.dart';
 import 'package:sit_eat/widgets/herder_container.dart';
 
