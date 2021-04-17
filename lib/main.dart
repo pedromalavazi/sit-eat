@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sit_eat/pages/login.page.dart';
+import 'package:sit_eat/pages/login_page.dart';
 import 'package:sit_eat/services/authentication_service.dart';
 import 'pages/splash_page.dart';
 

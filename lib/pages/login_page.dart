@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:sit_eat/blocs/login_bloc.dart';
+import 'package:sit_eat/pages/register_page.dart';
 import 'package:sit_eat/services/authentication_service.dart';
-import 'package:sit_eat/utils/color.red.dart';
-import 'package:sit_eat/widgets/btn_widget.dart';
-import 'package:sit_eat/widgets/herder_container.dart';
+import 'package:sit_eat/utils/color.grey.dart';
+import 'package:provider/provider.dart';
+import 'package:sit_eat/widgets/button_widget.dart';
+import 'package:sit_eat/widgets/input_field.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -11,98 +13,186 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final _loginBloc = LoginBloc();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(bottom: 30),
-        child: Column(
+        padding: EdgeInsets.only(
+          top: 60,
+          left: 40,
+          right: 40,
+        ),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [greyColors, greyLightColors],
+              end: Alignment.bottomCenter,
+              begin: Alignment.topCenter),
+        ),
+        child: ListView(
           children: <Widget>[
-            //Login (principal)
-            HeaderContainer(""),
-            Expanded(
-              flex: 1,
-              child: Container(
-                margin: EdgeInsets.only(left: 20, right: 20, top: 30),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    // LOGIN AREA
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        color: Colors.white,
-                      ),
-                      padding: EdgeInsets.only(left: 10),
-                      child: TextFormField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "E-mail",
-                          prefixIcon: Icon(Icons.email),
-                        ),
-                      ),
-                    ),
-
-                    //PASSWORD AREA
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        color: Colors.white,
-                      ),
-                      padding: EdgeInsets.only(left: 10),
-                      child: TextFormField(
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Senha",
-                          prefixIcon: Icon(Icons.vpn_key),
-                        ),
-                        obscureText: true,
-                        enableSuggestions: false,
-                      ),
-                    ),
-
-                    //FORGET PASSWORD AREA
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "Esqueceu a senha?",
-                      ),
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: ButtonWidget(
-                          onClick: () {
-                            context.read<AuthenticationService>().signIn(
-                                  email: emailController.text.trim(),
-                                  password: passwordController.text.trim(),
-                                );
-                          },
-                          btnText: "ENTRAR",
-                        ),
-                      ),
-                    ),
-                    RichText(
-                      text: TextSpan(children: [
-                        TextSpan(
-                            text: "Não possui uma conta? ",
-                            style: TextStyle(color: Colors.black)),
-                        TextSpan(
-                            text: "Registre-se",
-                            style: TextStyle(color: redColors)),
-                      ]),
-                    )
-                  ],
-                ),
+            SizedBox(
+              width: 220,
+              height: 220,
+              child: Image.asset("assets/logo2.png"),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child: InputField(
+                labelText: "E-mail",
+                textInputType: TextInputType.emailAddress,
+                stream: _loginBloc.outEmail,
+                onChanged: _loginBloc.changeEmail,
               ),
-            )
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: InputField(
+                labelText: "Senha",
+                obscure: true,
+                textInputType: TextInputType.text,
+                stream: _loginBloc.outPassword,
+                onChanged: _loginBloc.changePassword,
+              ),
+            ),
+            Container(
+              height: 40,
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                child: Text(
+                  "Recuperar Senha",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                    color: Colors.black54,
+                  ),
+                ),
+                onPressed: () {},
+              ),
+            ),
+            SizedBox(
+              //SizedBox serve apenas para dar um espaço na tela
+              height: 10,
+            ),
+            StreamBuilder<bool>(
+              stream: _loginBloc.outSubmitValid,
+              builder: (context, snapshot) {
+                return ButtonWidget(
+                  height: 55,
+                  text: "Entrar",
+                  textColor: Colors.black,
+                  textSize: 20,
+                  icon: Icons.login,
+                  iconColor: Colors.white,
+                  function: snapshot.hasData ? () {} : null,
+                );
+              },
+            ),
+            SizedBox(
+              //SizedBox serve apenas para dar um espaço na tela
+              height: 10,
+            ),
+            Container(
+              height: 80,
+              alignment: Alignment.bottomCenter,
+              child: TextButton(
+                child: Text(
+                  "Cadastrar-se",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black54,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RegisterPage(),
+                    ),
+                  );
+                },
+              ),
+            ),
+            // Container(
+            //   height: 60,
+            //   alignment: Alignment.centerLeft,
+            //   decoration: BoxDecoration(
+            //     color: Color(0xFF8A9CC1),
+            //     borderRadius: BorderRadius.all(
+            //       Radius.circular(5),
+            //     ),
+            //   ),
+            //   child: SizedBox.expand(
+            //     child: TextButton(
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         children: <Widget>[
+            //           Text(
+            //             "Entrar com Facebook",
+            //             style: TextStyle(
+            //               fontWeight: FontWeight.bold,
+            //               color: Colors.white,
+            //               fontSize: 20,
+            //             ),
+            //             textAlign: TextAlign.left,
+            //           ),
+            //           Container(
+            //             child: SizedBox(
+            //               child: Image.asset("assets/facebook-icon.png"),
+            //               height: 28,
+            //               width: 28,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //       onPressed: () {
+            //         //Login facebook
+            //       },
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(
+            //   //SizedBox serve apenas para dar um espaço na tela
+            //   height: 10,
+            // ),
+            // Container(
+            //   height: 60,
+            //   alignment: Alignment.centerLeft,
+            //   decoration: BoxDecoration(
+            //     color: Color(0xFFE06666),
+            //     borderRadius: BorderRadius.all(
+            //       Radius.circular(5),
+            //     ),
+            //   ),
+            //   child: SizedBox.expand(
+            //     child: TextButton(
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         children: <Widget>[
+            //           Text(
+            //             "Entrar com Google",
+            //             style: TextStyle(
+            //               fontWeight: FontWeight.bold,
+            //               color: Colors.white,
+            //               fontSize: 20,
+            //             ),
+            //             textAlign: TextAlign.left,
+            //           ),
+            //           Container(
+            //             child: SizedBox(
+            //               child: Image.asset("assets/google2.png"),
+            //               height: 28,
+            //               width: 28,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //       onPressed: () {
+            //         //login com google
+            //       },
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
