@@ -3,7 +3,7 @@ import 'package:sit_eat/app/ui/theme/color.grey.dart';
 
 final ThemeData appThemeData = ThemeData(
   primaryColor: Colors.grey,
-  accentColor: Colors.blue,
+  accentColor: Colors.white,
   brightness: Brightness.light,
   appBarTheme: AppBarTheme(
     color: greyColor,

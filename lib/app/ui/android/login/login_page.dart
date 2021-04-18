@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sit_eat/app/ui/theme/color.grey.dart';
 import 'package:sit_eat/app/ui/android/register-user/register_page.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 import 'package:sit_eat/app/ui/android/widgets/input_field.dart';
@@ -14,12 +13,7 @@ class LoginPage extends StatelessWidget {
           left: 40,
           right: 40,
         ),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [greyColor, greyLightColor],
-              end: Alignment.bottomCenter,
-              begin: Alignment.topCenter),
-        ),
+        color: Colors.white,
         child: ListView(
           children: <Widget>[
             SizedBox(
@@ -60,19 +54,14 @@ class LoginPage extends StatelessWidget {
               //SizedBox serve apenas para dar um espaço na tela
               height: 10,
             ),
-            StreamBuilder<bool>(
-              //stream: _loginBloc.outSubmitValid,
-              builder: (context, snapshot) {
-                return ButtonWidget(
-                  height: 55,
-                  text: "Entrar",
-                  textColor: Colors.black,
-                  textSize: 20,
-                  icon: Icons.login,
-                  iconColor: Colors.black,
-                  function: snapshot.hasData ? () {} : null,
-                );
-              },
+            ButtonWidget(
+              height: 55,
+              text: "Entrar",
+              textColor: Colors.black,
+              textSize: 20,
+              icon: Icons.login,
+              iconColor: Colors.black,
+              function: () {},
             ),
             SizedBox(
               //SizedBox serve apenas para dar um espaço na tela

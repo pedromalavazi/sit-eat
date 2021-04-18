@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:sit_eat/app/ui/android/home/home_page.dart';
 import 'package:sit_eat/app/ui/android/login/login_page.dart';
 import 'package:sit_eat/app/ui/android/login/splash_page.dart';
-import 'package:sit_eat/app/ui/android/register-user/register_page.dart';
+import 'package:sit_eat/app/ui/android/register-user/register_page_old.dart';
 part './app_routes.dart';
 
 class AppPages {
