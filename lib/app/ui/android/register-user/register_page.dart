@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sit_eat/utils/color.red.dart';
-import 'package:sit_eat/widgets/btn_widget.dart';
-import 'package:sit_eat/widgets/herder_container.dart';
+import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
+import 'package:sit_eat/app/ui/theme/color.red.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -17,7 +16,6 @@ class _RegPageState extends State<RegisterPage> {
         child: Column(
           children: <Widget>[
             //Cadastro
-            HeaderContainer(" "),
             Expanded(
               flex: 1,
               child: Container(
@@ -32,8 +30,8 @@ class _RegPageState extends State<RegisterPage> {
                     Expanded(
                       child: Center(
                         child: ButtonWidget(
-                          btnText: "REGISTRAR",
-                          onClick: () {
+                          text: "REGISTRAR",
+                          function: () {
                             Navigator.pop(context);
                           },
                         ),

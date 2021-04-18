@@ -1,20 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sit_eat/blocs/login_bloc.dart';
-import 'package:sit_eat/pages/register_page.dart';
-import 'package:sit_eat/services/authentication_service.dart';
-import 'package:sit_eat/utils/color.grey.dart';
-import 'package:provider/provider.dart';
-import 'package:sit_eat/widgets/button_widget.dart';
-import 'package:sit_eat/widgets/input_field.dart';
+import 'package:sit_eat/app/ui/theme/color.grey.dart';
+import 'package:sit_eat/app/ui/android/register-user/register_page.dart';
+import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
+import 'package:sit_eat/app/ui/android/widgets/input_field.dart';
 
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final _loginBloc = LoginBloc();
-
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: [greyColors, greyLightColors],
+              colors: [greyColor, greyLightColor],
               end: Alignment.bottomCenter,
               begin: Alignment.topCenter),
         ),
@@ -42,8 +32,6 @@ class _LoginPageState extends State<LoginPage> {
               child: InputField(
                 labelText: "E-mail",
                 textInputType: TextInputType.emailAddress,
-                stream: _loginBloc.outEmail,
-                onChanged: _loginBloc.changeEmail,
               ),
             ),
             Container(
@@ -52,8 +40,6 @@ class _LoginPageState extends State<LoginPage> {
                 labelText: "Senha",
                 obscure: true,
                 textInputType: TextInputType.text,
-                stream: _loginBloc.outPassword,
-                onChanged: _loginBloc.changePassword,
               ),
             ),
             Container(
@@ -75,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 10,
             ),
             StreamBuilder<bool>(
-              stream: _loginBloc.outSubmitValid,
+              //stream: _loginBloc.outSubmitValid,
               builder: (context, snapshot) {
                 return ButtonWidget(
                   height: 55,
@@ -83,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                   textColor: Colors.black,
                   textSize: 20,
                   icon: Icons.login,
-                  iconColor: Colors.white,
+                  iconColor: Colors.black,
                   function: snapshot.hasData ? () {} : null,
                 );
               },

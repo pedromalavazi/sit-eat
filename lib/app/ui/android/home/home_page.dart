@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sit_eat/pages/login_page.dart';
-import 'package:sit_eat/services/authentication_service.dart';
-import 'package:sit_eat/widgets/btn_widget.dart';
+import 'package:sit_eat/app/ui/android/login/login_page.dart';
+import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -14,9 +12,8 @@ class HomePage extends StatelessWidget {
           children: [
             Text("HOME"),
             ButtonWidget(
-              btnText: "Sign Out",
-              onClick: () {
-                context.read<AuthenticationService>().signOut();
+              text: "Sign Out",
+              function: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LoginPage()));
               },

@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sit_eat/pages/login_page.dart';
-import 'package:sit_eat/services/authentication_service.dart';
-import 'pages/splash_page.dart';
+import 'package:sit_eat/app/routes/app_pages.dart';
+import 'package:get/route_manager.dart';
+import 'package:sit_eat/app/ui/theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,37 +13,11 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<AuthenticationService>(
-          create: (_) => AuthenticationService(FirebaseAuth.instance),
-        ),
-        StreamProvider(
-          create: (context) =>
-              context.read<AuthenticationService>().authStateChanges,
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
+    return GetMaterialApp(
         title: 'Sit & Eat',
-        theme: ThemeData(
-          primarySwatch: Colors.grey,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: AuthenticationWrapper(),
-      ),
-    );
-  }
-}
-
-class AuthenticationWrapper extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User>();
-    if (firebaseUser != null) {
-      print(firebaseUser);
-      return SplashPage();
-    }
-    return LoginPage();
+        debugShowCheckedModeBanner: false,
+        getPages: AppPages.routes,
+        initialRoute: Routes.SPLASH,
+        theme: appThemeData);
   }
 }
