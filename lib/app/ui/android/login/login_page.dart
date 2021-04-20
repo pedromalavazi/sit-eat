@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sit_eat/app/ui/android/register-user/register_page.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 import 'package:sit_eat/app/ui/android/widgets/input_field.dart';
+import 'package:sit_eat/app/ui/theme/color.grey.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -13,7 +14,13 @@ class LoginPage extends StatelessWidget {
           left: 40,
           right: 40,
         ),
-        color: Colors.white,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [greyColor, greyLightColor],
+            end: Alignment.bottomCenter,
+            begin: Alignment.topCenter,
+          ),
+        ),
         child: ListView(
           children: <Widget>[
             SizedBox(
@@ -58,7 +65,7 @@ class LoginPage extends StatelessWidget {
               height: 55,
               text: "Entrar",
               textColor: Colors.black,
-              textSize: 20,
+              textSize: 18,
               icon: Icons.login,
               iconColor: Colors.black,
               function: () {},

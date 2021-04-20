@@ -37,7 +37,7 @@ class InputField extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.black38, width: 1.0),
                 ),
                 labelStyle: TextStyle(
-                  color: Colors.black54,
+                  color: Colors.black87,
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                 ),

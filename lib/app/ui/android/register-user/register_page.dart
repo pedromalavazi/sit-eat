@@ -16,9 +16,10 @@ class RegisterPage extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: [greyColor, greyLightColor],
-              end: Alignment.bottomCenter,
-              begin: Alignment.topCenter),
+            colors: [greyColor, greyLightColor],
+            end: Alignment.bottomCenter,
+            begin: Alignment.topCenter,
+          ),
         ),
         child: ListView(
           children: <Widget>[
