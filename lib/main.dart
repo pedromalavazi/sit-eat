@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 import 'package:get/route_manager.dart';
-import 'package:sit_eat/app/ui/theme/app_theme.dart';
-
 import 'app/ui/theme/color.grey.dart';
 
 Future<void> main() async {

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sit_eat/app/ui/theme/app_theme.dart';
 
 // ignore: must_be_immutable
 class ButtonWidget extends StatelessWidget {
-  Function function = () {};
+  Function onPressed = () {};
   final double height;
   final String text;
   final double textSize;
@@ -14,7 +13,7 @@ class ButtonWidget extends StatelessWidget {
   final Color buttonColor;
 
   ButtonWidget({
-    this.function,
+    this.onPressed,
     this.height,
     this.text,
     this.textSize,
@@ -29,7 +28,7 @@ class ButtonWidget extends StatelessWidget {
     return Column(
       children: [
         ElevatedButton.icon(
-          onPressed: function,
+          onPressed: onPressed,
           icon: Icon(
             icon,
             color: iconColor,

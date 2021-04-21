@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sit_eat/app/ui/android/register-user/register_page.dart';
+import 'package:get/get.dart';
+import 'package:sit_eat/app/controller/login_controller.dart';
+import 'package:sit_eat/app/routes/app_pages.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 import 'package:sit_eat/app/ui/android/widgets/input_field.dart';
 import 'package:sit_eat/app/ui/theme/color.grey.dart';
 
 class LoginPage extends StatelessWidget {
+  final LoginController _loginController = Get.find<LoginController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +35,7 @@ class LoginPage extends StatelessWidget {
             Container(
               margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: InputField(
+                controller: _loginController.emailTextController,
                 labelText: "E-mail",
                 textInputType: TextInputType.emailAddress,
               ),
@@ -38,6 +43,7 @@ class LoginPage extends StatelessWidget {
             Container(
               margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: InputField(
+                controller: _loginController.passwordTextController,
                 labelText: "Senha",
                 obscure: true,
                 textInputType: TextInputType.text,
@@ -68,7 +74,9 @@ class LoginPage extends StatelessWidget {
               textSize: 18,
               icon: Icons.login,
               iconColor: Colors.black,
-              function: () {},
+              onPressed: () {
+                _loginController.login();
+              },
             ),
             SizedBox(
               //SizedBox serve apenas para dar um espaço na tela
@@ -86,12 +94,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RegisterPage(),
-                    ),
-                  );
+                  Get.toNamed(Routes.USER_REGISTER);
                 },
               ),
             ),
