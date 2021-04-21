@@ -20,6 +20,10 @@ class LoginApiClient {
               email: email, password: password))
           .user;
 
+      // Atualizando o nome do usuário
+      await currentUser.updateProfile(displayName: name);
+      await currentUser.reload();
+
       return UserFirebaseModel.fromSnapshot(currentUser);
     } catch (e) {
       print(e.code);

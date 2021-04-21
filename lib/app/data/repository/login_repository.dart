@@ -15,4 +15,8 @@ class LoginRepository {
   ) {
     return apiClient.signInWithEmailAndPassword(email, password);
   }
+
+  void signOut() {
+    return apiClient.signOut();
+  }
 }

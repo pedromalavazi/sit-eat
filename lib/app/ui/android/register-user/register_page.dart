@@ -76,8 +76,10 @@ class RegisterPage extends StatelessWidget {
                 child: InputField(
                   controller: _loginController.phoneNumberTextController,
                   validator: (value) {
-                    if (GetUtils.isPhoneNumber(value)) {
+                    if (GetUtils.isNullOrBlank(value)) {
                       return "Número é obrigatório";
+                    } else if (!GetUtils.isPhoneNumber(value)) {
+                      return "Número inválido";
                     }
                     return null;
                   },
