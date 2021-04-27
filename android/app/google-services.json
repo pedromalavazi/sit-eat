@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "520557551612",
+    "firebase_url": "https://sit-eat-84d56-default-rtdb.firebaseio.com",
+    "project_id": "sit-eat-84d56",
+    "storage_bucket": "sit-eat-84d56.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520557551612:android:d8e882953a20aa754f5c79",
+        "android_client_info": {
+          "package_name": "com.sit_eat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520557551612-ej2t2mjcpprchdgtuhrcu0k90iki305b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADupoFKSX4dN758dx3ghieMuRMZOTrSVM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "520557551612-ej2t2mjcpprchdgtuhrcu0k90iki305b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
