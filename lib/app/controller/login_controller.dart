@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 import 'package:sit_eat/app/data/model/user_firebase_model.dart';
@@ -17,8 +19,34 @@ class LoginController extends GetxController {
   final TextEditingController nameTextController = TextEditingController();
   final TextEditingController phoneNumberTextController =
       TextEditingController();
+  GetStorage box = GetStorage('sit_eat');
+
+  @override
+  void onReady() {
+    isLogged();
+    super.onReady();
+  }
+
+  void isLogged() {
+    if (box.hasData("auth")) {
+      UserModel user = UserModel(
+        id: box.read("auth")["id"],
+        email: box.read("auth")["email"],
+        name: box.read("auth")["name"],
+        phoneNumber: box.read("auth")["phoneNumber"],
+      );
+      Get.offAllNamed(Routes.HOME, arguments: user);
+    }
+  }
 
   void register() async {
+    Get.dialog(
+      Center(
+        child: CircularProgressIndicator(),
+      ),
+      barrierDismissible: false,
+    );
+
     UserFirebaseModel firebaseUser =
         await loginRepository.createUserWithEmailAndPassword(
       emailTextController.text.trim(),
@@ -39,6 +67,13 @@ class LoginController extends GetxController {
   }
 
   void login() async {
+    Get.dialog(
+      Center(
+        child: CircularProgressIndicator(),
+      ),
+      barrierDismissible: false,
+    );
+
     UserFirebaseModel firebaseUser =
         await loginRepository.signInWithEmailAndPassword(
       emailTextController.text.trim(),
@@ -47,12 +82,13 @@ class LoginController extends GetxController {
 
     if (firebaseUser != null) {
       UserModel user = await userRepository.get(firebaseUser.id);
-
+      box.write("auth", user);
       Get.offAllNamed(Routes.HOME, arguments: user);
     }
   }
 
   void logOut() {
-    loginRepository.signOut();
+    loginRepository.logOut();
+    Get.offAllNamed(Routes.LOGIN);
   }
 }

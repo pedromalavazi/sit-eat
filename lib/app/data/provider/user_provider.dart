@@ -22,6 +22,7 @@ class UserApiClient {
       Get.back();
       Get.defaultDialog(
           title: "ERROR", content: Text("Usuário não encontrado."));
+      return false;
     }
   }
 
@@ -35,6 +36,7 @@ class UserApiClient {
       Get.back();
       Get.defaultDialog(
           title: "ERROR", content: Text("Usuário não encontrado."));
+      return UserModel();
     }
   }
 }

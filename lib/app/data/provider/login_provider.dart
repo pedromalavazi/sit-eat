@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sit_eat/app/data/model/user_firebase_model.dart';
 
 class LoginApiClient {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  //FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  GetStorage box = GetStorage('sit_eat');
 
   // Retorna usuário logado
   Stream<UserFirebaseModel> get onAuthStateChanged => _firebaseAuth
@@ -29,31 +30,32 @@ class LoginApiClient {
       print(e.code);
       Get.back();
       switch (e.code) {
-        case "ERROR_OPERATION_NOT_ALLOWED":
+        case "operation-not-allowed":
           Get.defaultDialog(
-              title: "ERROR",
-              content: Text("Contas anônimas não estão habilitadas"));
+              title: "Erro",
+              content: Text(
+                  "O provedor de login fornecido está desativado para o projeto do Firebase."));
           break;
-        case "ERROR_WEAK_PASSWORD":
+        case "invalid-password":
           Get.defaultDialog(
-              title: "ERROR", content: Text("Sua senha é muito fraca"));
+              title: "Erro",
+              content: Text("Senha fraca. É necessário seis caracteres"));
           break;
-        case "ERROR_INVALID_EMAIL":
-          Get.defaultDialog(
-              title: "ERROR", content: Text("Seu email é inválido"));
+        case "invalid-email":
+          Get.defaultDialog(title: "ERROR", content: Text("E-mail é inválido"));
           break;
-        case "ERROR_EMAIL_ALREADY_IN_USE":
+        case "email-already-exists":
           Get.defaultDialog(
-              title: "ERROR",
-              content: Text("O e-mail já está em uso em outra conta"));
+              title: "Erro", content: Text("E-mail já cadastrado"));
           break;
-        case "ERROR_INVALID_CREDENTIAL":
-          Get.defaultDialog(
-              title: "ERROR", content: Text("Seu email é inválido"));
+        case "invalid-credential":
+          Get.defaultDialog(title: "ERROR", content: Text("Email inválido"));
           break;
         default:
           Get.defaultDialog(
-              title: "ERROR", content: Text("Ocorreu um erro indefinido."));
+              title: "Erro",
+              content: Text(
+                  "Erro desconhecido, tente novamente mais tarde ou entre em contato com nosso e-mail: appsiteat@gmail.com"));
       }
       return null;
     }
@@ -71,43 +73,31 @@ class LoginApiClient {
       print(e.code);
       Get.back();
       switch (e.code) {
-        case "ERROR_USER_NOT_FOUND":
+        case "user-not-found":
           Get.defaultDialog(
-              title: "ERROR", content: Text("Usuário não encontrado."));
+              title: "Erro", content: Text("Usuário ou senha incorreta."));
           break;
-        case "ERROR_WRONG_PASSWORD":
+        case "invalid-password":
           Get.defaultDialog(
-              title: "ERROR",
-              content: Text("Senha não confere com o cadastrado."));
+              title: "Erro", content: Text("Usuário ou senha incorreta"));
           break;
-        case "ERROR_USER_DISABLED":
+        case "operation-not-allowed":
           Get.defaultDialog(
-              title: "ERROR", content: Text("Este usuário foi desativado."));
-          break;
-        case "ERROR_TOO_MANY_REQUESTS":
-          Get.defaultDialog(
-              title: "ERROR",
-              content:
-                  Text("Muitos solicitações. Tente novamente mais tarde."));
-          break;
-        case "ERROR_OPERATION_NOT_ALLOWED":
-          Get.defaultDialog(
-              title: "ERROR",
-              content:
-                  Text("Este login com e-mail e senha não foi permitida."));
+              title: "Erro", content: Text("Login não permitido."));
           break;
         default:
-          Get.defaultDialog(title: "ERROR", content: Text("$e"));
+          Get.defaultDialog(
+              title: "Erro",
+              content: Text(
+                  "Erro desconhecido, tente novamente mais tarde ou entre em contato com nosso e-mail: appsiteat@gmail.com"));
           break;
       }
       return null;
     }
   }
 
-  // Fazer Logoff
-  signOut() {
-    //dbox.write("auth", null);
-    //box.erase();
+  logOut() {
+    box.write("auth", null);
     return _firebaseAuth.signOut();
   }
 }

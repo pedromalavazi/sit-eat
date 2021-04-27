@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sit_eat/app/binding/home_binding.dart';
 import 'package:sit_eat/app/binding/login_binding.dart';
 import 'package:sit_eat/app/ui/android/home/home_page.dart';
 import 'package:sit_eat/app/ui/android/login/login_page.dart';
@@ -14,7 +15,11 @@ class AppPages {
       page: () => LoginPage(),
       binding: LoginBinding(),
     ),
-    GetPage(name: Routes.HOME, page: () => HomePage()),
+    GetPage(
+      name: Routes.HOME,
+      page: () => HomePage(),
+      binding: HomeBinding(),
+    ),
     GetPage(name: Routes.USER_REGISTER, page: () => RegisterPage()),
   ];
 }

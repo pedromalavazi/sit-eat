@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sit_eat/app/controller/home_controller.dart';
 import 'package:sit_eat/app/controller/login_controller.dart';
-import 'package:sit_eat/app/data/model/user_model.dart';
-import 'package:sit_eat/app/routes/app_pages.dart';
 
 class HomePage extends StatelessWidget {
-  final LoginController _loginController = Get.find<LoginController>();
-  final UserModel user = Get.arguments;
+  final HomeController _homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +12,10 @@ class HomePage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("BEM VINDO ${user.name}"),
+          Text("BEM VINDO ${_homeController.user.name}"),
           ElevatedButton(
             onPressed: () {
-              _loginController.logOut();
-              Get.offAndToNamed(Routes.LOGIN);
+              LoginController().logOut();
             },
             child: Text(
               "Sign Out",
