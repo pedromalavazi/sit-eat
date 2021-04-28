@@ -1,18 +1,33 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
+import 'package:sit_eat/app/controller/home_controller.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
-import 'package:sit_eat/app/ui/android/home/home_page.dart';
-import 'package:sit_eat/app/ui/android/reservation/reservation_page.dart';
 
 class NavigationController extends GetxController {
-  int currentIndex = 0;
-  final UserModel user = Get.arguments;
+  UserModel user = Get.arguments;
+  final HomeController _homeController = Get.put(HomeController());
 
-  PageController pageController = PageController();
-  List<Widget> screens = [HomePage(), ReservationPage()];
+  @override
+  void onInit() {
+    _homeController.setUser(user);
+    super.onInit();
+  }
 
-  void changePage(int index) {
-    currentIndex = index;
-    pageController.jumpToPage(index);
+  RxInt page = 0.obs;
+  Rx<PageController> controller = PageController().obs;
+
+  onPageChanged(input) {
+    page.value = input;
+  }
+
+  redirectTo(int index) {
+    if (controller.value.hasClients) {
+      page.value = index;
+      controller.value.animateToPage(
+        index,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    }
   }
 }

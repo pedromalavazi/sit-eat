@@ -16,10 +16,7 @@ class AppPages {
       page: () => LoginPage(),
       binding: LoginBinding(),
     ),
-    GetPage(
-      name: Routes.HOME,
-      page: () => HomePage(),
-    ),
+    GetPage(name: Routes.HOME, page: () => HomePage()),
     GetPage(name: Routes.USER_REGISTER, page: () => RegisterPage()),
     GetPage(
       name: Routes.NAVIGATION,

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sit_eat/app/controller/login_controller.dart';
-import 'package:sit_eat/app/controller/navigation_controller.dart';
+import 'package:sit_eat/app/controller/home_controller.dart';
+import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/ui/android/home/widgets/restaurant_card.dart';
 
 class HomePage extends StatelessWidget {
-  final NavigationController _navigationController = NavigationController();
-  //Get.find<NavigationController>();
+  final HomeController _homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +29,15 @@ class HomePage extends StatelessWidget {
                                   style: TextStyle(
                                       fontSize: 25, color: Colors.black54),
                                 ),
-                                Text(
-                                  _navigationController.user.name,
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold),
-                                )
+                                Obx(
+                                  () => Text(
+                                    _homeController.userName.value,
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
                               ]),
                           CircleAvatar(
                             radius: 35,
