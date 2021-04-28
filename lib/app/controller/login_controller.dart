@@ -35,7 +35,7 @@ class LoginController extends GetxController {
         name: box.read("auth")["name"],
         phoneNumber: box.read("auth")["phoneNumber"],
       );
-      Get.offAllNamed(Routes.HOME, arguments: user);
+      Get.offAllNamed(Routes.NAVIGATION, arguments: user);
     }
   }
 
@@ -83,7 +83,7 @@ class LoginController extends GetxController {
     if (firebaseUser != null) {
       UserModel user = await userRepository.get(firebaseUser.id);
       box.write("auth", user);
-      Get.offAllNamed(Routes.HOME, arguments: user);
+      Get.offAllNamed(Routes.NAVIGATION, arguments: user);
     }
   }
 
