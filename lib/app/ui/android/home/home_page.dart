@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/controller/home_controller.dart';
-import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/ui/android/home/widgets/restaurant_card.dart';
 
 class HomePage extends StatelessWidget {

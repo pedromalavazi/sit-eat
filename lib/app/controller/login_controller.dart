@@ -29,13 +29,7 @@ class LoginController extends GetxController {
 
   void isLogged() {
     if (box.hasData("auth")) {
-      UserModel user = UserModel(
-        id: box.read("auth")["id"],
-        email: box.read("auth")["email"],
-        name: box.read("auth")["name"],
-        phoneNumber: box.read("auth")["phoneNumber"],
-      );
-      Get.offAllNamed(Routes.NAVIGATION, arguments: user);
+      Get.offAllNamed(Routes.NAVIGATION);
     }
   }
 
