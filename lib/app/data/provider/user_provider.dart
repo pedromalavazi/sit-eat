@@ -30,7 +30,9 @@ class UserApiClient {
   Future<UserModel> getUser(String id) async {
     try {
       DocumentSnapshot doc = await _firestore.collection("users").doc(id).get();
-      return UserModel.fromSnapshot(doc);
+      UserModel user = UserModel.fromSnapshot(doc);
+      user.id = id;
+      return user;
     } catch (e) {
       print(e.code);
       Get.back();

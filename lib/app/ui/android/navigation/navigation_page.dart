@@ -1,13 +1,16 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+import 'package:sit_eat/app/controller/login_controller.dart';
 import 'package:sit_eat/app/controller/navigation_controller.dart';
 import 'package:sit_eat/app/ui/android/home/home_page.dart';
 import 'package:sit_eat/app/ui/android/reservation/reservation_page.dart';
 
-class NavigationPage extends StatelessWidget {
+class NavigationPage extends GetView<NavigationController> {
   final NavigationController _navigationController =
       Get.find<NavigationController>();
+
+  final LoginController _loginController = LoginController();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +18,9 @@ class NavigationPage extends StatelessWidget {
       body: Obx(
         () => PageView(
           children: [
-            HomePage(),
+            HomePage(
+              user: Get.arguments,
+            ),
             ReservationPage(),
           ],
           onPageChanged: _navigationController.onPageChanged,
@@ -24,7 +29,9 @@ class NavigationPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _loginController.logOut();
+        },
         child: Icon(Icons.qr_code),
         backgroundColor: Colors.red,
       ),

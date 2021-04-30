@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/controller/home_controller.dart';
+import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/ui/android/home/widgets/restaurant_card.dart';
 
-class HomePage extends StatelessWidget {
-  final HomeController _homeController = Get.put(HomeController());
+class HomePage extends GetView<HomeController> {
+  final UserModel user;
+  HomePage({this.user});
 
   @override
   Widget build(BuildContext context) {
+    final HomeController _homeController = Get.put(HomeController(this.user));
+
     return Scaffold(
         backgroundColor: Colors.red[50],
         body: SafeArea(
