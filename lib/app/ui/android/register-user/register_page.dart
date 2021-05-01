@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:sit_eat/app/controller/login_controller.dart';
 import 'package:sit_eat/app/ui/theme/color.grey.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
