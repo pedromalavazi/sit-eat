@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,7 +31,13 @@ class LoginController extends GetxController {
 
   void isLogged() {
     if (box.hasData("auth")) {
-      Get.offAllNamed(Routes.NAVIGATION);
+      UserModel user = UserModel(
+        id: box.read("auth")["id"],
+        email: box.read("auth")["email"],
+        name: box.read("auth")["name"],
+        phoneNumber: box.read("auth")["phoneNumber"],
+      );
+      Get.offAllNamed(Routes.NAVIGATION, arguments: user);
     }
   }
 

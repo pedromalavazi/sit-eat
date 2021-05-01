@@ -6,7 +6,7 @@ import 'package:sit_eat/app/ui/theme/color.grey.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 import 'package:sit_eat/app/ui/android/widgets/input_field.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends GetView<LoginController> {
   final LoginController _loginController = LoginController();
 
   final _formKey = GlobalKey<FormState>();
@@ -14,11 +14,14 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+      ),
       body: Container(
         padding: EdgeInsets.only(
-          top: 30,
-          left: 40,
-          right: 40,
+          top: 0,
+          left: 25,
+          right: 25,
         ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -29,6 +32,7 @@ class RegisterPage extends StatelessWidget {
         ),
         child: Form(
           key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: ListView(
             children: <Widget>[
               SizedBox(
@@ -144,26 +148,6 @@ class RegisterPage extends StatelessWidget {
                     _loginController.register();
                   }
                 },
-              ),
-              SizedBox(
-                //SizedBox serve apenas para dar um espaço na tela
-                height: 15,
-              ),
-              Container(
-                height: 40,
-                alignment: Alignment.bottomLeft,
-                child: TextButton(
-                  child: Text(
-                    "Voltar",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: Colors.black54,
-                    ),
-                  ),
-                  onPressed: () {
-                    Get.back();
-                  },
-                ),
               ),
             ],
           ),

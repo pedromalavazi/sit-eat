@@ -6,7 +6,7 @@ import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 import 'package:sit_eat/app/ui/android/widgets/input_field.dart';
 import 'package:sit_eat/app/ui/theme/color.grey.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends GetView<LoginController> {
   final LoginController _loginController = Get.find<LoginController>();
   final _formKey = GlobalKey<FormState>();
 
@@ -15,9 +15,9 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.only(
-          top: 60,
-          left: 40,
-          right: 40,
+          top: 40,
+          left: 25,
+          right: 25,
         ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -28,6 +28,7 @@ class LoginPage extends StatelessWidget {
         ),
         child: Form(
           key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: ListView(
             children: <Widget>[
               SizedBox(
@@ -40,6 +41,8 @@ class LoginPage extends StatelessWidget {
                 child: InputField(
                   controller: _loginController.emailTextController,
                   validator: (value) {
+                    
+
                     if (GetUtils.isNullOrBlank(value)) {
                       return "E-mail é obrigatório";
                     } else if (!GetUtils.isEmail(value)) {
