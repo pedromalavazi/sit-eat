@@ -31,31 +31,28 @@ class LoginApiClient {
       Get.back();
       switch (e.code) {
         case "operation-not-allowed":
-          Get.defaultDialog(
-              title: "Erro",
-              content: Text(
-                  "O provedor de login fornecido está desativado para o projeto do Firebase."));
+          showMessage(
+            "Erro",
+            "O provedor de login fornecido está desativado para o projeto do Firebase.",
+          );
           break;
         case "invalid-password":
-          Get.defaultDialog(
-              title: "Erro",
-              content: Text("Senha fraca. É necessário seis caracteres"));
+          showMessage("Erro", "Senha fraca. É necessário seis caracteres.");
           break;
         case "invalid-email":
-          Get.defaultDialog(title: "ERROR", content: Text("E-mail é inválido"));
+          showMessage("Erro", "E-mail é inválido.");
           break;
         case "email-already-exists":
-          Get.defaultDialog(
-              title: "Erro", content: Text("E-mail já cadastrado"));
+          showMessage("Erro", "E-mail já cadastrado.");
           break;
         case "invalid-credential":
-          Get.defaultDialog(title: "ERROR", content: Text("Email inválido"));
+          showMessage("Erro", "Email inválido.");
           break;
         default:
-          Get.defaultDialog(
-              title: "Erro",
-              content: Text(
-                  "Erro desconhecido, tente novamente mais tarde ou entre em contato com nosso e-mail: appsiteat@gmail.com"));
+          showMessage(
+            "Erro",
+            "Erro desconhecido, tente novamente mais tarde ou entre em contato com nosso e-mail: appsiteat@gmail.com",
+          );
       }
       return null;
     }
@@ -74,26 +71,57 @@ class LoginApiClient {
       Get.back();
       switch (e.code) {
         case "user-not-found":
-          Get.defaultDialog(
-              title: "Erro", content: Text("Usuário ou senha incorreta."));
+          showMessage("Erro", "Usuário ou senha incorreta.");
           break;
         case "invalid-password":
-          Get.defaultDialog(
-              title: "Erro", content: Text("Usuário ou senha incorreta"));
+          showMessage("Erro", "Usuário ou senha incorreta.");
           break;
         case "operation-not-allowed":
-          Get.defaultDialog(
-              title: "Erro", content: Text("Login não permitido."));
+          showMessage("Erro", "Login não permitido.");
           break;
         default:
-          Get.defaultDialog(
-              title: "Erro",
-              content: Text(
-                  "Erro desconhecido, tente novamente mais tarde ou entre em contato com nosso e-mail: appsiteat@gmail.com"));
+          showMessage(
+            "Erro",
+            "Erro desconhecido, tente novamente mais tarde ou entre em contato com nosso e-mail: appsiteat@gmail.com.",
+          );
           break;
       }
       return null;
     }
+  }
+
+  Future<bool> resetPassword(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      Get.back();
+      showMessage("Aviso", "E-mail enviado");
+      return true;
+    } catch (e) {
+      switch (e.code) {
+        case "user-not-found":
+          showMessage("Erro", "Usuário não encontrado.");
+          break;
+        default:
+          showMessage(
+            "Erro",
+            "Erro desconhecido, tente novamente mais tarde ou entre em contato com nosso e-mail: appsiteat@gmail.com",
+          );
+          break;
+      }
+      return false;
+    }
+  }
+
+  showMessage(String title, String message) {
+    return Get.defaultDialog(
+      title: title,
+      content: Text(
+        message,
+      ),
+      onConfirm: () {
+        Get.back();
+      },
+    );
   }
 
   logOut() {

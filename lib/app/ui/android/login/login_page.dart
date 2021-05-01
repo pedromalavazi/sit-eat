@@ -41,8 +41,6 @@ class LoginPage extends GetView<LoginController> {
                 child: InputField(
                   controller: _loginController.emailTextController,
                   validator: (value) {
-                    
-
                     if (GetUtils.isNullOrBlank(value)) {
                       return "E-mail é obrigatório";
                     } else if (!GetUtils.isEmail(value)) {
@@ -80,7 +78,9 @@ class LoginPage extends GetView<LoginController> {
                       color: Colors.black54,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(Routes.FORGET_PASSWORD);
+                  },
                 ),
               ),
               SizedBox(

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 
@@ -15,7 +13,6 @@ class HomeController extends GetxController {
   }
 
   setUser(UserModel user) {
-    debugger();
     user = user;
     userName.value = user.name;
   }
