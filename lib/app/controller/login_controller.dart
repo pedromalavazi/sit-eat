@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
@@ -86,6 +84,15 @@ class LoginController extends GetxController {
       UserModel user = await userRepository.get(firebaseUser.id);
       box.write("auth", user);
       Get.offAllNamed(Routes.NAVIGATION, arguments: user);
+    }
+  }
+
+  void resetPassword() async {
+    bool userExist = await loginRepository.resetPassword(
+      emailTextController.text.trim(),
+    );
+    if (!userExist) {
+      emailTextController.text = "";
     }
   }
 

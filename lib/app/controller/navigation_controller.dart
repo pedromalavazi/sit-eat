@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:sit_eat/app/data/model/user_model.dart';
 
 class NavigationController extends GetxController {
   RxInt page = 0.obs;

@@ -16,6 +16,10 @@ class LoginRepository {
     return apiClient.signInWithEmailAndPassword(email, password);
   }
 
+  Future<bool> resetPassword(String email) async {
+    return await apiClient.resetPassword(email);
+  }
+
   void logOut() {
     return apiClient.logOut();
   }
