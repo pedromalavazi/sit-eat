@@ -87,6 +87,15 @@ class LoginController extends GetxController {
     }
   }
 
+  void resetPassword() async {
+    bool userExist = await loginRepository.resetPassword(
+      emailTextController.text.trim(),
+    );
+    if (!userExist) {
+      emailTextController.text = "";
+    }
+  }
+
   void logOut() {
     loginRepository.logOut();
     Get.offAllNamed(Routes.LOGIN);
