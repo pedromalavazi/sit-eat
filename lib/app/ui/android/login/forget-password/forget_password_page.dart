@@ -99,6 +99,9 @@ class ForgetPasswordPage extends GetView<LoginController> {
                             onPressed: () {
                               Get.back();
                             },
+                            style: TextButton.styleFrom(
+                              primary: Colors.red,
+                            ),
                             child: Text(
                               "Voltar",
                               style:

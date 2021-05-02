@@ -90,6 +90,9 @@ class LoginPage extends GetView<LoginController> {
                             height: 40,
                             alignment: Alignment.centerRight,
                             child: TextButton(
+                              style: TextButton.styleFrom(
+                                primary: Colors.red,
+                              ),
                               child: Text(
                                 "Recuperar Senha",
                                 textAlign: TextAlign.right,
@@ -119,6 +122,9 @@ class LoginPage extends GetView<LoginController> {
                             height: 80,
                             alignment: Alignment.bottomCenter,
                             child: TextButton(
+                              style: TextButton.styleFrom(
+                                primary: Colors.red,
+                              ),
                               child: Text(
                                 "Cadastrar-se",
                                 textAlign: TextAlign.center,
