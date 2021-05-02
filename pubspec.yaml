@@ -34,7 +34,8 @@ dependencies:
   splashscreen: ^1.3.5
   google_fonts: ^2.0.0
   bubble_bottom_bar: ^1.2.0
-
+  flutter_launcher_icons: ^0.9.0
+  
   #Firebase
   firebase_core: ^1.0.3
   firebase_auth: ^1.0.3
@@ -64,6 +65,8 @@ flutter:
     - assets/logo5.png
     - assets/facebook-icon.png
     - assets/google2.png
+    - assets/logo-only.png
+    - assets/logo-only-2.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -90,3 +93,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_icons:
+  android: true
+  ios: false
+  image_path: "assets/logo-only.png"
