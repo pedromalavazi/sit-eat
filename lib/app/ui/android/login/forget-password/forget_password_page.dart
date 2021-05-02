@@ -1,9 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/controller/login_controller.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 import 'package:sit_eat/app/ui/android/widgets/input_field.dart';
-import 'package:sit_eat/app/ui/theme/color.grey.dart';
 
 class ForgetPasswordPage extends GetView<LoginController> {
   final LoginController _loginController = Get.find<LoginController>();
@@ -12,83 +12,110 @@ class ForgetPasswordPage extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-      ),
       body: Container(
-        padding: EdgeInsets.only(
-          top: 0,
-          left: 25,
-          right: 25,
-        ),
+        width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [greyColor, greyLightColor],
-            end: Alignment.bottomCenter,
             begin: Alignment.topCenter,
+            colors: [
+              Colors.red,
+              Colors.red[400],
+              Colors.red[300],
+            ],
           ),
         ),
-        child: Form(
-          key: _formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: ListView(
-            children: <Widget>[
-              SizedBox(
-                width: 150,
-                height: 150,
-                child: Image.asset("assets/logo2.png"),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 40,
+            ),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Center(
+                    child: Text(
+                      "Recuperar Senha",
+                      style: TextStyle(color: Colors.white, fontSize: 35),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                //SizedBox serve apenas para dar um espaço na tela
-                height: 20,
-              ),
-              Container(
-                child: Center(
-                  child: Text(
-                    "Por favor, insira seu e-mail",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20,
+            ),
+            SizedBox(height: 20),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(60),
+                        topRight: Radius.circular(60))),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.all(30),
+                    child: Form(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      key: _formKey,
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 40,
+                          ),
+                          InputField(
+                            controller: _loginController.emailTextController,
+                            labelText: "E-mail",
+                            textInputType: TextInputType.emailAddress,
+                            validator: (value) {
+                              if (GetUtils.isNullOrBlank(value)) {
+                                return "E-mail é obrigatório";
+                              } else if (!GetUtils.isEmail(value)) {
+                                return "E-mail inválido";
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Center(
+                            child: ButtonWidget(
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  _loginController.resetPassword();
+                                }
+                              },
+                              text: "Enviar",
+                            ),
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            style: TextButton.styleFrom(
+                              primary: Colors.red,
+                            ),
+                            child: Text(
+                              "Voltar",
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 15),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-              SizedBox(
-                //SizedBox serve apenas para dar um espaço na tela
-                height: 30,
-              ),
-              Container(
-                child: InputField(
-                  controller: _loginController.emailTextController,
-                  validator: (value) {
-                    if (GetUtils.isNullOrBlank(value)) {
-                      return "E-mail é obrigatório";
-                    } else if (!GetUtils.isEmail(value)) {
-                      return "E-mail inválido";
-                    }
-                    return null;
-                  },
-                  labelText: "E-mail",
-                  textInputType: TextInputType.emailAddress,
-                ),
-              ),
-              SizedBox(
-                //SizedBox serve apenas para dar um espaço na tela
-                height: 15,
-              ),
-              ButtonWidget(
-                height: 55,
-                text: "Enviar",
-                textColor: Colors.black,
-                textSize: 20,
-                icon: Icons.send,
-                iconColor: Colors.black,
-                onPressed: () {
-                  _loginController.resetPassword();
-                },
-              ),
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

@@ -16,52 +16,35 @@ class InputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<String>(builder: (context, snapshot) {
-      return Material(
-        elevation: 5.0,
-        shadowColor: Colors.grey,
-        borderRadius: BorderRadius.circular(5.0),
-        borderOnForeground: false,
-        child: TextFormField(
-          controller: controller,
-          validator: validator,
-          keyboardType: textInputType,
-          obscureText: obscure,
-          decoration: new InputDecoration(
-            filled: false,
-            labelText: labelText,
-            labelStyle: TextStyle(
-              color: Colors.black87,
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black54, width: 1.5),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black38, width: 1.0),
-            ),
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-
-            // Erros
-            errorStyle: TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              backgroundColor: Colors.transparent,
-            ),
-            errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.red, width: 1.0),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.red, width: 1.5),
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+                color: Color.fromRGBO(225, 95, 27, .3),
+                blurRadius: 20,
+                offset: Offset(0, 10))
+          ]),
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.grey[200]))),
+            child: TextFormField(
+              controller: controller,
+              validator: validator,
+              keyboardType: textInputType,
+              obscureText: obscure,
+              decoration: InputDecoration(
+                  hintText: labelText,
+                  hintStyle: TextStyle(color: Colors.grey),
+                  border: InputBorder.none),
             ),
           ),
-          style: TextStyle(
-            fontSize: 15,
-          ),
-        ),
-      );
-    });
+        ],
+      ),
+    );
   }
 }
