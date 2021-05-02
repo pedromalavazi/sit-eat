@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sit_eat/app/routes/app_pages.dart';
-import 'package:sit_eat/app/ui/theme/color.grey.dart';
 import 'package:splashscreen/splashscreen.dart';
+import 'package:sit_eat/app/routes/app_pages.dart';
 
 class SplashPage extends StatelessWidget {
   @override
@@ -11,11 +10,7 @@ class SplashPage extends StatelessWidget {
         children: [
           SplashScreen(
             seconds: 3,
-            gradientBackground: LinearGradient(
-              colors: [greyColor, greyLightColor],
-              end: Alignment.bottomCenter,
-              begin: Alignment.topCenter,
-            ),
+            backgroundColor: Colors.red[500],
             navigateAfterSeconds: Routes.LOGIN,
             loaderColor: Colors.transparent,
           ),

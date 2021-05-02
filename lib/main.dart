@@ -4,7 +4,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 import 'package:get/route_manager.dart';
-import 'app/ui/theme/color.grey.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,12 +21,11 @@ class MyApp extends StatelessWidget {
       getPages: AppPages.routes,
       initialRoute: Routes.SPLASH,
       theme: ThemeData(
-        primaryColor: Colors.grey,
+        primaryColor: Colors.red[500],
         accentColor: Colors.white,
         brightness: Brightness.light,
-        appBarTheme: AppBarTheme(
-          color: greyColor,
-        ),
+        primaryColorLight: Colors.red[500],
+        buttonColor: Colors.red[500],
         textTheme: GoogleFonts.sourceSansProTextTheme(
           Theme.of(context).textTheme,
         ),
