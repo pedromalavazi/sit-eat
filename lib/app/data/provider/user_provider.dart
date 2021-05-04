@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,7 +10,6 @@ class UserApiClient {
   Future<bool> createUser(
       String id, String email, String name, String phoneNumber) async {
     try {
-      debugger();
       await _firestore.collection("users").doc(id).set({
         "email": email,
         "name": name,
