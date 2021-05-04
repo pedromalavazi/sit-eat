@@ -7,4 +7,8 @@ class RestaurantRepository {
   Future<RestaurantModel> get(String id) {
     return apiRestaurant.getRestaurant(id);
   }
+
+  Future<List<RestaurantModel>> getAll() {
+    return apiRestaurant.getAllRestaurant();
+  }
 }

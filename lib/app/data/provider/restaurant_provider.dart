@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
@@ -24,24 +26,27 @@ class RestaurantApi {
   }
 
 // Retorna lista de restaurantes
-  Future<RestaurantModel> getAllRestaurant() async {
+  Future<List<RestaurantModel>> getAllRestaurant() async {
     try {
-      DocumentSnapshot doc =
-          await _firestore.collection("restaurants").doc().get();
-      RestaurantModel restaurant = RestaurantModel.fromSnapshot(doc);
-      return RestaurantModel(
-          id: restaurant.id,
-          name: restaurant.name,
-          image: restaurant.image,
-          capacity: restaurant.capacity,
-          address: restaurant.address);
+      var restaurants = <RestaurantModel>[];
+
+      await _firestore
+          .collection('restaurants')
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((restaurant) {
+          restaurants.add(RestaurantModel.fromSnapshot(restaurant));
+        });
+      });
+
+      return restaurants;
     } catch (e) {
       print(e.code);
       Get.back();
       Get.defaultDialog(
           title: "ERROR",
           content: Text("Lista de restaurantes não encontrada."));
-      return RestaurantModel();
+      return <RestaurantModel>[];
     }
   }
 }
