@@ -47,11 +47,12 @@ class RestaurantController extends GetxController {
     var closeDate = DateTime(now.year, now.month, now.day, closeTime.hour,
         closeTime.minute, closeTime.second);
 
-    if (openDate.isAfter(closeDate) && now.isBefore(closeDate))
-      isOpen.value = true;
+    if (openDate.isAfter(closeDate)) {
+      closeDate = closeDate.add(const Duration(days: 1));
+    }
 
-    if (now.isAfter(openDate) && now.isBefore(closeDate)) isOpen.value = true;
+    if (now.isAfter(openDate) && now.isBefore(closeDate)) {
+      isOpen.value = true;      
+    }
   }
-
-  void setPopulation() {}
 }
