@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sit_eat/app/data/model/restaurant_model.dart';
 
 class RestaurantCard extends StatelessWidget {
+  final RestaurantModel restaurant;
+  const RestaurantCard({Key key, this.restaurant}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,9 +40,13 @@ class RestaurantCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
+                    // Nome do restaurante
                     Text(
-                      'Nome restaurante',
-                      style: Theme.of(context).textTheme.headline6,
+                      "Nome",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.black54,
+                          fontWeight: FontWeight.bold),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,

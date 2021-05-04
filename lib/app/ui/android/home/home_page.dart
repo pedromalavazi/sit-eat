@@ -90,15 +90,12 @@ class HomePage extends GetView<HomeController> {
                     ),
                   ),
 
-                  // LISTA DE RESTAURANTES
+                  // Lista de restaurantes
                   Expanded(
                       child: SingleChildScrollView(
                     child: Column(
                       children: <Widget>[
                         RestaurantCard(),
-                        RestaurantCard(),
-                        RestaurantCard(),
-                        RestaurantCard()
                       ],
                     ),
                   )),
