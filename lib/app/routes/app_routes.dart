@@ -7,4 +7,5 @@ abstract class Routes {
   static const USER_REGISTER = '/user-register';
   static const FORGET_PASSWORD = '/forget-password';
   static const NAVIGATION = '/navigation';
+  static const RESTAURANT = '/restaurant';
 }
