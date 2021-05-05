@@ -3,7 +3,7 @@ import 'package:sit_eat/app/data/model/restaurant_model.dart';
 
 class RestaurantCard extends StatelessWidget {
   final RestaurantModel restaurant;
-  const RestaurantCard({Key key, this.restaurant}) : super(key: key);
+  RestaurantCard({this.restaurant});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +26,12 @@ class RestaurantCard extends StatelessWidget {
                 height: 70,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
+                  // Logo image restaurante
                   image: DecorationImage(
                       image: NetworkImage(
-                          'https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png'),
+                          'https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png'
+                          //restaurant.image
+                          ),
                       fit: BoxFit.fill),
                 ),
               ),
@@ -42,7 +45,7 @@ class RestaurantCard extends StatelessWidget {
                   children: <Widget>[
                     // Nome do restaurante
                     Text(
-                      "Nome",
+                      restaurant.name,
                       style: TextStyle(
                           fontSize: 25,
                           color: Colors.black54,
@@ -51,7 +54,8 @@ class RestaurantCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text('Ocupação ',
+                        // Capacidade
+                        Text(restaurant.capacity.toString(),
                             style: Theme.of(context).textTheme.bodyText2),
                         Icon(
                           Icons.people,

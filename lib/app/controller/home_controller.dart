@@ -1,12 +1,19 @@
 import 'package:get/get.dart';
+import 'package:sit_eat/app/data/model/restaurant_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
-import 'package:sit_eat/app/data/provider/restaurant_provider.dart';
 import 'package:sit_eat/app/data/repository/restaurant_repository.dart';
 
 class HomeController extends GetxController {
   final UserModel user;
-  HomeController(this.user);
   RxString userName = "".obs;
+
+  RxString restaurantName = "".obs;
+  RxInt restaurantCapacity = 0.obs;
+  RxString restaurantImage = "".obs;
+
+  RxList<RestaurantModel> restaurants = RxList<RestaurantModel>();
+
+  HomeController(this.user);
 
   final RestaurantRepository _restaurantRespo = RestaurantRepository();
 
@@ -22,7 +29,8 @@ class HomeController extends GetxController {
     userName.value = user.name;
   }
 
-  void getRestaurants() {
-    var teste = _restaurantRespo.getAll();
+  void getRestaurants() async {
+    var teste = await _restaurantRespo.getAll();
+    restaurants.addAll(teste);
   }
 }
