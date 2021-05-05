@@ -28,11 +28,13 @@ class RestaurantCard extends StatelessWidget {
                   shape: BoxShape.circle,
                   // Logo image restaurante
                   image: DecorationImage(
-                      image: NetworkImage(
-                          'https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png'
-                          //restaurant.image
-                          ),
-                      fit: BoxFit.fill),
+                    image: NetworkImage(
+                      restaurant.image.isEmpty
+                          ? 'https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png'
+                          : restaurant.image,
+                    ),
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
               SizedBox(
@@ -47,16 +49,22 @@ class RestaurantCard extends StatelessWidget {
                     Text(
                       restaurant.name,
                       style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.black54,
-                          fontWeight: FontWeight.bold),
+                        fontSize: 25,
+                        color: Colors.black54,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         // Capacidade
-                        Text(restaurant.capacity.toString(),
-                            style: Theme.of(context).textTheme.bodyText2),
+                        Text(
+                          restaurant.capacity.toString(),
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Icon(
                           Icons.people,
                           size: 24,

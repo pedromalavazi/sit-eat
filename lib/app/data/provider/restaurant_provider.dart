@@ -30,6 +30,7 @@ class RestaurantApi {
 
       await _firestore
           .collection('restaurants')
+          .limit(10)
           .get()
           .then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((restaurant) {
