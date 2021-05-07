@@ -26,7 +26,7 @@ class UserApiClient {
     }
   }
 
-  // Cria usuáio
+  // Consulta usuáio
   Future<UserModel> getUser(String id) async {
     try {
       DocumentSnapshot doc = await _firestore.collection("users").doc(id).get();

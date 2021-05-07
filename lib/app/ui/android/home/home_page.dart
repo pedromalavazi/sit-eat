@@ -95,7 +95,6 @@ class HomePage extends GetView<HomeController> {
                   ),
                 ),
               ),
-
               // Lista de restaurantes
               Obx(
                 () => Expanded(
