@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sit_eat/app/data/model/restaurant_model.dart';
 
 class RestaurantCard extends StatelessWidget {
+  final RestaurantModel restaurant;
+  RestaurantCard({this.restaurant});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,10 +26,15 @@ class RestaurantCard extends StatelessWidget {
                 height: 70,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
+                  // Logo image restaurante
                   image: DecorationImage(
-                      image: NetworkImage(
-                          'https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png'),
-                      fit: BoxFit.fill),
+                    image: NetworkImage(
+                      restaurant.image.isEmpty
+                          ? 'https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png'
+                          : restaurant.image,
+                    ),
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
               SizedBox(
@@ -36,15 +45,26 @@ class RestaurantCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
+                    // Nome do restaurante
                     Text(
-                      'Nome restaurante',
-                      style: Theme.of(context).textTheme.headline6,
+                      restaurant.name,
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.black54,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text('Ocupação ',
-                            style: Theme.of(context).textTheme.bodyText2),
+                        // Capacidade
+                        Text(
+                          restaurant.capacity.toString(),
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Icon(
                           Icons.people,
                           size: 24,
