@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,15 +19,15 @@ class LoginApiClient {
   Future<UserFirebaseModel> createUserWithEmailAndPassword(
       String email, String password, String name) async {
     try {
-      final currentUser = (await _firebaseAuth.createUserWithEmailAndPassword(
+      (await _firebaseAuth.createUserWithEmailAndPassword(
               email: email, password: password))
           .user;
 
       // Atualizando o nome do usuário
-      await currentUser.updateProfile(displayName: name);
-      await currentUser.reload();
+      await _firebaseAuth.currentUser.updateProfile(displayName: name);
+      await _firebaseAuth.currentUser.reload();
 
-      return UserFirebaseModel.fromSnapshot(currentUser);
+      return UserFirebaseModel.fromSnapshot(_firebaseAuth.currentUser);
     } catch (e) {
       print(e.code);
       Get.back();
