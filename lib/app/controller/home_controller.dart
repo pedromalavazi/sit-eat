@@ -52,7 +52,7 @@ class HomeController extends GetxController {
 
   void pegarPassarRest(String envioQr) async {
     RestaurantModel firebaseRest =
-        await restaurantRepository.pegarRest(envioQr);
+        await restaurantRepository.getByQrCode(envioQr);
 
     print(firebaseRest.name);
     valorQrCode.value = firebaseRest.name;
@@ -62,3 +62,4 @@ class HomeController extends GetxController {
     var restaurantsFromBase = await _restaurantRespo.getAll();
     restaurants.addAll(restaurantsFromBase);
   }
+}
