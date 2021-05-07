@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
 
 class RestaurantApiClient {
@@ -31,7 +31,7 @@ class RestaurantApiClient {
     } catch (e) {
       Get.defaultDialog(
           title: "ERROR", content: Text("Restaurante não encontrado."));
-      print(e);
+      return RestaurantModel();
     }
   }
 
