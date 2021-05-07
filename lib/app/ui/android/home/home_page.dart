@@ -6,11 +6,13 @@ import 'package:sit_eat/app/ui/android/home/widgets/restaurant_card.dart';
 
 class HomePage extends GetView<HomeController> {
   final UserModel user;
-  HomePage({this.user});
+  final UserModel email;
+  final UserModel phone;
+  HomePage({this.user, this.email, this.phone});
 
   @override
   Widget build(BuildContext context) {
-    final HomeController _homeController = Get.put(HomeController(this.user));
+    final HomeController _homeController = Get.put(HomeController(this.user, this.email, this.phone));
 
     return Scaffold(
         backgroundColor: Colors.red[50],

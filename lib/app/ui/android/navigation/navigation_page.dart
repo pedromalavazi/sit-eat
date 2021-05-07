@@ -4,6 +4,8 @@ import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:sit_eat/app/controller/login_controller.dart';
 import 'package:sit_eat/app/controller/navigation_controller.dart';
 import 'package:sit_eat/app/ui/android/home/home_page.dart';
+import 'package:sit_eat/app/ui/android/profile/editprofile_page.dart';
+import 'package:sit_eat/app/ui/android/profile/profile_page.dart';
 import 'package:sit_eat/app/ui/android/reservation/reservation_page.dart';
 
 class NavigationPage extends GetView<NavigationController> {
@@ -22,6 +24,9 @@ class NavigationPage extends GetView<NavigationController> {
               user: Get.arguments,
             ),
             ReservationPage(),
+            BodyProfile(
+              user: Get.arguments,
+            ),
           ],
           onPageChanged: _navigationController.onPageChanged,
           controller: _navigationController.controller.value,
@@ -70,6 +75,17 @@ class NavigationPage extends GetView<NavigationController> {
                   color: Colors.red,
                 ),
                 title: Text("Reservas")),
+            BubbleBottomBarItem(
+                backgroundColor: Colors.red,
+                icon: Icon(
+                  Icons.person_outlined,
+                  color: Colors.black,
+                ),
+                activeIcon: Icon(
+                  Icons.person,
+                  color: Colors.red,
+                ),
+                title: Text("Perfil")),
           ],
         ),
       ),

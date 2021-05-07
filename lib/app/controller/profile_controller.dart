@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 
-class HomeController extends GetxController {
+class ProfileController extends GetxController {
   final UserModel user;
   final UserModel email;
   final UserModel phone;
 
-  HomeController(
+  ProfileController(
     this.user, 
     this.email, 
     this.phone

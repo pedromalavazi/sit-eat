@@ -6,6 +6,8 @@ import 'package:sit_eat/app/ui/android/login/forget-password/forget_password_pag
 import 'package:sit_eat/app/ui/android/login/login_page.dart';
 import 'package:sit_eat/app/ui/android/login/splash_page.dart';
 import 'package:sit_eat/app/ui/android/navigation/navigation_page.dart';
+import 'package:sit_eat/app/ui/android/profile/editprofile_page.dart';
+import 'package:sit_eat/app/ui/android/profile/profile_page.dart';
 import 'package:sit_eat/app/ui/android/register-user/register_page.dart';
 part './app_routes.dart';
 
@@ -36,5 +38,13 @@ class AppPages {
         name: Routes.NAVIGATION,
         page: () => NavigationPage(),
         binding: NavigationBinding()),
+    
+    GetPage(
+      name: Routes.PROFILE,
+      page: () => ProfilePage()),
+      
+    GetPage(
+      name: Routes.EDITPROFILE,
+      page: () => EditProfilePage()),
   ];
 }
