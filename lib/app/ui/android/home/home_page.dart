@@ -25,10 +25,6 @@ class HomePage extends GetView<HomeController> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Obx(() => Text(_homeController.valorQrCode.value)),
-                      // GetBuilder<HomeController>(builder: (controller) {
-                      //   return Text('${controller.valorQrCode}');
-                      // }),
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -49,6 +45,7 @@ class HomePage extends GetView<HomeController> {
                           ]),
                       CircleAvatar(
                         radius: 35,
+                        backgroundColor: Colors.red,
                       )
                     ],
                   )),
@@ -86,7 +83,11 @@ class HomePage extends GetView<HomeController> {
                         prefixIcon: Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: CircleAvatar(
-                            child: Icon(Icons.search),
+                            backgroundColor: Colors.red,
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                         hintText: "Pesquisar restaurantes",
@@ -94,17 +95,17 @@ class HomePage extends GetView<HomeController> {
                   ),
                 ),
               ),
-
-              // LISTA DE RESTAURANTES
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      RestaurantCard(),
-                      RestaurantCard(),
-                      RestaurantCard(),
-                      RestaurantCard()
-                    ],
+              // Lista de restaurantes
+              Obx(
+                () => Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _homeController.restaurants.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return RestaurantCard(
+                        restaurant: _homeController.restaurants[index],
+                      );
+                    },
                   ),
                 ),
               ),

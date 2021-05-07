@@ -8,14 +8,24 @@ import 'package:sit_eat/app/data/repository/restaurant_repository.dart';
 class HomeController extends GetxController {
   final RestaurantRepository restaurantRepository = RestaurantRepository();
   final UserModel user;
-  HomeController(this.user);
   RxString userName = "".obs;
   RxString valorQrCode = "".obs;
   final TextEditingController nameTextController = TextEditingController();
 
+  RxString restaurantName = "".obs;
+  RxInt restaurantCapacity = 0.obs;
+  RxString restaurantImage = "".obs;
+
+  RxList<RestaurantModel> restaurants = RxList<RestaurantModel>();
+
+  HomeController(this.user);
+
+  final RestaurantRepository _restaurantRespo = RestaurantRepository();
+
   @override
   void onReady() {
     setUser(user);
+    getRestaurants();
     super.onReady();
   }
 
@@ -47,4 +57,8 @@ class HomeController extends GetxController {
     print(firebaseRest.name);
     valorQrCode.value = firebaseRest.name;
   }
-}
+
+  void getRestaurants() async {
+    var restaurantsFromBase = await _restaurantRespo.getAll();
+    restaurants.addAll(restaurantsFromBase);
+  }

@@ -6,16 +6,23 @@ class RestaurantModel {
   String address;
   String qrCode;
   int capacity;
+  String image;
 
   RestaurantModel(
-      {this.id, this.name, this.address, this.qrCode, this.capacity});
+      {this.id,
+      this.name,
+      this.address,
+      this.qrCode,
+      this.capacity,
+      this.image});
 
-  RestaurantModel.fromSnapshot(DocumentSnapshot currentUser)
-      : id = currentUser.data()["id"],
-        name = currentUser.data()["name"],
-        address = currentUser.data()["address"],
-        qrCode = currentUser.data()["qrCode"],
-        capacity = currentUser.data()["capacit"];
+  RestaurantModel.fromSnapshot(DocumentSnapshot restaurant)
+      : id = restaurant.data()["id"],
+        name = restaurant.data()["name"],
+        address = restaurant.data()["address"],
+        qrCode = restaurant.data()["qrCode"],
+        image = restaurant.data()["image"],
+        capacity = restaurant.data()["capacity"];
 
   Map<String, dynamic> toJson() {
     return {
@@ -24,6 +31,7 @@ class RestaurantModel {
       "address": address,
       "qrCode": qrCode,
       "capacity": capacity,
+      "image": image,
     };
   }
 }
