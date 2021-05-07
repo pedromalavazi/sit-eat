@@ -19,7 +19,7 @@ class ProfileBotao extends StatelessWidget {
       child: FlatButton(
         padding: EdgeInsets.all(20),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        color: Colors.redAccent,
+        color: Colors.red[500],
         onPressed: press,
         child: Row(
           children: [

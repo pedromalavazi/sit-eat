@@ -3,29 +3,15 @@ import 'package:sit_eat/app/data/model/user_model.dart';
 
 class HomeController extends GetxController {
   final UserModel user;
-  final UserModel email;
-  final UserModel phone;
 
-  HomeController(
-    this.user, 
-    this.email, 
-    this.phone
-    );
+  HomeController(this.user);
 
   RxString userName = "".obs;
-  RxString userEmail = "".obs;
-  RxString userPhone = "".obs;
 
 
   @override
   void onReady() {
     setUser(user);
-    super.onReady();
-
-    setEmail(email);
-    super.onReady();
-
-    setNumber(phone);
     super.onReady();
   }
 
@@ -33,16 +19,5 @@ class HomeController extends GetxController {
     user = user;
     userName.value = user.name;
   }
-
-  setEmail(UserModel email) {
-    email = email;
-    userEmail.value = user.email;
-  }
-
-  setNumber(UserModel phone) {
-    phone = phone;
-    userPhone.value = user.phoneNumber;
-  }
-
 
 }

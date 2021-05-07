@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/controller/home_controller.dart';
+import 'package:sit_eat/app/controller/profile_controller.dart';
 import 'package:sit_eat/app/controller/login_controller.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
@@ -20,7 +21,7 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-class BodyProfile extends GetView<HomeController> {
+class BodyProfile extends GetView<ProfileController> {
   final UserModel user;
   final UserModel email;
   final UserModel phone;
@@ -33,7 +34,7 @@ class BodyProfile extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final HomeController _homeController = Get.put(HomeController(this.user, this.email, this.phone));
+    final ProfileController _homeController = Get.put(ProfileController(this.user, this.email, this.phone));
     
     return Column(
       children: [

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sit_eat/app/controller/home_controller.dart';
+import 'package:sit_eat/app/controller/profile_controller.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
-import 'package:sit_eat/app/routes/app_pages.dart';
 
 
 
@@ -17,7 +16,7 @@ class EditProfilePage extends StatelessWidget {
          leading: IconButton(
            icon: Icon(Icons.arrow_back, color: Colors.white),
            onPressed: (){
-             Get.toNamed(Routes.PROFILE);
+             Get.back();
            },
          ),
          title: Text("Minha Conta"),
@@ -28,7 +27,7 @@ class EditProfilePage extends StatelessWidget {
   }
 }
 
-class BodyEditProfile extends GetView<HomeController> {
+class BodyEditProfile extends GetView<ProfileController> {
 
   final UserModel user;
   final UserModel email;
@@ -44,7 +43,7 @@ class BodyEditProfile extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
 
-    final HomeController _userController = Get.put(HomeController(this.user, this.email, this.phone));
+    final ProfileController _userController = Get.put(ProfileController(this.user, this.email, this.phone));
 
     return Container(
          padding: EdgeInsets.only(left: 16, top: 25, right: 16),
@@ -119,7 +118,7 @@ class BodyEditProfile extends GetView<HomeController> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     onPressed: (){
-                      Get.toNamed(Routes.PROFILE);
+                      Get.back();
                     },
                     child: Text(
                       "CANCELAR",
