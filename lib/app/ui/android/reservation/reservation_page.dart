@@ -6,6 +6,7 @@ class ReservationPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Reservas'),
+        centerTitle: true,
       ),
       body: Center(
         child: Text('Reservas do cliente'),

@@ -10,6 +10,7 @@ class RestaurantCard extends StatelessWidget {
     return Container(
       // Cards restaurantes
       child: Card(
+        shadowColor: Colors.grey,
         margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
         elevation: 12,
         shape: RoundedRectangleBorder(
