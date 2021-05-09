@@ -9,5 +9,5 @@ abstract class Routes {
   static const NAVIGATION = '/navigation';
   static const RESTAURANT = '/restaurant';
   static const PROFILE = '/profile';
-  static const EDITPROFILE= '/editprofile';
+  static const EDIT_PROFILE = '/edit-profile';
 }

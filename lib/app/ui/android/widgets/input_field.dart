@@ -7,12 +7,13 @@ class InputField extends StatelessWidget {
   final TextEditingController controller;
   final Function validator;
 
-  InputField(
-      {this.labelText,
-      this.obscure = false,
-      this.textInputType,
-      this.controller,
-      this.validator});
+  InputField({
+    this.labelText,
+    this.obscure = false,
+    this.textInputType,
+    this.controller,
+    this.validator,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +39,10 @@ class InputField extends StatelessWidget {
               keyboardType: textInputType,
               obscureText: obscure,
               decoration: InputDecoration(
-                  hintText: labelText,
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: InputBorder.none),
+                hintText: labelText,
+                hintStyle: TextStyle(color: Colors.grey),
+                border: InputBorder.none,
+              ),
             ),
           ),
         ],

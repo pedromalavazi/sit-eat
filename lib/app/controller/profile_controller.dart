@@ -1,31 +1,21 @@
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
+import 'package:sit_eat/app/data/repository/login_repository.dart';
+import 'package:sit_eat/app/routes/app_pages.dart';
 
 class ProfileController extends GetxController {
   final UserModel user;
-  final UserModel email;
-  final UserModel phone;
+  ProfileController(this.user);
 
-  ProfileController(
-    this.user, 
-    this.email, 
-    this.phone
-    );
+  LoginRepository _loginRepository = LoginRepository();
 
+  // Variaveis
   RxString userName = "".obs;
-  RxString userEmail = "".obs;
-  RxString userPhone = "".obs;
-
+  //
 
   @override
   void onReady() {
     setUser(user);
-    super.onReady();
-
-    setEmail(email);
-    super.onReady();
-
-    setNumber(phone);
     super.onReady();
   }
 
@@ -34,15 +24,8 @@ class ProfileController extends GetxController {
     userName.value = user.name;
   }
 
-  setEmail(UserModel email) {
-    email = email;
-    userEmail.value = user.email;
+  void logOut() {
+    _loginRepository.logOut();
+    Get.offAllNamed(Routes.LOGIN);
   }
-
-  setNumber(UserModel phone) {
-    phone = phone;
-    userPhone.value = user.phoneNumber;
-  }
-
-
 }

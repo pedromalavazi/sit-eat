@@ -6,8 +6,7 @@ import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/data/repository/restaurant_repository.dart';
 
 class HomeController extends GetxController {
-  final RestaurantRepository restaurantRepository = RestaurantRepository();
-  final RestaurantRepository _restaurantRespo = RestaurantRepository();
+  final RestaurantRepository _restaurantRepository = RestaurantRepository();
   final TextEditingController nameTextController = TextEditingController();
 
   RxList<RestaurantModel> restaurants = RxList<RestaurantModel>();
@@ -51,14 +50,13 @@ class HomeController extends GetxController {
 
   void pegarPassarRest(String envioQr) async {
     RestaurantModel firebaseRest =
-        await restaurantRepository.getByQrCode(envioQr);
+        await _restaurantRepository.getByQrCode(envioQr);
 
-    print(firebaseRest.name);
     valorQrCode.value = firebaseRest.name;
   }
 
   void getRestaurants() async {
-    var restaurantsFromBase = await _restaurantRespo.getAll();
+    var restaurantsFromBase = await _restaurantRepository.getAll();
     restaurants.addAll(restaurantsFromBase);
   }
 }

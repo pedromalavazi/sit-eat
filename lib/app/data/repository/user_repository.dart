@@ -16,4 +16,8 @@ class UserRepository {
   Future<UserModel> get(String id) {
     return apiClient.getUser(id);
   }
+
+  Future<bool> updateUser(UserModel user) {
+    return apiClient.updateUser(user);
+  }
 }
