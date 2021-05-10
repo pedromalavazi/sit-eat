@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sit_eat/app/binding/edit_profile_binding.dart';
 import 'package:sit_eat/app/binding/login_binding.dart';
 import 'package:sit_eat/app/binding/navigation_binding.dart';
 import 'package:sit_eat/app/binding/restaurant_binding.dart';
@@ -51,8 +52,9 @@ class AppPages {
       page: () => ProfilePage(),
     ),
     GetPage(
-      name: Routes.EDITPROFILE,
+      name: Routes.EDIT_PROFILE,
       page: () => EditProfilePage(),
+      binding: EditProfileBinding(),
     ),
   ];
 }

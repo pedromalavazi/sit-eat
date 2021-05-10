@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sit_eat/app/data/model/user_firebase_model.dart';
+import 'package:sit_eat/app/data/model/user_model.dart';
 
 class LoginApiClient {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -111,6 +110,25 @@ class LoginApiClient {
           break;
       }
       return false;
+    }
+  }
+
+  Future<UserFirebaseModel> updateLoggedUser(
+      UserModel user, String password) async {
+    try {
+      await _firebaseAuth.currentUser.updateProfile(displayName: user.name);
+      if (!GetUtils.isNullOrBlank(password)) {
+        await _firebaseAuth.currentUser.updatePassword(password);
+      }
+      await _firebaseAuth.currentUser.reload();
+
+      return UserFirebaseModel.fromSnapshot(_firebaseAuth.currentUser);
+    } catch (e) {
+      showMessage(
+        "Erro",
+        "Erro desconhecido, não foi possível atualizar os dados.",
+      );
+      return null;
     }
   }
 

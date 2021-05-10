@@ -90,6 +90,8 @@ class ForgetPasswordPage extends GetView<LoginController> {
                                 }
                               },
                               text: "Enviar",
+                              height: 50,
+                              width: 160,
                             ),
                           ),
                           SizedBox(

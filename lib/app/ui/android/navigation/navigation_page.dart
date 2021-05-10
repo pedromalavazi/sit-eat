@@ -21,7 +21,7 @@ class NavigationPage extends GetView<NavigationController> {
               user: Get.arguments,
             ),
             ReservationPage(),
-            BodyProfile(
+            ProfilePage(
               user: Get.arguments,
             ),
           ],

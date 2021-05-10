@@ -13,42 +13,44 @@ class HomePage extends GetView<HomeController> {
     final HomeController _homeController = Get.put(HomeController(this.user));
 
     return Scaffold(
-      backgroundColor: Colors.red[50],
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(15),
           child: Column(
             children: <Widget>[
               // Header Perfil
-              Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Olá,",
-                              style: TextStyle(
-                                  fontSize: 25, color: Colors.black54),
-                            ),
-                            Obx(
-                              () => Text(
-                                _homeController.userName.value,
+              Container(
+                child: Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Olá,",
                                 style: TextStyle(
-                                    fontSize: 25,
-                                    color: Colors.black54,
-                                    fontWeight: FontWeight.bold),
+                                    fontSize: 25, color: Colors.black54),
                               ),
-                            ),
-                          ]),
-                      CircleAvatar(
-                        radius: 35,
-                        backgroundColor: Colors.red,
-                      )
-                    ],
-                  )),
+                              Obx(
+                                () => Text(
+                                  _homeController.userName.value,
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ]),
+                        CircleAvatar(
+                          radius: 35,
+                          backgroundColor: Colors.red,
+                        )
+                      ],
+                    )),
+              ),
 
               // Barra de pesquisa
               Padding(
@@ -59,7 +61,7 @@ class HomePage extends GetView<HomeController> {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
+                        color: Colors.grey.withOpacity(0.7),
                         spreadRadius: 5,
                         blurRadius: 7,
                         offset: Offset(0, 3), // position
@@ -74,12 +76,7 @@ class HomePage extends GetView<HomeController> {
                     ),
                     decoration: InputDecoration(
                         fillColor: Colors.white,
-                        contentPadding: EdgeInsets.only(
-                          left: 20,
-                          top: 15,
-                          right: 20,
-                          bottom: 15,
-                        ),
+                        contentPadding: EdgeInsets.all(15),
                         prefixIcon: Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: CircleAvatar(

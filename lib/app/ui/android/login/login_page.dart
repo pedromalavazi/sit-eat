@@ -116,6 +116,8 @@ class LoginPage extends GetView<LoginController> {
                                   _loginController.login();
                                 }
                               },
+                              height: 50,
+                              width: 160,
                             ),
                           ),
                           Container(

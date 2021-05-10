@@ -41,4 +41,19 @@ class UserApiClient {
       return UserModel();
     }
   }
+
+  Future<bool> updateUser(UserModel user) async {
+    try {
+      await _firestore.collection("users").doc(user.id).update({
+        "name": user.name,
+        "phoneNumber": user.phoneNumber,
+      });
+      return true;
+    } catch (e) {
+      Get.defaultDialog(
+          title: "ERROR",
+          content: Text("Não foi possível atualizar os dados."));
+      return false;
+    }
+  }
 }
