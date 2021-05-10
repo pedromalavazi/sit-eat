@@ -12,16 +12,10 @@ class EditProfilePage extends GetView<EditProfileController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Get.back();
-          },
-        ),
         title: Text("Minha Conta"),
         centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: Container(
         padding: EdgeInsets.only(left: 16, top: 25, right: 16),
@@ -144,12 +138,16 @@ class EditProfilePage extends GetView<EditProfileController> {
                       Get.back();
                     },
                     text: "Cancelar",
+                    height: 60,
+                    width: 150,
                   ),
                   ButtonWidget(
                     onPressed: () {
                       _editProfileController.save();
                     },
                     text: "Salvar",
+                    height: 60,
+                    width: 150,
                   )
                 ],
               ),

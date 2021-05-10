@@ -1,15 +1,20 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 class ButtonWidget extends StatelessWidget {
   final Function onPressed;
   final String text;
   final bool isWhiteTheme;
+  final double height;
+  final double width;
 
-  ButtonWidget({
-    this.onPressed,
-    this.text,
-    this.isWhiteTheme = false,
-  });
+  ButtonWidget(
+      {this.onPressed,
+      this.text,
+      this.isWhiteTheme = false,
+      this.height,
+      this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class ButtonWidget extends StatelessWidget {
             elevation: 10,
             enableFeedback: true,
             visualDensity: VisualDensity.compact,
-            minimumSize: Size(150, 55),
+            minimumSize: Size(width, height),
             primary: isWhiteTheme ? Colors.white : Colors.red[500],
             shadowColor: Colors.red[500],
           ),
