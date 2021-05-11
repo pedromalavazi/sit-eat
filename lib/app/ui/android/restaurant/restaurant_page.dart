@@ -4,8 +4,7 @@ import 'package:sit_eat/app/controller/login_controller.dart';
 import 'package:sit_eat/app/controller/restaurant_controller.dart';
 
 class RestaurantPage extends GetView<LoginController> {
-  final RestaurantController _restaurantController =
-      Get.find<RestaurantController>();
+  final RestaurantController _restaurantController = Get.find<RestaurantController>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +33,13 @@ class RestaurantPage extends GetView<LoginController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Center(
-                    child: SizedBox(
-                      width: 220,
-                      height: 200,
-                      child: Image.asset("assets/bar-do-alemao.png"),
+                  Obx(
+                    () => Center(
+                      child: SizedBox(
+                        width: 220,
+                        height: 200,
+                        child: _restaurantController.setRestaurantImage(_restaurantController.restaurant.value.image),
+                      ),
                     ),
                   ),
                 ],
@@ -71,9 +72,7 @@ class RestaurantPage extends GetView<LoginController> {
                             ),
                             Obx(
                               () => Text(
-                                _restaurantController
-                                        .restaurant.value.address ??
-                                    "",
+                                _restaurantController.restaurant.value.address ?? "",
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 20,
@@ -89,8 +88,7 @@ class RestaurantPage extends GetView<LoginController> {
                           children: [
                             Obx(
                               () => Text(
-                                _restaurantController.restaurant.value.name ??
-                                    "",
+                                _restaurantController.restaurant.value.name ?? "",
                                 style: TextStyle(
                                   fontSize: 40,
                                   color: Colors.black,
@@ -120,30 +118,21 @@ class RestaurantPage extends GetView<LoginController> {
                                 _restaurantController.openTimeFormat.value,
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color:
-                                      _restaurantController.isOpen.value == true
-                                          ? Colors.green
-                                          : Colors.red,
+                                  color: _restaurantController.isOpen.value == true ? Colors.green : Colors.red,
                                 ),
                               ),
                               Text(
                                 " - ",
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color:
-                                      _restaurantController.isOpen.value == true
-                                          ? Colors.green
-                                          : Colors.red,
+                                  color: _restaurantController.isOpen.value == true ? Colors.green : Colors.red,
                                 ),
                               ),
                               Text(
                                 _restaurantController.closeTimeFormat.value,
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color:
-                                      _restaurantController.isOpen.value == true
-                                          ? Colors.green
-                                          : Colors.red,
+                                  color: _restaurantController.isOpen.value == true ? Colors.green : Colors.red,
                                 ),
                               ),
                             ],

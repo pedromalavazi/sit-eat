@@ -1,11 +1,10 @@
-import 'dart:developer';
-import 'package:intl/intl.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
-import 'package:sit_eat/app/data/repository/restaurant_repository.dart';
+import 'package:sit_eat/app/data/services/restaurant_service.dart';
 
 class RestaurantController extends GetxController {
-  final RestaurantRepository _restaurantRepository = RestaurantRepository();
+  final RestaurantService _restaurantService = RestaurantService();
 
   String restaurantId = Get.arguments;
   Rx<RestaurantModel> restaurant = RestaurantModel().obs;
@@ -20,39 +19,43 @@ class RestaurantController extends GetxController {
   }
 
   void getRestaurant() async {
-    log(restaurantId);
-    RestaurantModel currentRestaurant =
-        await _restaurantRepository.get(restaurantId);
+    RestaurantModel currentRestaurant = await _restaurantService.get(restaurantId);
     restaurant.value = currentRestaurant;
     setTimes();
   }
 
   void setTimes() {
-    var openDateTime = DateTime.fromMillisecondsSinceEpoch(
-        restaurant.value.openTime.millisecondsSinceEpoch);
-    openTimeFormat.value = DateFormat.Hm().format(openDateTime);
-    var closeDateTime = DateTime.fromMillisecondsSinceEpoch(
-        restaurant.value.closeTime.millisecondsSinceEpoch);
-    closeTimeFormat.value = DateFormat.Hm().format(closeDateTime);
+    var openDateTime = DateTime.fromMillisecondsSinceEpoch(restaurant.value.openTime.millisecondsSinceEpoch);
+    openTimeFormat.value = _restaurantService.convertDateTimeToHourFormat(
+      openDateTime,
+    );
+
+    var closeDateTime = DateTime.fromMillisecondsSinceEpoch(restaurant.value.closeTime.millisecondsSinceEpoch);
+    closeTimeFormat.value = _restaurantService.convertDateTimeToHourFormat(
+      closeDateTime,
+    );
 
     setOpenOrClosed(openDateTime, closeDateTime);
   }
 
   void setOpenOrClosed(DateTime openTime, DateTime closeTime) {
-    var now = DateTime.now();
+    isOpen.value = _restaurantService.verifyIsOpen(openTime, closeTime);
+  }
 
-    var openDate = DateTime(now.year, now.month, now.day, openTime.hour,
-        openTime.minute, openTime.second);
-
-    var closeDate = DateTime(now.year, now.month, now.day, closeTime.hour,
-        closeTime.minute, closeTime.second);
-
-    if (openDate.isAfter(closeDate)) {
-      closeDate = closeDate.add(const Duration(days: 1));
-    }
-
-    if (now.isAfter(openDate) && now.isBefore(closeDate)) {
-      isOpen.value = true;      
+  Widget setRestaurantImage(String image) {
+    if (GetUtils.isNullOrBlank(image)) {
+      return Container(
+        child: Image.asset("assets/logo-only.png"),
+      );
+    } else {
+      return Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(image),
+            fit: BoxFit.fill,
+          ),
+        ),
+      );
     }
   }
 }

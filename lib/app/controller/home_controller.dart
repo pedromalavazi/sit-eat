@@ -3,16 +3,16 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
-import 'package:sit_eat/app/data/repository/restaurant_repository.dart';
+import 'package:sit_eat/app/data/services/restaurant_service.dart';
+import 'package:sit_eat/app/routes/app_pages.dart';
 
 class HomeController extends GetxController {
-  final RestaurantRepository _restaurantRepository = RestaurantRepository();
+  HomeController(this.user);
+  final RestaurantService _restaurantService = RestaurantService();
+
   final TextEditingController nameTextController = TextEditingController();
 
   RxList<RestaurantModel> restaurants = RxList<RestaurantModel>();
-
-  HomeController(this.user);
-
   final UserModel user;
   RxString userName = "".obs;
   RxString valorQrCode = "".obs;
@@ -43,20 +43,17 @@ class HomeController extends GetxController {
     if (barcodeScanRes == '-1') {
       Get.snackbar('Cancelado', 'Leitura cancelada');
     } else {
-      valorQrCode.value = barcodeScanRes;
-      pegarPassarRest(barcodeScanRes);
+      getRestaurantByQrCode(barcodeScanRes);
     }
   }
 
-  void pegarPassarRest(String envioQr) async {
-    RestaurantModel firebaseRest =
-        await _restaurantRepository.getByQrCode(envioQr);
-
-    valorQrCode.value = firebaseRest.name;
+  void getRestaurantByQrCode(String qrCode) async {
+    RestaurantModel restaurant = await _restaurantService.getByQrCode(qrCode);
+    Get.toNamed(Routes.RESTAURANT, arguments: restaurant.id);
   }
 
   void getRestaurants() async {
-    var restaurantsFromBase = await _restaurantRepository.getAll();
+    var restaurantsFromBase = await _restaurantService.getAll();
     restaurants.addAll(restaurantsFromBase);
   }
 }

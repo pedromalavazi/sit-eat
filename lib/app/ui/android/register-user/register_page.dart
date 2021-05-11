@@ -101,8 +101,7 @@ class RegisterPage extends GetView<LoginController> {
                   validator: (value) {
                     if (GetUtils.isNullOrBlank(value)) {
                       return "Confirmação de senha é obrigatório";
-                    } else if (value !=
-                        _loginController.passwordTextController.text) {
+                    } else if (value != _loginController.passwordTextController.text) {
                       return "Confirmação de senha deve ser igual a senha";
                     }
                     return null;
@@ -119,7 +118,7 @@ class RegisterPage extends GetView<LoginController> {
                   text: "Cadastrar",
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
-                      _loginController.register();
+                      _loginController.registerUser();
                     }
                   },
                   height: 50,
