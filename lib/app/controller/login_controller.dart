@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:sit_eat/app/data/model/user_model.dart';
+import 'package:sit_eat/app/data/services/login_service.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
-import 'package:sit_eat/app/data/model/user_firebase_model.dart';
-import 'package:sit_eat/app/data/repository/login_repository.dart';
-import 'package:sit_eat/app/data/repository/user_repository.dart';
 
 class LoginController extends GetxController {
-  final LoginRepository loginRepository = LoginRepository();
-  final UserRepository userRepository = UserRepository();
+  final LoginService _loginService = LoginService();
 
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
-  final TextEditingController confirmPasswordTextController =
-      TextEditingController();
+  final TextEditingController confirmPasswordTextController = TextEditingController();
   final TextEditingController nameTextController = TextEditingController();
-  final TextEditingController phoneNumberTextController =
-      TextEditingController();
-  GetStorage box = GetStorage('sit_eat');
+  final TextEditingController phoneNumberTextController = TextEditingController();
 
   @override
   void onReady() {
@@ -28,67 +20,33 @@ class LoginController extends GetxController {
   }
 
   void isLogged() {
-    if (box.hasData("auth")) {
-      UserModel user = UserModel(
-        id: box.read("auth")["id"],
-        email: box.read("auth")["email"],
-        name: box.read("auth")["name"],
-        phoneNumber: box.read("auth")["phoneNumber"],
-      );
-      Get.offAllNamed(Routes.NAVIGATION, arguments: user);
-    }
+    _loginService.verifyLoggedUser();
   }
 
-  void register() async {
-    Get.dialog(
-      Center(
-        child: CircularProgressIndicator(),
-      ),
-      barrierDismissible: false,
-    );
+  void registerUser() async {
+    showLoader();
 
-    UserFirebaseModel firebaseUser =
-        await loginRepository.createUserWithEmailAndPassword(
+    _loginService.registerUser(
       emailTextController.text.trim(),
       passwordTextController.text.trim(),
-      nameTextController.text.trim(),
+      nameTextController.text,
+      phoneNumberTextController.text,
     );
-
-    if (firebaseUser != null) {
-      userRepository.createUser(
-        firebaseUser.id,
-        firebaseUser.email,
-        firebaseUser.name,
-        phoneNumberTextController.text.trim(),
-      );
-    }
 
     Get.offAllNamed(Routes.LOGIN);
   }
 
   void login() async {
-    Get.dialog(
-      Center(
-        child: CircularProgressIndicator(),
-      ),
-      barrierDismissible: false,
-    );
+    showLoader();
 
-    UserFirebaseModel firebaseUser =
-        await loginRepository.signInWithEmailAndPassword(
+    _loginService.login(
       emailTextController.text.trim(),
-      passwordTextController.text,
+      passwordTextController.text.trim(),
     );
-
-    if (firebaseUser != null) {
-      UserModel user = await userRepository.get(firebaseUser.id);
-      box.write("auth", user);
-      Get.offAllNamed(Routes.NAVIGATION, arguments: user);
-    }
   }
 
   void resetPassword() async {
-    bool userExist = await loginRepository.resetPassword(
+    bool userExist = await _loginService.resetPassword(
       emailTextController.text.trim(),
     );
     if (!userExist) {
@@ -97,7 +55,16 @@ class LoginController extends GetxController {
   }
 
   void logOut() {
-    loginRepository.logOut();
+    _loginService.logOut();
     Get.offAllNamed(Routes.LOGIN);
+  }
+
+  showLoader() {
+    Get.dialog(
+      Center(
+        child: CircularProgressIndicator(),
+      ),
+      barrierDismissible: false,
+    );
   }
 }

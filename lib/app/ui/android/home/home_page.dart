@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/controller/home_controller.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
+import 'package:sit_eat/app/routes/app_pages.dart';
 import 'package:sit_eat/app/ui/android/home/widgets/restaurant_card.dart';
 
 class HomePage extends GetView<HomeController> {
@@ -26,27 +27,26 @@ class HomePage extends GetView<HomeController> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Olá,",
-                                style: TextStyle(
-                                    fontSize: 25, color: Colors.black54),
-                              ),
-                              Obx(
-                                () => Text(
-                                  _homeController.userName.value,
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ]),
-                        CircleAvatar(
-                          radius: 35,
-                          backgroundColor: Colors.red,
+                        Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+                          Text(
+                            "Olá,",
+                            style: TextStyle(fontSize: 25, color: Colors.black54),
+                          ),
+                          Obx(
+                            () => Text(
+                              _homeController.userName.value,
+                              style: TextStyle(fontSize: 25, color: Colors.black54, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ]),
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.EDIT_PROFILE, arguments: _homeController.user);
+                          },
+                          child: CircleAvatar(
+                            radius: 35,
+                            backgroundColor: Colors.red,
+                          ),
                         )
                       ],
                     )),

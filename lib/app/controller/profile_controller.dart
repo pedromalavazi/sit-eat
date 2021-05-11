@@ -1,15 +1,14 @@
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
-import 'package:sit_eat/app/data/repository/login_repository.dart';
+import 'package:sit_eat/app/data/services/login_service.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 
 class ProfileController extends GetxController {
-  final UserModel user;
   ProfileController(this.user);
-
-  LoginRepository _loginRepository = LoginRepository();
+  LoginService _loginService = LoginService();
 
   // Variaveis
+  final UserModel user;
   RxString userName = "".obs;
   //
 
@@ -25,7 +24,7 @@ class ProfileController extends GetxController {
   }
 
   void logOut() {
-    _loginRepository.logOut();
+    _loginService.logOut();
     Get.offAllNamed(Routes.LOGIN);
   }
 }
