@@ -91,7 +91,7 @@ class ReservationWaitPage extends GetView<LoginController> {
                               () => Text(
                                 _reservationController.restaurant.value.name ?? "",
                                 style: TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 35,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -141,7 +141,9 @@ class ReservationWaitPage extends GetView<LoginController> {
                           children: [
                             ButtonWidget(
                               isWhiteTheme: true,
-                              onPressed: () {},
+                              onPressed: () {
+                                _reservationController.launchURLBrowser(_reservationController.restaurant.value.menu);
+                              },
                               text: "Menu",
                               height: 60,
                               width: 180,

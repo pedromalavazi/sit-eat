@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
 import 'package:sit_eat/app/data/services/restaurant_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ReservationController extends GetxController {
   final RestaurantService _restaurantService = RestaurantService();
@@ -34,6 +35,14 @@ class ReservationController extends GetxController {
           ),
         ),
       );
+    }
+  }
+
+  void launchURLBrowser(url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Nao foi possivel abrir $url';
     }
   }
 }

@@ -66,7 +66,7 @@ class ReservationPage extends StatelessWidget {
                             // Capacidade
                             Text(
                               //getstatus de reserva (reservado/finalizado)
-                              "Reservado",
+                              "Reservado / Finalizado",
                               style: Theme.of(context).textTheme.headline6,
                             ),
                             SizedBox(
