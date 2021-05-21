@@ -134,29 +134,13 @@ class ReservationWaitPage extends GetView<LoginController> {
                           ],
                         ),
                         SizedBox(
-                          height: 50,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            ButtonWidget(
-                              isWhiteTheme: true,
-                              onPressed: () {
-                                _reservationController.launchURLBrowser(_reservationController.restaurant.value.menu);
-                              },
-                              text: "Menu",
-                              height: 60,
-                              width: 180,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
                           height: 20,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             ButtonWidget(
+                              isWhiteTheme: true,
                               onPressed: () {},
                               text: "Cancelar reserva",
                               height: 60,
