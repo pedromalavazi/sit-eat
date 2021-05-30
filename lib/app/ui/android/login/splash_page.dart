@@ -11,7 +11,7 @@ class SplashPage extends StatelessWidget {
           SplashScreen(
             seconds: 3,
             backgroundColor: Colors.red[500],
-            navigateAfterSeconds: Routes.LOGIN,
+            navigateAfterSeconds: Routes.CHECK_AUTH,
             loaderColor: Colors.transparent,
           ),
           Container(

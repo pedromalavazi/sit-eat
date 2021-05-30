@@ -21,6 +21,10 @@ class AppPages {
       page: () => SplashPage(),
     ),
     GetPage(
+      name: Routes.CHECK_AUTH,
+      page: () => LoginPage(),
+    ),
+    GetPage(
       name: Routes.LOGIN,
       page: () => LoginPage(),
       binding: LoginBinding(),

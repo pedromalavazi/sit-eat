@@ -6,12 +6,9 @@ import 'package:sit_eat/app/routes/app_pages.dart';
 import 'package:sit_eat/app/ui/android/home/widgets/restaurant_card.dart';
 
 class HomePage extends GetView<HomeController> {
-  final UserModel user;
-  HomePage({this.user});
-
   @override
   Widget build(BuildContext context) {
-    final HomeController _homeController = Get.put(HomeController(this.user));
+    final HomeController _homeController = Get.put(HomeController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -27,21 +24,27 @@ class HomePage extends GetView<HomeController> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-                          Text(
-                            "Olá,",
-                            style: TextStyle(fontSize: 25, color: Colors.black54),
-                          ),
-                          Obx(
-                            () => Text(
-                              _homeController.userName.value,
-                              style: TextStyle(fontSize: 25, color: Colors.black54, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ]),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Olá,",
+                                style: TextStyle(
+                                    fontSize: 25, color: Colors.black54),
+                              ),
+                              Obx(
+                                () => Text(
+                                  _homeController.user.value.name,
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ]),
                         GestureDetector(
                           onTap: () {
-                            Get.toNamed(Routes.EDIT_PROFILE, arguments: _homeController.user);
+                            Get.toNamed(Routes.EDIT_PROFILE);
                           },
                           child: CircleAvatar(
                             radius: 35,

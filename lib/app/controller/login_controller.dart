@@ -1,52 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:sit_eat/app/data/services/login_service.dart';
+import 'package:sit_eat/app/data/services/auth_service.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 
 class LoginController extends GetxController {
-  final LoginService _loginService = LoginService();
-
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
-  final TextEditingController confirmPasswordTextController = TextEditingController();
+  final TextEditingController confirmPasswordTextController =
+      TextEditingController();
   final TextEditingController nameTextController = TextEditingController();
-  final TextEditingController phoneNumberTextController = TextEditingController();
+  final TextEditingController phoneNumberTextController =
+      TextEditingController();
 
   @override
-  void onReady() {
+  void onInit() {
     isLogged();
-    super.onReady();
+    super.onInit();
   }
 
-  void isLogged() {
-    _loginService.verifyLoggedUser();
+  void isLogged() async {
+    if (await AuthService.to.verifyLoggedUser()) {
+      Get.toNamed(Routes.NAVIGATION, arguments: true);
+    }
   }
 
   void registerUser() async {
     showLoader();
-
-    _loginService.registerUser(
+    await AuthService.to.createUser(
       emailTextController.text.trim(),
       passwordTextController.text.trim(),
       nameTextController.text,
       phoneNumberTextController.text,
     );
-
-    Get.offAllNamed(Routes.LOGIN);
+    Get.toNamed(Routes.LOGIN);
   }
 
   void login() async {
     showLoader();
-
-    _loginService.login(
+    await AuthService.to.login(
       emailTextController.text.trim(),
       passwordTextController.text.trim(),
     );
+    Get.toNamed(Routes.NAVIGATION, arguments: true);
   }
 
   void resetPassword() async {
-    bool userExist = await _loginService.resetPassword(
+    bool userExist = await AuthService.to.resetPassword(
       emailTextController.text.trim(),
     );
     if (!userExist) {
@@ -54,9 +54,9 @@ class LoginController extends GetxController {
     }
   }
 
-  void logOut() {
-    _loginService.logOut();
-    Get.offAllNamed(Routes.LOGIN);
+  void logOut() async {
+    await AuthService.to.logout();
+    Get.offNamed(Routes.LOGIN);
   }
 
   showLoader() {

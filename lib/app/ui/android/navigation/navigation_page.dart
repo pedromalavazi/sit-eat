@@ -9,7 +9,7 @@ import 'package:sit_eat/app/ui/android/reservation/reservation_page.dart';
 
 class NavigationPage extends GetView<NavigationController> {
   final NavigationController _navigationController =
-      Get.find<NavigationController>();
+      Get.put(NavigationController());
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +17,9 @@ class NavigationPage extends GetView<NavigationController> {
       body: Obx(
         () => PageView(
           children: [
-            HomePage(
-              user: Get.arguments,
-            ),
+            HomePage(),
             ReservationPage(),
-            ProfilePage(
-              user: Get.arguments,
-            ),
+            ProfilePage(),
           ],
           onPageChanged: _navigationController.onPageChanged,
           controller: _navigationController.controller.value,

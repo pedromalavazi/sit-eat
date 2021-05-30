@@ -6,7 +6,7 @@ import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 import 'package:sit_eat/app/ui/android/widgets/input_field.dart';
 
 class LoginPage extends GetView<LoginController> {
-  final LoginController _loginController = Get.find<LoginController>();
+  final LoginController _loginController = Get.put(LoginController());
   final _formKey = GlobalKey<FormState>();
 
   @override

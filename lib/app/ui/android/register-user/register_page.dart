@@ -27,7 +27,7 @@ class RegisterPage extends GetView<LoginController> {
           child: Form(
             autovalidateMode: AutovalidateMode.onUserInteraction,
             key: _formKey,
-            child: Column(
+            child: ListView(
               children: <Widget>[
                 InputField(
                   controller: _loginController.emailTextController,
@@ -101,7 +101,8 @@ class RegisterPage extends GetView<LoginController> {
                   validator: (value) {
                     if (GetUtils.isNullOrBlank(value)) {
                       return "Confirmação de senha é obrigatório";
-                    } else if (value != _loginController.passwordTextController.text) {
+                    } else if (value !=
+                        _loginController.passwordTextController.text) {
                       return "Confirmação de senha deve ser igual a senha";
                     }
                     return null;
@@ -125,6 +126,7 @@ class RegisterPage extends GetView<LoginController> {
                   width: 160,
                 ),
                 SizedBox(
+                  //SizedBox serve apenas para dar um espaço na tela
                   height: 40,
                 ),
                 Row(

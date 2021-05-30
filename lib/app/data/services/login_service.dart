@@ -35,7 +35,7 @@ class LoginService extends GetxService {
         name: box.read("auth")["name"],
         phoneNumber: box.read("auth")["phoneNumber"],
       );
-      Get.offAllNamed(Routes.NAVIGATION, arguments: user);
+      Get.toNamed(Routes.NAVIGATION, arguments: user);
     }
   }
 
@@ -65,7 +65,7 @@ class LoginService extends GetxService {
     if (firebaseUser != null) {
       UserModel user = await _userService.get(firebaseUser.id);
       box.write("auth", user);
-      Get.offAllNamed(Routes.NAVIGATION, arguments: user);
+      Get.toNamed(Routes.NAVIGATION, arguments: user);
     }
   }
 }

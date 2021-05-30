@@ -30,8 +30,10 @@ class RestaurantService extends GetxService {
 
   bool verifyIsOpen(DateTime openTime, DateTime closeTime) {
     var now = DateTime.now();
-    var openDate = DateTime(now.year, now.month, now.day, openTime.hour, openTime.minute, openTime.second);
-    var closeDate = DateTime(now.year, now.month, now.day, closeTime.hour, closeTime.minute, closeTime.second);
+    var openDate = DateTime(now.year, now.month, now.day, openTime.hour,
+        openTime.minute, openTime.second);
+    var closeDate = DateTime(now.year, now.month, now.day, closeTime.hour,
+        closeTime.minute, closeTime.second);
     debugger();
     if (openDate.isAfter(closeDate)) {
       closeDate = closeDate.add(const Duration(days: 1));

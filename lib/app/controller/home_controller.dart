@@ -3,17 +3,16 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
+import 'package:sit_eat/app/data/services/auth_service.dart';
 import 'package:sit_eat/app/data/services/restaurant_service.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 
 class HomeController extends GetxController {
-  HomeController(this.user);
   final RestaurantService _restaurantService = RestaurantService();
-
   final TextEditingController nameTextController = TextEditingController();
 
   RxList<RestaurantModel> restaurants = RxList<RestaurantModel>();
-  final UserModel user;
+  Rx<UserModel> user = UserModel().obs;
   RxString userName = "".obs;
   RxString valorQrCode = "".obs;
   RxString restaurantName = "".obs;
@@ -21,15 +20,14 @@ class HomeController extends GetxController {
   RxString restaurantImage = "".obs;
 
   @override
-  void onReady() {
-    setUser(user);
+  void onInit() {
+    super.onInit();
+    setUser();
     getRestaurants();
-    super.onReady();
   }
 
-  setUser(UserModel user) {
-    user = user;
-    userName.value = user.name;
+  setUser() {
+    user = AuthService.to.user;
   }
 
   Future<void> scanQrCode() async {
