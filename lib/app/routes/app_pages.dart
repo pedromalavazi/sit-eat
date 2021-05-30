@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:sit_eat/app/binding/edit_profile_binding.dart';
 import 'package:sit_eat/app/binding/login_binding.dart';
 import 'package:sit_eat/app/binding/navigation_binding.dart';
+import 'package:sit_eat/app/binding/reservation_binding.dart';
 import 'package:sit_eat/app/binding/restaurant_binding.dart';
 import 'package:sit_eat/app/ui/android/home/home_page.dart';
 import 'package:sit_eat/app/ui/android/login/forget-password/forget_password_page.dart';
@@ -11,6 +12,7 @@ import 'package:sit_eat/app/ui/android/navigation/navigation_page.dart';
 import 'package:sit_eat/app/ui/android/profile/editprofile_page.dart';
 import 'package:sit_eat/app/ui/android/profile/profile_page.dart';
 import 'package:sit_eat/app/ui/android/register-user/register_page.dart';
+import 'package:sit_eat/app/ui/android/reservation/reservation_wait_page.dart';
 import 'package:sit_eat/app/ui/android/restaurant/restaurant_page.dart';
 part './app_routes.dart';
 
@@ -55,6 +57,11 @@ class AppPages {
       name: Routes.EDIT_PROFILE,
       page: () => EditProfilePage(),
       binding: EditProfileBinding(),
+    ),
+    GetPage(
+      name: Routes.RESTAURANT_WAIT_PAGE,
+      page: () => ReservationWaitPage(),
+      binding: ReservationBinding(),
     ),
   ];
 }

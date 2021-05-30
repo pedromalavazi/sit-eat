@@ -65,7 +65,7 @@ class RestaurantCard extends StatelessWidget {
                           // Capacidade
                           Text(
                             restaurant.capacity.toString(),
-                            style: Theme.of(context).textTheme.bodyText2,
+                            style: Theme.of(context).textTheme.headline6,
                           ),
                           SizedBox(
                             width: 10,
