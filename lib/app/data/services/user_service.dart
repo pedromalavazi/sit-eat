@@ -1,21 +1,11 @@
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/user_firebase_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
-import 'package:sit_eat/app/data/repository/login_repository.dart';
 import 'package:sit_eat/app/data/repository/user_repository.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
 
 class UserService extends GetxService {
   final UserRepository _userRepository = UserRepository();
-
-  Future<bool> createUser(
-    String id,
-    String email,
-    String name,
-    String phoneNumber,
-  ) {
-    return _userRepository.createUser(id, email, name, phoneNumber);
-  }
 
   Future<UserModel> get(String id) {
     return _userRepository.getUser(id);

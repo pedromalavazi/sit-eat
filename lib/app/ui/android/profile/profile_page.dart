@@ -49,7 +49,7 @@ class ProfilePage extends GetView<ProfileController> {
               text: "Sair",
               icon: Icon(Icons.logout, color: Colors.white, size: 25),
               press: () {
-                _profileController.logOut();
+                _profileController.logout();
               },
             ),
           ],

@@ -54,11 +54,6 @@ class LoginController extends GetxController {
     }
   }
 
-  void logOut() async {
-    await AuthService.to.logout();
-    Get.offNamed(Routes.LOGIN);
-  }
-
   showLoader() {
     Get.dialog(
       Center(
