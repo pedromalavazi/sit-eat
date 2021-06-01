@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:sit_eat/app/controller/reservation_controller.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 
-class ReservationPage extends StatelessWidget {
+class ReservationPage extends GetView<ReservationController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

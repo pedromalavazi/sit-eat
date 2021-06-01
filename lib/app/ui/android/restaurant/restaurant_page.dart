@@ -4,7 +4,7 @@ import 'package:sit_eat/app/controller/login_controller.dart';
 import 'package:sit_eat/app/controller/restaurant_controller.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 
-class RestaurantPage extends GetView<LoginController> {
+class RestaurantPage extends GetView<RestaurantController> {
   final RestaurantController _restaurantController = Get.find<RestaurantController>();
 
   @override

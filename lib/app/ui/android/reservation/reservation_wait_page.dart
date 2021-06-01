@@ -1,10 +1,9 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:sit_eat/app/controller/login_controller.dart';
 import 'package:sit_eat/app/controller/reservation_controller.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 
-class ReservationWaitPage extends GetView<LoginController> {
+class ReservationWaitPage extends GetView<ReservationController> {
   final ReservationController _reservationController = Get.find<ReservationController>();
 
   @override

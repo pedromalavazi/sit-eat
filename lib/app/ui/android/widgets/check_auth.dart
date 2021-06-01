@@ -7,8 +7,6 @@ import 'package:sit_eat/app/ui/android/navigation/navigation_page.dart';
 class CheckAuth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Obx(() => AuthService.to.userIsAuthenticated.value
-        ? NavigationPage()
-        : LoginPage());
+    return Obx(() => AuthService.to.userIsAuthenticated.value ? NavigationPage() : LoginPage());
   }
 }

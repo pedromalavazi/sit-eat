@@ -18,6 +18,30 @@ class RestaurantService extends GetxService {
     return _restaurantRepository.getAllRestaurant();
   }
 
+  Future<List<RestaurantModel>> getByName(
+    String name,
+  ) async {
+    if (!GetUtils.isNullOrBlank(name)) {
+      return await _restaurantRepository.getRestaurantsByName(name);
+    } else {
+      return getAll();
+    }
+  }
+
+  List<RestaurantModel> filterByName(List<RestaurantModel> restaurants, String name) {
+    if (GetUtils.isNullOrBlank(name)) {
+      return restaurants;
+    } else {
+      List<RestaurantModel> newRestaurants = <RestaurantModel>[];
+      restaurants.forEach((restaurant) {
+        if (restaurant.name.toLowerCase().contains(name.toLowerCase())) {
+          newRestaurants.add(restaurant);
+        }
+      });
+      return newRestaurants;
+    }
+  }
+
   Future<RestaurantModel> getByQrCode(String envioQr) async {
     if (!GetUtils.isNullOrBlank(envioQr)) {
       return _restaurantRepository.getRestaurantByQrCode(envioQr);
