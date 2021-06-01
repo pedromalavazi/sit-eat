@@ -4,7 +4,8 @@ import 'package:sit_eat/app/controller/reservation_controller.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 
 class ReservationWaitPage extends GetView<ReservationController> {
-  final ReservationController _reservationController = Get.find<ReservationController>();
+  final ReservationController _reservationController =
+      Get.find<ReservationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,8 @@ class ReservationWaitPage extends GetView<ReservationController> {
                       child: SizedBox(
                         width: 140,
                         height: 120,
-                        child: _reservationController.setRestaurantImage(_reservationController.restaurant.value.image),
+                        child: _reservationController.setRestaurantImage(
+                            _reservationController.restaurant.value.image),
                       ),
                     ),
                   ),
@@ -72,7 +74,9 @@ class ReservationWaitPage extends GetView<ReservationController> {
                             ),
                             Obx(
                               () => Text(
-                                _reservationController.restaurant.value.address ?? "",
+                                _reservationController
+                                        .restaurant.value.address ??
+                                    "",
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 20,
@@ -88,7 +92,8 @@ class ReservationWaitPage extends GetView<ReservationController> {
                           children: [
                             Obx(
                               () => Text(
-                                _reservationController.restaurant.value.name ?? "",
+                                _reservationController.restaurant.value.name ??
+                                    "",
                                 style: TextStyle(
                                   fontSize: 35,
                                   color: Colors.black,

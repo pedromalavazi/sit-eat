@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
+import 'package:sit_eat/app/data/services/reservation_service.dart';
 import 'package:sit_eat/app/data/services/restaurant_service.dart';
 
 class ReservationController extends GetxController {
   final RestaurantService _restaurantService = RestaurantService();
+  final ReservationService _teste = ReservationService();
 
   String restaurantId = Get.arguments;
   Rx<RestaurantModel> restaurant = RestaurantModel().obs;
@@ -16,7 +18,8 @@ class ReservationController extends GetxController {
   }
 
   void getRestaurant() async {
-    RestaurantModel currentRestaurant = await _restaurantService.get(restaurantId);
+    RestaurantModel currentRestaurant =
+        await _restaurantService.get(restaurantId);
     restaurant.value = currentRestaurant;
   }
 

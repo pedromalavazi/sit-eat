@@ -61,14 +61,16 @@ class HomeController extends GetxController {
   }
 
   void searchRestaurants() {
-    var restaurantsFromBase = _restaurantService.filterByName(allRestaurants, searchTextController.text.trim());
+    var restaurantsFromBase = _restaurantService.filterByName(
+        allRestaurants, searchTextController.text.trim());
     restaurants.clear();
     restaurants.addAll(restaurantsFromBase);
   }
 
   void setFilters() {
     searchTextController.addListener(() {
-      EasyDebounce.debounce('time-debounce', Duration(milliseconds: 1000), () => searchRestaurants());
+      EasyDebounce.debounce('time-debounce', Duration(milliseconds: 1000),
+          () => searchRestaurants());
     });
   }
 }
