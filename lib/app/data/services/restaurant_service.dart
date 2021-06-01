@@ -18,6 +18,30 @@ class RestaurantService extends GetxService {
     return _restaurantRepository.getAllRestaurant();
   }
 
+  Future<List<RestaurantModel>> getByName(
+    String name,
+  ) async {
+    if (!GetUtils.isNullOrBlank(name)) {
+      return await _restaurantRepository.getRestaurantsByName(name);
+    } else {
+      return getAll();
+    }
+  }
+
+  List<RestaurantModel> filterByName(List<RestaurantModel> restaurants, String name) {
+    if (GetUtils.isNullOrBlank(name)) {
+      return restaurants;
+    } else {
+      List<RestaurantModel> newRestaurants = <RestaurantModel>[];
+      restaurants.forEach((restaurant) {
+        if (restaurant.name.toLowerCase().contains(name.toLowerCase())) {
+          newRestaurants.add(restaurant);
+        }
+      });
+      return newRestaurants;
+    }
+  }
+
   Future<RestaurantModel> getByQrCode(String envioQr) async {
     if (!GetUtils.isNullOrBlank(envioQr)) {
       return _restaurantRepository.getRestaurantByQrCode(envioQr);
@@ -30,7 +54,6 @@ class RestaurantService extends GetxService {
     var now = DateTime.now();
     var openDate = DateTime(now.year, now.month, now.day, openTime.hour, openTime.minute, openTime.second);
     var closeDate = DateTime(now.year, now.month, now.day, closeTime.hour, closeTime.minute, closeTime.second);
-    //debugger();
     if (openDate.isAfter(closeDate)) {
       closeDate = closeDate.add(const Duration(days: 1));
     }

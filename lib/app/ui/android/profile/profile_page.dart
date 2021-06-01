@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/controller/profile_controller.dart';
-import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 import 'package:sit_eat/app/ui/android/profile/profile_components/profile_botao.dart';
 import 'package:sit_eat/app/ui/android/profile/profile_components/profile_foto.dart';
 
 class ProfilePage extends GetView<ProfileController> {
-  final UserModel user;
-  ProfilePage({this.user});
-
   @override
   Widget build(BuildContext context) {
-    final ProfileController _profileController =
-        Get.put(ProfileController(this.user));
+    final ProfileController _profileController = Get.put(ProfileController());
 
     return Scaffold(
       appBar: AppBar(
@@ -28,7 +23,7 @@ class ProfilePage extends GetView<ProfileController> {
             SizedBox(height: 10),
             Obx(
               () => Text(
-                _profileController.userName.value,
+                _profileController.user.value.name,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -40,8 +35,7 @@ class ProfilePage extends GetView<ProfileController> {
               text: "Minha conta",
               icon: Icon(Icons.person, color: Colors.white, size: 25),
               press: () {
-                Get.toNamed(Routes.EDIT_PROFILE,
-                    arguments: _profileController.user);
+                Get.toNamed(Routes.EDIT_PROFILE);
               },
             ),
             //Botão Sobre
@@ -55,7 +49,7 @@ class ProfilePage extends GetView<ProfileController> {
               text: "Sair",
               icon: Icon(Icons.logout, color: Colors.white, size: 25),
               press: () {
-                _profileController.logOut();
+                _profileController.logout();
               },
             ),
           ],

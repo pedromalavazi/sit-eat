@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:sit_eat/app/controller/reservation_controller.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 
-class ReservationPage extends StatelessWidget {
+class ReservationPage extends GetView<ReservationController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,10 +67,35 @@ class ReservationPage extends StatelessWidget {
                             Text(
                               //getstatus de reserva (reservado/finalizado)
                               "Reservado / Finalizado",
-                              style: Theme.of(context).textTheme.headline6,
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Lugar na fila:",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             SizedBox(
-                              width: 50,
+                              width: 8,
+                            ),
+                            Text(
+                              //getstatus de reserva (reservado/finalizado)
+                              "1",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),

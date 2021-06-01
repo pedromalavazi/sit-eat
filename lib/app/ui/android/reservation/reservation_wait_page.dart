@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:sit_eat/app/controller/login_controller.dart';
 import 'package:sit_eat/app/controller/reservation_controller.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 
-class ReservationWaitPage extends GetView<LoginController> {
-  final ReservationController _reservationController = Get.find<ReservationController>();
+class ReservationWaitPage extends GetView<ReservationController> {
+  final ReservationController _reservationController =
+      Get.find<ReservationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,8 @@ class ReservationWaitPage extends GetView<LoginController> {
                       child: SizedBox(
                         width: 140,
                         height: 120,
-                        child: _reservationController.setRestaurantImage(_reservationController.restaurant.value.image),
+                        child: _reservationController.setRestaurantImage(
+                            _reservationController.restaurant.value.image),
                       ),
                     ),
                   ),
@@ -73,7 +74,9 @@ class ReservationWaitPage extends GetView<LoginController> {
                             ),
                             Obx(
                               () => Text(
-                                _reservationController.restaurant.value.address ?? "",
+                                _reservationController
+                                        .restaurant.value.address ??
+                                    "",
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 20,
@@ -89,7 +92,8 @@ class ReservationWaitPage extends GetView<LoginController> {
                           children: [
                             Obx(
                               () => Text(
-                                _reservationController.restaurant.value.name ?? "",
+                                _reservationController.restaurant.value.name ??
+                                    "",
                                 style: TextStyle(
                                   fontSize: 35,
                                   color: Colors.black,
@@ -116,7 +120,7 @@ class ReservationWaitPage extends GetView<LoginController> {
                         Row(
                           children: [
                             Text(
-                              "Numero da mesa: ",
+                              "Lugares: ",
                               style: TextStyle(
                                 fontSize: 20,
                               ),
@@ -134,7 +138,7 @@ class ReservationWaitPage extends GetView<LoginController> {
                           ],
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 80,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,

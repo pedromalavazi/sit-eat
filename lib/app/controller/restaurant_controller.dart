@@ -14,24 +14,27 @@ class RestaurantController extends GetxController {
   RxBool isOpen = false.obs;
 
   @override
-  void onReady() async {
+  void onInit() async {
     getRestaurant();
-    super.onReady();
+    super.onInit();
   }
 
   void getRestaurant() async {
-    RestaurantModel currentRestaurant = await _restaurantService.get(restaurantId);
+    RestaurantModel currentRestaurant =
+        await _restaurantService.get(restaurantId);
     restaurant.value = currentRestaurant;
     setTimes();
   }
 
   void setTimes() {
-    var openDateTime = DateTime.fromMillisecondsSinceEpoch(restaurant.value.openTime.millisecondsSinceEpoch);
+    var openDateTime = DateTime.fromMillisecondsSinceEpoch(
+        restaurant.value.openTime.millisecondsSinceEpoch);
     openTimeFormat.value = _restaurantService.convertDateTimeToHourFormat(
       openDateTime,
     );
 
-    var closeDateTime = DateTime.fromMillisecondsSinceEpoch(restaurant.value.closeTime.millisecondsSinceEpoch);
+    var closeDateTime = DateTime.fromMillisecondsSinceEpoch(
+        restaurant.value.closeTime.millisecondsSinceEpoch);
     closeTimeFormat.value = _restaurantService.convertDateTimeToHourFormat(
       closeDateTime,
     );

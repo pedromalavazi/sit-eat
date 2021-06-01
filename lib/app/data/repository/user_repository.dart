@@ -7,7 +7,8 @@ class UserRepository {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Cria usuáio
-  Future<bool> createUser(String id, String email, String name, String phoneNumber) async {
+  Future<bool> createUser(
+      String id, String email, String name, String phoneNumber) async {
     try {
       await _firestore.collection("users").doc(id).set({
         "email": email,
@@ -19,7 +20,8 @@ class UserRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      Get.defaultDialog(title: "ERROR", content: Text("Usuário não encontrado."));
+      Get.defaultDialog(
+          title: "ERROR", content: Text("Usuário não encontrado."));
       return false;
     }
   }
@@ -34,7 +36,8 @@ class UserRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      Get.defaultDialog(title: "ERROR", content: Text("Usuário não encontrado."));
+      Get.defaultDialog(
+          title: "ERROR", content: Text("Usuário não encontrado."));
       return UserModel();
     }
   }
@@ -46,7 +49,9 @@ class UserRepository {
         "phoneNumber": user.phoneNumber,
       });
     } catch (e) {
-      Get.defaultDialog(title: "ERROR", content: Text("Não foi possível atualizar os dados."));
+      Get.defaultDialog(
+          title: "ERROR",
+          content: Text("Não foi possível atualizar os dados."));
     }
   }
 }

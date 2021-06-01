@@ -50,7 +50,7 @@ class RestaurantRepository {
     try {
       var restaurants = <RestaurantModel>[];
 
-      await _firestore.collection('restaurants').limit(10).get().then((QuerySnapshot querySnapshot) {
+      await _firestore.collection('restaurants').get().then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((restaurant) {
           restaurants.add(RestaurantModel.fromSnapshot(restaurant));
         });
@@ -61,6 +61,25 @@ class RestaurantRepository {
       print(e.code);
       Get.back();
       Get.defaultDialog(title: "ERROR", content: Text("Lista de restaurantes não encontrada."));
+      return <RestaurantModel>[];
+    }
+  }
+
+  // Retorna lista de restaurantes pelo nome
+  Future<List<RestaurantModel>> getRestaurantsByName(String name) async {
+    try {
+      var restaurants = <RestaurantModel>[];
+      await _firestore.collection('restaurants').where('name', isEqualTo: name).limit(10).get().then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((restaurant) {
+          restaurants.add(RestaurantModel.fromSnapshot(restaurant));
+        });
+      });
+
+      return restaurants;
+    } catch (e) {
+      print(e.code);
+      Get.back();
+      Get.defaultDialog(title: "ERROR", content: Text("Restaurantes não encontrado."));
       return <RestaurantModel>[];
     }
   }

@@ -1,30 +1,26 @@
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
-import 'package:sit_eat/app/data/services/login_service.dart';
+import 'package:sit_eat/app/data/services/auth_service.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 
 class ProfileController extends GetxController {
-  ProfileController(this.user);
-  LoginService _loginService = LoginService();
-
   // Variaveis
-  final UserModel user;
+  Rx<UserModel> user = UserModel().obs;
   RxString userName = "".obs;
   //
 
   @override
-  void onReady() {
-    setUser(user);
-    super.onReady();
+  void onInit() {
+    super.onInit();
+    setUser();
   }
 
-  setUser(UserModel user) {
-    user = user;
-    userName.value = user.name;
+  setUser() {
+    user = AuthService.to.user;
   }
 
-  void logOut() {
-    _loginService.logOut();
+  logout() async {
+    await AuthService.to.logout();
     Get.offAllNamed(Routes.LOGIN);
   }
 }
