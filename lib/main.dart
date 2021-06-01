@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 import 'package:get/route_manager.dart';
+import 'package:sit_eat/binding.dart';
 import 'config.dart';
 
 Future<void> main() async {
@@ -16,6 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Sit & Eat',
       debugShowCheckedModeBanner: false,
       getPages: AppPages.routes,
+      initialBinding: Binding(),
       initialRoute: Routes.SPLASH,
       theme: ThemeData(
         primaryColor: Colors.red[500],

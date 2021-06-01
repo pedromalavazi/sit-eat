@@ -132,7 +132,7 @@ class EditProfilePage extends GetView<EditProfileController> {
                   ButtonWidget(
                     isWhiteTheme: true,
                     onPressed: () {
-                      _editProfileController.back();
+                      Get.back();
                     },
                     text: "Voltar",
                     height: 60,

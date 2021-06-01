@@ -116,7 +116,7 @@ class ReservationWaitPage extends GetView<LoginController> {
                         Row(
                           children: [
                             Text(
-                              "Numero da mesa: ",
+                              "Lugares: ",
                               style: TextStyle(
                                 fontSize: 20,
                               ),
@@ -134,7 +134,7 @@ class ReservationWaitPage extends GetView<LoginController> {
                           ],
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 80,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,

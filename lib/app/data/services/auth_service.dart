@@ -41,12 +41,10 @@ class AuthService extends GetxController {
 
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  createUser(
-      String email, String password, String name, String phoneNumber) async {
+  createUser(String email, String password, String name, String phoneNumber) async {
     try {
       //Cria usuário do Firebase
-      await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      await _auth.createUserWithEmailAndPassword(email: email, password: password);
       // Atualizando o nome do usuário
       await _firebaseUser.value.updateProfile(displayName: name);
       await _firebaseUser.value.reload();
@@ -127,7 +125,8 @@ class AuthService extends GetxController {
     try {
       await _auth.currentUser.updatePassword(password);
       await _auth.currentUser.reload();
-      box.write("auth", {"email": box.read("auth")["email"], "pass": password});
+      box.write("auth1", null);
+      box.write("auth1", {"email": box.read("auth1")["email"], "pass": password});
       return UserFirebaseModel.fromSnapshot(_auth.currentUser);
     } catch (e) {
       showMessage(
@@ -140,11 +139,9 @@ class AuthService extends GetxController {
 
   login(String email, String password) async {
     try {
-      var user = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      box.write("auth", {"email": email, "pass": password});
-      _user.value = UserModel.fromSnapshot(
-          await _firestore.collection("users").doc(user.user.uid).get());
+      var user = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      box.write("auth1", {"email": email, "pass": password});
+      _user.value = UserModel.fromSnapshot(await _firestore.collection("users").doc(user.user.uid).get());
       _user.value.id = user.user.uid;
     } catch (e) {
       Get.back();
@@ -170,7 +167,7 @@ class AuthService extends GetxController {
 
   logout() async {
     try {
-      box.write("auth", null);
+      box.write("auth1", null);
       await _auth.signOut();
     } catch (e) {
       showMessage('Erro ao sair!', e.message);
@@ -178,8 +175,8 @@ class AuthService extends GetxController {
   }
 
   Future<bool> verifyLoggedUser() async {
-    if (box.hasData("auth")) {
-      await login(box.read("auth")["email"], box.read("auth")["pass"]);
+    if (box.hasData("auth1")) {
+      await login(box.read("auth1")["email"], box.read("auth1")["pass"]);
       return true;
     }
     return false;

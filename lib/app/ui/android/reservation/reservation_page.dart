@@ -67,10 +67,35 @@ class ReservationPage extends StatelessWidget {
                             Text(
                               //getstatus de reserva (reservado/finalizado)
                               "Reservado / Finalizado",
-                              style: Theme.of(context).textTheme.headline6,
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Lugar na fila:",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             SizedBox(
-                              width: 50,
+                              width: 8,
+                            ),
+                            Text(
+                              //getstatus de reserva (reservado/finalizado)
+                              "1",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),

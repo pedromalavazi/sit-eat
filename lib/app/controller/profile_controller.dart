@@ -21,6 +21,6 @@ class ProfileController extends GetxController {
 
   logout() async {
     await AuthService.to.logout();
-    Get.offNamed(Routes.LOGIN);
+    Get.offAllNamed(Routes.LOGIN);
   }
 }

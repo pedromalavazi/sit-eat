@@ -7,11 +7,9 @@ import 'package:sit_eat/app/routes/app_pages.dart';
 class LoginController extends GetxController {
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
-  final TextEditingController confirmPasswordTextController =
-      TextEditingController();
+  final TextEditingController confirmPasswordTextController = TextEditingController();
   final TextEditingController nameTextController = TextEditingController();
-  final TextEditingController phoneNumberTextController =
-      TextEditingController();
+  final TextEditingController phoneNumberTextController = TextEditingController();
 
   @override
   void onInit() {
@@ -21,7 +19,7 @@ class LoginController extends GetxController {
 
   void isLogged() async {
     if (await AuthService.to.verifyLoggedUser()) {
-      Get.toNamed(Routes.NAVIGATION, arguments: true);
+      Get.offAllNamed(Routes.NAVIGATION);
     }
   }
 
@@ -42,7 +40,7 @@ class LoginController extends GetxController {
       emailTextController.text.trim(),
       passwordTextController.text.trim(),
     );
-    Get.toNamed(Routes.NAVIGATION, arguments: true);
+    Get.offAllNamed(Routes.NAVIGATION);
   }
 
   void resetPassword() async {
