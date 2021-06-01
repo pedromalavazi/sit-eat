@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
@@ -30,11 +28,8 @@ class RestaurantService extends GetxService {
 
   bool verifyIsOpen(DateTime openTime, DateTime closeTime) {
     var now = DateTime.now();
-    var openDate = DateTime(now.year, now.month, now.day, openTime.hour,
-        openTime.minute, openTime.second);
-    var closeDate = DateTime(now.year, now.month, now.day, closeTime.hour,
-        closeTime.minute, closeTime.second);
-    debugger();
+    var openDate = DateTime(now.year, now.month, now.day, openTime.hour, openTime.minute, openTime.second);
+    var closeDate = DateTime(now.year, now.month, now.day, closeTime.hour, closeTime.minute, closeTime.second);
     if (openDate.isAfter(closeDate)) {
       closeDate = closeDate.add(const Duration(days: 1));
     }

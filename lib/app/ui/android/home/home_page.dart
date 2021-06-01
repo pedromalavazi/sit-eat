@@ -4,6 +4,7 @@ import 'package:sit_eat/app/controller/home_controller.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 import 'package:sit_eat/app/ui/android/home/widgets/restaurant_card.dart';
+import 'package:sit_eat/app/ui/android/profile/profile_components/profile_foto.dart';
 
 class HomePage extends GetView<HomeController> {
   @override
@@ -48,7 +49,8 @@ class HomePage extends GetView<HomeController> {
                           },
                           child: CircleAvatar(
                             radius: 35,
-                            backgroundColor: Colors.red,
+                            backgroundColor: Colors.white,
+                            child: ProfileFoto(),
                           ),
                         )
                       ],

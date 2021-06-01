@@ -9,16 +9,9 @@ class RestaurantModel {
   Timestamp openTime;
   Timestamp closeTime;
   String qrCode;
+  String menu;
 
-  RestaurantModel(
-      {this.id,
-      this.image,
-      this.name,
-      this.address,
-      this.capacity,
-      this.openTime,
-      this.closeTime,
-      this.qrCode});
+  RestaurantModel({this.id, this.image, this.name, this.address, this.capacity, this.openTime, this.closeTime, this.qrCode, this.menu});
 
   RestaurantModel.fromSnapshot(DocumentSnapshot restaurant)
       : id = restaurant.data()["id"],
@@ -28,18 +21,10 @@ class RestaurantModel {
         capacity = restaurant.data()["capacity"],
         openTime = restaurant.data()["openTime"],
         qrCode = restaurant.data()["qrCode"],
-        closeTime = restaurant.data()["closeTime"];
+        closeTime = restaurant.data()["closeTime"],
+        menu = restaurant.data()["menu"];
 
   Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "image": image,
-      "name": name,
-      "address": address,
-      "capacity": capacity,
-      "qrCode": qrCode,
-      "openTime": openTime,
-      "closeTime": closeTime
-    };
+    return {"id": id, "image": image, "name": name, "address": address, "capacity": capacity, "qrCode": qrCode, "openTime": openTime, "closeTime": closeTime, "menu": menu};
   }
 }

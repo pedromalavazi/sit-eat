@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:sit_eat/app/controller/login_controller.dart';
-import 'package:sit_eat/app/controller/restaurant_controller.dart';
+import 'package:sit_eat/app/controller/reservation_controller.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 
-class RestaurantPage extends GetView<LoginController> {
-  final RestaurantController _restaurantController = Get.find<RestaurantController>();
+class ReservationWaitPage extends GetView<LoginController> {
+  final ReservationController _reservationController = Get.find<ReservationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +30,16 @@ class RestaurantPage extends GetView<LoginController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Obx(
                     () => Center(
                       child: SizedBox(
-                        width: 220,
-                        height: 200,
-                        child: _restaurantController.setRestaurantImage(_restaurantController.restaurant.value.image),
+                        width: 140,
+                        height: 120,
+                        child: _reservationController.setRestaurantImage(_reservationController.restaurant.value.image),
                       ),
                     ),
                   ),
@@ -73,7 +73,7 @@ class RestaurantPage extends GetView<LoginController> {
                             ),
                             Obx(
                               () => Text(
-                                _restaurantController.restaurant.value.address ?? "",
+                                _reservationController.restaurant.value.address ?? "",
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 20,
@@ -89,9 +89,9 @@ class RestaurantPage extends GetView<LoginController> {
                           children: [
                             Obx(
                               () => Text(
-                                _restaurantController.restaurant.value.name ?? "",
+                                _reservationController.restaurant.value.name ?? "",
                                 style: TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 35,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -105,60 +105,49 @@ class RestaurantPage extends GetView<LoginController> {
                         Row(
                           children: [
                             Text(
-                              "Horário de Funcionamento:",
+                              "Horário de Check-in: ",
+                              //+ _reservationController.restaurant.value.name ?? "",
                               style: TextStyle(
                                 fontSize: 20,
                               ),
                             ),
                           ],
                         ),
-                        Obx(
-                          () => Row(
-                            children: [
-                              Text(
-                                _restaurantController.openTimeFormat.value,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: _restaurantController.isOpen.value == true ? Colors.green : Colors.red,
-                                ),
+                        Row(
+                          children: [
+                            Text(
+                              "Numero da mesa: ",
+                              style: TextStyle(
+                                fontSize: 20,
                               ),
-                              Text(
-                                " - ",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: _restaurantController.isOpen.value == true ? Colors.green : Colors.red,
-                                ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Lugar na fila: ",
+                              style: TextStyle(
+                                fontSize: 20,
                               ),
-                              Text(
-                                _restaurantController.closeTimeFormat.value,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: _restaurantController.isOpen.value == true ? Colors.green : Colors.red,
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                         SizedBox(
-                          height: 15,
-                        ),
-                        SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             ButtonWidget(
-                              isWhiteTheme: false,
-                              onPressed: () {
-                                _restaurantController.launchURLBrowser(_restaurantController.restaurant.value.menu);
-                              },
-                              text: "Menu",
+                              isWhiteTheme: true,
+                              onPressed: () {},
+                              text: "Cancelar reserva",
                               height: 60,
                               width: 180,
-                            ),
+                            )
                           ],
-                        ),
+                        )
                       ],
                     ),
                   ),
