@@ -36,11 +36,13 @@ class LoginController extends GetxController {
 
   void login() async {
     showLoader();
-    await AuthService.to.login(
+    bool logged = await AuthService.to.login(
       emailTextController.text.trim(),
       passwordTextController.text.trim(),
     );
-    Get.offAllNamed(Routes.NAVIGATION);
+    if (logged) {
+      Get.offAllNamed(Routes.NAVIGATION);
+    }
   }
 
   void resetPassword() async {
