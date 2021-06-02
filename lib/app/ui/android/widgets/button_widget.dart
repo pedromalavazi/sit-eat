@@ -7,12 +7,7 @@ class ButtonWidget extends StatelessWidget {
   final double height;
   final double width;
 
-  ButtonWidget(
-      {this.onPressed,
-      this.text,
-      this.isWhiteTheme = false,
-      this.height,
-      this.width});
+  ButtonWidget({this.onPressed, this.text, this.isWhiteTheme = false, this.height, this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +16,7 @@ class ButtonWidget extends StatelessWidget {
         ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            elevation: 10,
+            elevation: 3,
             enableFeedback: true,
             visualDensity: VisualDensity.compact,
             minimumSize: Size(width, height),

@@ -19,7 +19,7 @@ class RegisterPage extends GetView<LoginController> {
           style: TextStyle(fontSize: 20),
         ),
         centerTitle: true,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
       ),
       body: Container(
         child: Padding(
@@ -101,8 +101,7 @@ class RegisterPage extends GetView<LoginController> {
                   validator: (value) {
                     if (GetUtils.isNullOrBlank(value)) {
                       return "Confirmação de senha é obrigatório";
-                    } else if (value !=
-                        _loginController.passwordTextController.text) {
+                    } else if (value != _loginController.passwordTextController.text) {
                       return "Confirmação de senha deve ser igual a senha";
                     }
                     return null;
