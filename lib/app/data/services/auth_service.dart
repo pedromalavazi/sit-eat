@@ -41,6 +41,19 @@ class AuthService extends GetxController {
 
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  Future<bool> login(String email, String password) async {
+    try {
+      var user = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      box.write("auth1", {"email": email, "pass": password});
+      _user.value = UserModel.fromSnapshot(await _firestore.collection("users").doc(user.user.uid).get());
+      _user.value.id = user.user.uid;
+      return true;
+    } catch (e) {
+      throwErrorMessage(e.code);
+      return false;
+    }
+  }
+
   createUser(String email, String password, String name, String phoneNumber) async {
     try {
       //Cria usuário do Firebase
@@ -56,32 +69,7 @@ class AuthService extends GetxController {
         "phoneNumber": phoneNumber,
       });
     } catch (e) {
-      Get.back();
-      switch (e.code) {
-        case "operation-not-allowed":
-          showMessage(
-            "Erro",
-            "O provedor de login fornecido está desativado para o projeto do Firebase.",
-          );
-          break;
-        case "invalid-password":
-          showMessage("Erro", "Senha fraca. É necessário seis caracteres.");
-          break;
-        case "invalid-email":
-          showMessage("Erro", "E-mail é inválido.");
-          break;
-        case "email-already-exists":
-          showMessage("Erro", "E-mail já cadastrado.");
-          break;
-        case "invalid-credential":
-          showMessage("Erro", "Email inválido.");
-          break;
-        default:
-          showMessage(
-            "Erro",
-            "Erro desconhecido, tente novamente mais tarde ou entre em contato com nosso e-mail: appsiteat@gmail.com",
-          );
-      }
+      throwErrorMessage(e.code);
     }
   }
 
@@ -92,17 +80,7 @@ class AuthService extends GetxController {
       showMessage("Aviso", "E-mail enviado");
       return true;
     } catch (e) {
-      switch (e.code) {
-        case "user-not-found":
-          showMessage("Erro", "Usuário não encontrado.");
-          break;
-        default:
-          showMessage(
-            "Erro",
-            "Erro desconhecido, tente novamente mais tarde ou entre em contato com nosso e-mail: appsiteat@gmail.com",
-          );
-          break;
-      }
+      throwErrorMessage(e.code);
       return false;
     }
   }
@@ -113,11 +91,8 @@ class AuthService extends GetxController {
       await _auth.currentUser.reload();
       return UserFirebaseModel.fromSnapshot(_auth.currentUser);
     } catch (e) {
-      showMessage(
-        "Erro",
-        "Erro desconhecido, não foi possível atualizar os dados.",
-      );
-      return null;
+      throwErrorMessage(e.code);
+      return UserFirebaseModel();
     }
   }
 
@@ -129,39 +104,8 @@ class AuthService extends GetxController {
       box.write("auth1", {"email": box.read("auth1")["email"], "pass": password});
       return UserFirebaseModel.fromSnapshot(_auth.currentUser);
     } catch (e) {
-      showMessage(
-        "Erro",
-        "Erro desconhecido, não foi possível atualizar os dados.",
-      );
-      return null;
-    }
-  }
-
-  login(String email, String password) async {
-    try {
-      var user = await _auth.signInWithEmailAndPassword(email: email, password: password);
-      box.write("auth1", {"email": email, "pass": password});
-      _user.value = UserModel.fromSnapshot(await _firestore.collection("users").doc(user.user.uid).get());
-      _user.value.id = user.user.uid;
-    } catch (e) {
-      Get.back();
-      switch (e.code) {
-        case "user-not-found":
-          showMessage("Erro", "Usuário ou senha incorreta.");
-          break;
-        case "invalid-password":
-          showMessage("Erro", "Usuário ou senha incorreta.");
-          break;
-        case "operation-not-allowed":
-          showMessage("Erro", "Login não permitido.");
-          break;
-        default:
-          showMessage(
-            "Erro",
-            "Erro desconhecido, tente novamente mais tarde ou entre em contato com nosso e-mail: appsiteat@gmail.com.",
-          );
-          break;
-      }
+      throwErrorMessage(e.code);
+      return UserFirebaseModel();
     }
   }
 
@@ -182,13 +126,62 @@ class AuthService extends GetxController {
     return false;
   }
 
-  showMessage(String title, String message) {
+  throwErrorMessage(String errorCode) {
+    switch (errorCode) {
+      case "user-not-found":
+        showErrorMessage("Erro", "Usuário não encontrado.");
+        break;
+      case "invalid-password":
+        showErrorMessage("Erro", "Usuário ou senha incorreta.");
+        break;
+      case "operation-not-allowed":
+        showErrorMessage("Erro", "Login não permitido.");
+        break;
+      case "invalid-password":
+        showErrorMessage("Erro", "Senha fraca. É necessário seis caracteres.");
+        break;
+      case "invalid-email":
+        showErrorMessage("Erro", "E-mail é inválido.");
+        break;
+      case "email-already-exists":
+        showErrorMessage("Erro", "E-mail já cadastrado.");
+        break;
+      case "invalid-credential":
+        showErrorMessage("Erro", "Email inválido.");
+        break;
+      default:
+        showErrorMessage(
+          "Erro",
+          "Erro desconhecido, tente novamente mais tarde ou entre em contato com nosso e-mail: appsiteat@gmail.com",
+        );
+    }
+  }
+
+  showErrorMessage(String title, String message) {
+    Get.back();
     return Get.snackbar(
       title,
       message,
-      backgroundColor: Colors.grey[700],
       colorText: Colors.white,
+      backgroundColor: Colors.red[400],
       snackPosition: SnackPosition.BOTTOM,
+      duration: Duration(seconds: 3),
+      icon: Icon(Icons.error, color: Colors.white),
+      shouldIconPulse: true,
+    );
+  }
+
+  showMessage(String title, String message) {
+    Get.back();
+    return Get.snackbar(
+      title,
+      message,
+      colorText: Colors.black,
+      backgroundColor: Colors.grey[600],
+      snackPosition: SnackPosition.BOTTOM,
+      duration: Duration(seconds: 3),
+      icon: Icon(Icons.info, color: Colors.white),
+      shouldIconPulse: true,
     );
   }
 }
