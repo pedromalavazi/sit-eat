@@ -131,7 +131,7 @@ class AuthService extends GetxController {
       case "user-not-found":
         showErrorMessage("Erro", "Usuário não encontrado.");
         break;
-      case "invalid-password":
+      case "wrong-password":
         showErrorMessage("Erro", "Usuário ou senha incorreta.");
         break;
       case "operation-not-allowed":
