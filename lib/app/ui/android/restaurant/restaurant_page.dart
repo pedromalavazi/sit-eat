@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:sit_eat/app/controller/login_controller.dart';
 import 'package:sit_eat/app/controller/restaurant_controller.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 
@@ -154,6 +153,23 @@ class RestaurantPage extends GetView<RestaurantController> {
                                 _restaurantController.launchURLBrowser(_restaurantController.restaurant.value.menu);
                               },
                               text: "Menu",
+                              height: 60,
+                              width: 180,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ButtonWidget(
+                              isWhiteTheme: true,
+                              onPressed: () {
+                                //Reserva de mesa
+                              },
+                              text: "Reservar",
                               height: 60,
                               width: 180,
                             ),
