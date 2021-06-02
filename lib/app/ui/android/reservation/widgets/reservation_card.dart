@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sit_eat/app/data/model/restaurant_model.dart';
+import 'package:sit_eat/app/data/model/reservation_model.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 
-class RestaurantCard extends StatelessWidget {
-  final RestaurantModel restaurant;
-  RestaurantCard({this.restaurant});
+class ReservationCard extends StatelessWidget {
+  final ReservationModel reservation;
+  ReservationCard({this.reservation});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // Cards restaurantes
+      // Cards reservas
       child: GestureDetector(
         onTap: () {
-          // ID MOCKADO
-          Get.toNamed(Routes.RESTAURANT_WAIT_PAGE, arguments: "3Z9aUNeTGR2jwAL5RdTg");
+          Get.toNamed(Routes.RESTAURANT_WAIT_PAGE, arguments: reservation.id);
         },
         child: Card(
           shadowColor: Colors.grey,
@@ -37,7 +36,8 @@ class RestaurantCard extends StatelessWidget {
                     // Logo image restaurante
                     image: DecorationImage(
                       image: NetworkImage(
-                        restaurant.image.isEmpty ? 'https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png' : restaurant.image,
+                        "https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png",
+                        //restaurant.image.isEmpty ? 'https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png' : restaurant.image,
                       ),
                       fit: BoxFit.fill,
                     ),
@@ -53,7 +53,8 @@ class RestaurantCard extends StatelessWidget {
                     children: <Widget>[
                       // Nome do restaurante
                       Text(
-                        restaurant.name,
+                        "teste",
+                        //restaurant.name,
                         style: TextStyle(
                           fontSize: 25,
                           color: Colors.black54,
@@ -65,7 +66,7 @@ class RestaurantCard extends StatelessWidget {
                         children: [
                           // Capacidade
                           Text(
-                            restaurant.capacity.toString(),
+                            reservation.occupationQty.toString(),
                             style: Theme.of(context).textTheme.headline6,
                           ),
                           SizedBox(

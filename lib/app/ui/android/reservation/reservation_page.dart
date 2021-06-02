@@ -20,10 +20,10 @@ class ReservationPage extends GetView<ReservationController> {
                 () => Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: _reservationController.restaurants.length,
+                    itemCount: _reservationController.allReservations.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return RestaurantCard(
-                        restaurant: _reservationController.restaurants[index],
+                      return ReservationCard(
+                        reservation: _reservationController.allReservations[index],
                       );
                     },
                   ),
