@@ -10,7 +10,7 @@ class ReservationRepository {
   Future<List<ReservationModel>> getAllReservations(String userId) async {
     try {
       var reservation = <ReservationModel>[];
-      await _firestore.collection('reservations').where(userId).get().then((QuerySnapshot querySnapshot) {
+      await _firestore.collection('reservations').where('userid', isEqualTo: userId).get().then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((restaurant) {
           reservation.add(ReservationModel.fromSnapshot(restaurant));
         });

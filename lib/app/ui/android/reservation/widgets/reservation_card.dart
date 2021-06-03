@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sit_eat/app/data/model/reservation_model.dart';
+import 'package:sit_eat/app/data/model/reservation_card_model.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 
 class ReservationCard extends StatelessWidget {
-  final ReservationModel reservation;
+  final ReservationCardModel reservation;
   ReservationCard({this.reservation});
 
   @override
@@ -13,7 +13,7 @@ class ReservationCard extends StatelessWidget {
       // Cards reservas
       child: GestureDetector(
         onTap: () {
-          Get.toNamed(Routes.RESTAURANT_WAIT_PAGE, arguments: reservation.id);
+          Get.toNamed(Routes.RESTAURANT_WAIT_PAGE, arguments: reservation);
         },
         child: Card(
           shadowColor: Colors.grey,
@@ -36,8 +36,7 @@ class ReservationCard extends StatelessWidget {
                     // Logo image restaurante
                     image: DecorationImage(
                       image: NetworkImage(
-                        "https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png",
-                        //restaurant.image.isEmpty ? 'https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png' : restaurant.image,
+                        reservation.restaurantImage.isEmpty ? 'https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png' : reservation.restaurantImage,
                       ),
                       fit: BoxFit.fill,
                     ),
@@ -53,8 +52,7 @@ class ReservationCard extends StatelessWidget {
                     children: <Widget>[
                       // Nome do restaurante
                       Text(
-                        "teste",
-                        //restaurant.name,
+                        reservation.restaurantName,
                         style: TextStyle(
                           fontSize: 25,
                           color: Colors.black54,
@@ -66,16 +64,13 @@ class ReservationCard extends StatelessWidget {
                         children: [
                           // Capacidade
                           Text(
-                            reservation.occupationQty.toString(),
-                            style: Theme.of(context).textTheme.headline6,
+                            "Lugares: " + reservation.occupationQty.toString(),
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
                           ),
                           SizedBox(
                             width: 10,
-                          ),
-                          Icon(
-                            Icons.people,
-                            size: 24,
-                            color: Colors.black,
                           ),
                         ],
                       ),

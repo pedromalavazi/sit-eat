@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sit_eat/app/data/model/reservation_model.dart';
+import 'package:sit_eat/app/data/model/reservation_card_model.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
@@ -12,11 +11,10 @@ class ReservationController extends GetxController {
   final RestaurantService _restaurantService = RestaurantService();
 
   String restaurantId = Get.arguments;
-  RxList<ReservationModel> allReservations = RxList<ReservationModel>();
-  RxList<ReservationModel> reservations = RxList<ReservationModel>();
-  Rx<ReservationModel> reservation = ReservationModel().obs;
-  Rx<RestaurantModel> restaurant = RestaurantModel().obs;
+  RxList<ReservationCardModel> allReservations = RxList<ReservationCardModel>();
   Rx<UserModel> user = UserModel().obs;
+
+  Rx<RestaurantModel> restaurant = RestaurantModel().obs;
 
   RxString checkIn = "".obs;
   RxInt occupationQty = 0.obs;
@@ -32,36 +30,28 @@ class ReservationController extends GetxController {
     user = AuthService.to.user;
   }
 
-  void getReservation() async {
-    ReservationModel currentRestaurant = await _reservationService.get(restaurantId);
-    reservation.value = currentRestaurant;
+  Future<RestaurantModel> getRestaurantProps(String restaurantId) async {
+    RestaurantModel currentRestaurant = await _restaurantService.get(restaurantId);
+    return currentRestaurant;
   }
 
   void getAllReservations(String userId) async {
-    var reservationsFromBase = await _reservationService.getAll(user.value.id);
-    allReservations.addAll(reservationsFromBase);
-    reservations.addAll(allReservations);
-  }
-
-  void getRestaurantProps(String id) async {
-    RestaurantModel currentRestaurant = await _restaurantService.get(restaurantId);
-    restaurant.value = currentRestaurant;
-  }
-
-  Widget setRestaurantImage(String image) {
-    if (GetUtils.isNullOrBlank(image)) {
-      return Container(
-        child: Image.asset("assets/logo-only.png"),
-      );
-    } else {
-      return Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(image),
-            fit: BoxFit.fill,
-          ),
-        ),
-      );
-    }
+    var reservationsFromBase = await _reservationService.getAll(userId);
+    reservationsFromBase.forEach((reservationFromBase) async {
+      ReservationCardModel cardTemp = ReservationCardModel();
+      var restaurantTemp = await getRestaurantProps(reservationFromBase.restaurantId);
+      cardTemp.id = reservationFromBase.id;
+      cardTemp.active = reservationFromBase.active;
+      cardTemp.canceled = reservationFromBase.canceled;
+      cardTemp.checkIn = reservationFromBase.checkIn;
+      cardTemp.occupationQty = reservationFromBase.occupationQty;
+      cardTemp.restaurantId = reservationFromBase.restaurantId;
+      cardTemp.restaurantImage = restaurantTemp.image;
+      cardTemp.restaurantName = restaurantTemp.name;
+      cardTemp.userId = reservationFromBase.userId;
+      cardTemp.address = restaurantTemp.address;
+      cardTemp.menu = restaurantTemp.menu;
+      allReservations.add(cardTemp);
+    });
   }
 }

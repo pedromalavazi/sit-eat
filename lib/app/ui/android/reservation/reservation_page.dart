@@ -9,6 +9,10 @@ class ReservationPage extends GetView<ReservationController> {
     final ReservationController _reservationController = Get.put(ReservationController());
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Reservas"),
+        centerTitle: true,
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
