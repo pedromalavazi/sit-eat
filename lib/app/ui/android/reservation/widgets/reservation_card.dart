@@ -62,7 +62,6 @@ class ReservationCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          // Capacidade
                           Text(
                             "Lugares: " + reservation.occupationQty.toString(),
                             style: TextStyle(

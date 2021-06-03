@@ -43,7 +43,7 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                       child: SizedBox(
                         width: 140,
                         height: 120,
-                        child: setRestaurantImage(reservation.restaurantImage),
+                        child: setRestaurantImage(_reservationWaitController.image.value),
                       ),
                     ),
                   ),
@@ -77,7 +77,7 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                             ),
                             Obx(
                               () => Text(
-                                reservation.address ?? "",
+                                _reservationWaitController.address.value ?? "",
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 20,
@@ -93,7 +93,7 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                           children: [
                             Obx(
                               () => Text(
-                                reservation.restaurantName ?? "",
+                                _reservationWaitController.restaurantName.value ?? "",
                                 style: TextStyle(
                                   fontSize: 35,
                                   color: Colors.black,
@@ -110,7 +110,7 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                           children: [
                             Obx(
                               () => Text(
-                                "Horário de Check-in: " + reservation.checkIn.toString() ?? "",
+                                "Horário de Check-in: " + _reservationWaitController.checkIn.value ?? "",
                                 style: TextStyle(
                                   fontSize: 20,
                                 ),
@@ -122,7 +122,7 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                           children: [
                             Obx(
                               () => Text(
-                                "Lugares: " + reservation.occupationQty.toString() ?? "",
+                                "Lugares: " + _reservationWaitController.occupationQty.value.toString() ?? "",
                                 style: TextStyle(
                                   fontSize: 20,
                                 ),
@@ -143,6 +143,7 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                         SizedBox(
                           height: 80,
                         ),
+                        /*
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -157,6 +158,7 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                             ),
                           ],
                         ),
+                        */
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -180,7 +182,6 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
       ),
     );
   }
-
   Widget setRestaurantImage(String image) {
     if (GetUtils.isNullOrBlank(image)) {
       return Container(
