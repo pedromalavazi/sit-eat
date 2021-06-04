@@ -31,7 +31,9 @@ async function verifyTables(snap: any, context: any) {
 
   if (nextReservation.reservationId && nextReservation.table) {
     // TODO
+    // REMOVER O RESERVATIONID DA QUEUE
     // SETAR O RESERVATIONID NA MESA DEFINIDA.
+    // ATUALIZAR STATUS DA RESERVATION NA COLLECTION RESERVATIONS
   }
 
   console.log(nextReservation);
@@ -64,11 +66,6 @@ async function runQueue(reservationList: ReservationModel[], tableList: TableMod
     nextReservation.reservationId = reservationList.find(r => r.occupationQty <= table.capacity)?.id;
     nextReservation.table = table.number; 
     return nextReservation;
-    // reservationList.forEach(reservation => {
-    //   if (reservation.occupationQty <= table.capacity) {
-    //     return reservation.id;
-    //   }
-    // });
   });
 
   return nextReservation
