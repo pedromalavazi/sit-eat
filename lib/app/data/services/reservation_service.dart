@@ -17,9 +17,15 @@ class ReservationService extends GetxService {
     return await _reservationRepository.getAllReservations();
   }
 
-  Future<bool> insert(
+  Future<String> insert(
       String userId, String restaurantId, int occupationQty) async {
     return await _reservationRepository.insert(
         userId, restaurantId, occupationQty);
+  }
+
+  Future<bool> insertIdReservation(
+      String reservationId, String restaurantId) async {
+    return await _reservationRepository.insertIdReservation(
+        reservationId, restaurantId);
   }
 }

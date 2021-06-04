@@ -47,19 +47,41 @@ class ReservationRepository {
   }
 
   // Cria reserva
-  Future<bool> insert(
+  Future<String> insert(
       String userId, String restaurantId, int occupationQty) async {
     try {
-      var reservation = await _firestore.collection("reservations").add({
-        "userid": userId,
-        "restaurantid": restaurantId,
-        "occupationQty": occupationQty,
-        "checkin": DateTime.now(),
-        "active": true,
-        "canceled": false
-      }).then(
+      String reservationId;
+      await _firestore.collection("reservations").add(
+        {
+          "userid": userId,
+          "restaurantid": restaurantId,
+          "occupationQty": occupationQty,
+          "checkin": DateTime.now(),
+          "active": true,
+          "canceled": false,
+        },
+      ).then(
         (doc) => {
-          doc.update({"id": doc.id})
+          doc.update({"id": doc.id}),
+          reservationId = doc.id,
+        },
+      );
+      return reservationId;
+    } catch (e) {
+      print(e.code);
+      Get.back();
+      Get.defaultDialog(
+          title: "ERROR", content: Text("Reserva não encontrada."));
+      return "";
+    }
+  }
+
+  Future<bool> insertIdReservation(
+      String reservationId, String restaurantId) async {
+    try {
+      await _firestore.collection("restaurants/$restaurantId/queue").add(
+        {
+          "reservationId": reservationId,
         },
       );
       return true;
@@ -67,7 +89,9 @@ class ReservationRepository {
       print(e.code);
       Get.back();
       Get.defaultDialog(
-          title: "ERROR", content: Text("Usuário não encontrado."));
+        title: "ERROR",
+        content: Text("ID não encontrado."),
+      );
       return false;
     }
   }

@@ -1,9 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:sit_eat/app/controller/login_controller.dart';
 import 'package:sit_eat/app/controller/restaurant_controller.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
-import 'package:sit_eat/app/ui/android/reservation/dialog_reservation_page.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 
 class RestaurantPage extends GetView<RestaurantController> {
@@ -186,15 +184,12 @@ class RestaurantPage extends GetView<RestaurantController> {
                             ButtonWidget(
                               isWhiteTheme: false,
                               onPressed: () {
-                                // Get.toNamed(Routes.DIALOG_RESERVATION_PAGE);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                    builder: (BuildContext context) =>
-                                        DialogReservationPage(),
-                                    fullscreenDialog: true,
-                                  ),
-                                );
+                                Get.toNamed(Routes.REGISTER_RESERVATION_PAGE,
+                                    arguments: _restaurantController
+                                        .restaurant.value.id);
+                                // Get.toNamed(Routes.REGISTER_RESERVATION_PAGE,
+                                //     arguments: _restaurantController
+                                //         .restaurant.value.id);
                               },
                               text: "Realizar reserva",
                               height: 60,

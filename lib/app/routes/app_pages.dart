@@ -12,7 +12,7 @@ import 'package:sit_eat/app/ui/android/navigation/navigation_page.dart';
 import 'package:sit_eat/app/ui/android/profile/editprofile_page.dart';
 import 'package:sit_eat/app/ui/android/profile/profile_page.dart';
 import 'package:sit_eat/app/ui/android/register-user/register_page.dart';
-import 'package:sit_eat/app/ui/android/reservation/dialog_reservation_page.dart';
+import 'package:sit_eat/app/ui/android/reservation/register_reservation_page.dart';
 import 'package:sit_eat/app/ui/android/reservation/reservation_wait_page.dart';
 import 'package:sit_eat/app/ui/android/restaurant/restaurant_page.dart';
 part './app_routes.dart';
@@ -69,8 +69,8 @@ class AppPages {
       binding: ReservationBinding(),
     ),
     GetPage(
-      name: Routes.DIALOG_RESERVATION_PAGE,
-      page: () => DialogReservationPage(),
+      name: Routes.REGISTER_RESERVATION_PAGE,
+      page: () => RegisterReservationPage(),
       binding: ReservationBinding(),
     ),
   ];

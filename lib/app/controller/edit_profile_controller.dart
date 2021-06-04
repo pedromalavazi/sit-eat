@@ -14,9 +14,11 @@ class EditProfileController extends GetxController {
   final UserService _userService = UserService();
 
   final TextEditingController nameTextController = TextEditingController();
-  final TextEditingController phoneNumberTextController = TextEditingController();
+  final TextEditingController phoneNumberTextController =
+      TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
-  final TextEditingController confirmPasswordTextController = TextEditingController();
+  final TextEditingController confirmPasswordTextController =
+      TextEditingController();
 
   @override
   void onInit() {

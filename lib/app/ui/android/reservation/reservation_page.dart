@@ -4,6 +4,9 @@ import 'package:sit_eat/app/controller/reservation_controller.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 
 class ReservationPage extends GetView<ReservationController> {
+  // final ReservationController _restaurantController =
+  //     Get.find<ReservationController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +19,8 @@ class ReservationPage extends GetView<ReservationController> {
         child: GestureDetector(
           onTap: () {
             // ID MOCKADO
-            Get.toNamed(Routes.RESTAURANT_WAIT_PAGE, arguments: "3Z9aUNeTGR2jwAL5RdTg");
+            Get.toNamed(Routes.RESTAURANT_WAIT_PAGE,
+                arguments: "3Z9aUNeTGR2jwAL5RdTg");
           },
           child: Card(
             shadowColor: Colors.grey,
@@ -38,7 +42,8 @@ class ReservationPage extends GetView<ReservationController> {
                       shape: BoxShape.circle,
                       // Logo image restaurante
                       image: DecorationImage(
-                        image: NetworkImage('https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png'),
+                        image: NetworkImage(
+                            'https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png'),
                         fit: BoxFit.fill,
                       ),
                     ),
