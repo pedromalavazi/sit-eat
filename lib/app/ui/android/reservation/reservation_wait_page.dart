@@ -43,7 +43,7 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                       child: SizedBox(
                         width: 140,
                         height: 120,
-                        child: setRestaurantImage(_reservationWaitController.image.value),
+                        child: _reservationWaitController.setRestaurantImage(_reservationWaitController.image.value),
                       ),
                     ),
                   ),
@@ -143,14 +143,13 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                         SizedBox(
                           height: 80,
                         ),
-                        /*
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             ButtonWidget(
                               isWhiteTheme: false,
                               onPressed: () {
-                                _reservationWaitController.launchURLBrowser(reservation.menu);
+                                _reservationWaitController.launchURLBrowser(_reservationWaitController.menu.value);
                               },
                               text: "Menu",
                               height: 60,
@@ -158,7 +157,9 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                             ),
                           ],
                         ),
-                        */
+                        SizedBox(
+                          height: 10,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -181,21 +182,5 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
         ),
       ),
     );
-  }
-  Widget setRestaurantImage(String image) {
-    if (GetUtils.isNullOrBlank(image)) {
-      return Container(
-        child: Image.asset("assets/logo-only.png"),
-      );
-    } else {
-      return Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(image),
-            fit: BoxFit.fill,
-          ),
-        ),
-      );
-    }
   }
 }

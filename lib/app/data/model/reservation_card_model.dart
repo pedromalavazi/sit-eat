@@ -8,10 +8,11 @@ class ReservationCardModel {
   String restaurantImage;
   Timestamp checkIn;
   int occupationQty;
-  bool active;
-  bool canceled;
   String address;
   String menu;
+  bool active;
+  bool canceled;
+  String status;
 
   ReservationCardModel({
     this.id,
@@ -19,11 +20,12 @@ class ReservationCardModel {
     this.restaurantId,
     this.checkIn,
     this.occupationQty,
-    this.active,
-    this.canceled,
     this.restaurantImage,
     this.restaurantName,
     this.address,
     this.menu,
+    this.active,
+    this.canceled,
+    this.status,
   });
 }

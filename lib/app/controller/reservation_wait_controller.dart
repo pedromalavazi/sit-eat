@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/reservation_card_model.dart';
 import 'package:sit_eat/app/data/services/restaurant_service.dart';
@@ -14,6 +15,7 @@ class ReservationWaitController extends GetxController {
   RxString checkIn = "".obs;
   RxString image = "".obs;
   RxInt occupationQty = 0.obs;
+  RxString menu = "".obs;
 
   @override
   void onInit() async {
@@ -28,12 +30,30 @@ class ReservationWaitController extends GetxController {
     checkIn.value = reservation.checkIn.toString();
     occupationQty.value = reservation.occupationQty;
     image.value = reservation.restaurantImage;
+    menu.value = reservation.menu;
     setCheckin();
   }
 
   void setCheckin() {
     var checkInConverted = DateTime.fromMillisecondsSinceEpoch(reservation.value.checkIn.millisecondsSinceEpoch);
     checkIn.value = _restaurantService.convertDateTimeToHourFormat(checkInConverted);
+  }
+
+  Widget setRestaurantImage(String image) {
+    if (GetUtils.isNullOrBlank(image)) {
+      return Container(
+        child: Image.asset("assets/logo-only.png"),
+      );
+    } else {
+      return Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(image),
+            fit: BoxFit.fill,
+          ),
+        ),
+      );
+    }
   }
 
   void launchURLBrowser(url) async {

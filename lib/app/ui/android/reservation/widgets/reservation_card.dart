@@ -71,6 +71,12 @@ class ReservationCard extends StatelessWidget {
                           SizedBox(
                             width: 10,
                           ),
+                          Text(
+                            reservation.status,
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
                         ],
                       ),
                     ],

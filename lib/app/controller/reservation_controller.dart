@@ -14,10 +14,9 @@ class ReservationController extends GetxController {
   RxList<ReservationCardModel> allReservations = RxList<ReservationCardModel>();
   Rx<UserModel> user = UserModel().obs;
 
-  Rx<RestaurantModel> restaurant = RestaurantModel().obs;
-
-  RxString checkIn = "".obs;
-  RxInt occupationQty = 0.obs;
+  RxBool active = false.obs;
+  RxBool canceled = false.obs;
+  RxString status = "".obs;
 
   @override
   void onInit() {
@@ -51,7 +50,27 @@ class ReservationController extends GetxController {
       cardTemp.userId = reservationFromBase.userId;
       cardTemp.address = restaurantTemp.address;
       cardTemp.menu = restaurantTemp.menu;
+      active.value = reservationFromBase.active;
+      canceled.value = reservationFromBase.canceled;
+      setStatus();
+      cardTemp.status = status.value;
       allReservations.add(cardTemp);
     });
+  }
+
+  void setStatus() {
+    // Check active = true AND canceled = false -> Reservado
+    if (active.isTrue && canceled.isFalse) {
+      status.value = "Reservado";
+    }
+    // Check active = false AND canceled = true -> Cancelado
+    else if (active.isFalse && canceled.isTrue) {
+      status.value = "Cancelado";
+    }
+    // Check active = false AND canceled = false -> Finalizado
+    else if (active.isFalse && canceled.isFalse) {
+      status.value = "Finalizado";
+    } else
+      status.value = "error";
   }
 }
