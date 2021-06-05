@@ -11,7 +11,7 @@ export class ReservationModel {
 export function convertReservationFromDB(reservationFromDB: any) {
     var reservation = new ReservationModel;
   
-    reservation.id = reservationFromDB.data()["id"];
+    reservation.id = reservationFromDB.id;
     reservation.userId = reservationFromDB.data()["userId"];
     reservation.restaurantId = reservationFromDB.data()["restaurantId"];
     reservation.checkIn = reservationFromDB.data()["checkIn"];

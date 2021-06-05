@@ -14,10 +14,11 @@ export const newReservation = functions.firestore
 async function verifyTables(snap: any, context: any) {
   var nextReservation: ReservationDoneModel;
   const restaurantId = context.params.restaurantId;
+  const queueId = context.params.queueId;
   const reservationId = snap.data().reservationId;
   
   // recupera lista de mesa 
-  var tablesFromDB = await db.collection(`restaurants/${restaurantId}/tables`).where('busy', "==", "false").get();
+  var tablesFromDB = await db.collection(`restaurants/${restaurantId}/tables`).where('busy', "==", false).get();
   var tables = convertTablesFromDB(tablesFromDB);
 
   // recupera a reserva
@@ -29,14 +30,28 @@ async function verifyTables(snap: any, context: any) {
   // chama método para verificar se tem mesa livre pra reserva
   nextReservation = await runQueue(reservations, tables);
 
-  if (nextReservation.reservationId && nextReservation.table) {
-    // TODO
-    // REMOVER O RESERVATIONID DA QUEUE
-    // SETAR O RESERVATIONID NA MESA DEFINIDA.
-    // ATUALIZAR STATUS DA RESERVATION NA COLLECTION RESERVATIONS
-  }
+  if (nextReservation.reservationId && nextReservation.tableId) {
+    var batch = db.batch();
+    
+    // recupera a mesa a ser preenchida
+    var table = db.doc(`restaurants/${restaurantId}/tables/${nextReservation.tableId}`);
+    // recupera a reserva que será removida da fila
+    var reservationInQueue = db.doc(`restaurants/${restaurantId}/queue/${queueId}`);
+    // recupera a reserva para atualizar o status
+    var reservationForUpdate = db.doc(`reservations/${nextReservation.reservationId}`);
 
-  console.log(nextReservation);
+    // SETAR O RESERVATIONID NA MESA DEFINIDA.
+    batch.set(table, { reservationid: nextReservation.reservationId, busy: true }, { merge: true });
+    // REMOVER O RESERVATIONID DA QUEUE    
+    batch.delete(reservationInQueue);
+    // ATUALIZAR STATUS DA RESERVATION NA COLLECTION RESERVATIONS
+    batch.set(reservationForUpdate, {active: false}, { merge: true })
+
+    return await batch.commit();
+  }
+  else {
+    return null;
+  }
 }
 
 async function runQueue(reservationList: ReservationModel[], tableList: TableModel[]) {
@@ -61,11 +76,16 @@ async function runQueue(reservationList: ReservationModel[], tableList: TableMod
     }
     return 0;
   });
-
+  var stop = false;
   tableList.forEach(table => {
-    nextReservation.reservationId = reservationList.find(r => r.occupationQty <= table.capacity)?.id;
-    nextReservation.table = table.number; 
-    return nextReservation;
+    if (stop) return;
+    var reservationId = reservationList.find(r => r.occupationQty <= table.capacity)?.id;
+    
+    if (reservationId != undefined && !stop) {
+      stop = true;
+      nextReservation.reservationId = reservationId;
+      nextReservation.tableId = table.id;
+    }
   });
 
   return nextReservation

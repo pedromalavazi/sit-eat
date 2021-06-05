@@ -1,4 +1,4 @@
 export class ReservationDoneModel {
-    table: number | undefined = undefined;
+    tableId: string | undefined = undefined;
     reservationId: string | undefined = undefined;
 }
