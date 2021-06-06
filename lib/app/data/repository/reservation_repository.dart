@@ -15,6 +15,11 @@ class ReservationRepository {
           reservation.add(ReservationModel.fromSnapshot(restaurant));
         });
       });
+      reservation.sort((a, b) {
+        var dataA = DateTime.fromMillisecondsSinceEpoch(a.checkIn.millisecondsSinceEpoch);
+        var dataB = DateTime.fromMillisecondsSinceEpoch(b.checkIn.millisecondsSinceEpoch);
+        return -dataA.compareTo(dataB);
+      });
       return reservation;
     } catch (e) {
       print(e.code);

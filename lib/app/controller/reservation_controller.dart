@@ -10,7 +10,6 @@ class ReservationController extends GetxController {
   final ReservationService _reservationService = ReservationService();
   final RestaurantService _restaurantService = RestaurantService();
 
-  String restaurantId = Get.arguments;
   RxList<ReservationCardModel> allReservations = RxList<ReservationCardModel>();
   Rx<UserModel> user = UserModel().obs;
 
@@ -59,16 +58,11 @@ class ReservationController extends GetxController {
   }
 
   void setStatus() {
-    // Check active = true AND canceled = false -> Reservado
     if (active.isTrue && canceled.isFalse) {
       status.value = "Reservado";
-    }
-    // Check active = false AND canceled = true -> Cancelado
-    else if (active.isFalse && canceled.isTrue) {
+    } else if (active.isFalse && canceled.isTrue) {
       status.value = "Cancelado";
-    }
-    // Check active = false AND canceled = false -> Finalizado
-    else if (active.isFalse && canceled.isFalse) {
+    } else if (active.isFalse && canceled.isFalse) {
       status.value = "Finalizado";
     } else
       status.value = "error";
