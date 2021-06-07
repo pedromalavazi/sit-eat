@@ -1,15 +1,106 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:sit_eat/app/controller/restaurant_controller.dart';
-import 'package:sit_eat/app/routes/app_pages.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 
 class RestaurantPage extends GetView<RestaurantController> {
   final RestaurantController _restaurantController =
       Get.find<RestaurantController>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    final AlertDialog dialog = AlertDialog(
+      title: Text(
+        'Realizar reserva',
+        style: TextStyle(
+          color: Colors.black,
+          fontFamily: "Source Code Pro",
+        ),
+      ),
+      content: Form(
+        key: _formKey,
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                validator: (value) {
+                  if (value.length > 1) {
+                    return "O valor digitado é inválido!";
+                  } else if (GetUtils.isNullOrBlank(value)) {
+                    return "Preencha o campo!";
+                  }
+                  return null;
+                },
+                controller: _restaurantController.qtdMesaTextController,
+                autofocus: true,
+                keyboardType: TextInputType.number,
+                style: TextStyle(fontFamily: "Source Code Pro"),
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+                  labelText: "Nº de pessoas na mesa",
+                  labelStyle: TextStyle(
+                    color: Colors.black,
+                    fontFamily: "Source Code Pro",
+                  ),
+                  prefixIcon: Icon(
+                    Icons.group_add_rounded,
+                    color: Colors.black,
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(
+            "Cancelar",
+            style: TextStyle(
+              color: Colors.black,
+              fontFamily: "Source Code Pro",
+            ),
+          ),
+        ),
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+          ),
+          onPressed: () {
+            if (_formKey.currentState.validate()) {
+              _restaurantController.registerReservation();
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Reserva realizada com sucesso..."),
+                  duration: Duration(milliseconds: 3000),
+                  action: SnackBarAction(
+                    label: "Ok",
+                    onPressed: () {
+                      Duration(milliseconds: 0);
+                    },
+                  ),
+                ),
+              );
+            }
+          },
+          child: Text(
+            "Reservar",
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: "Source Code Pro",
+            ),
+          ),
+        ),
+      ],
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red[500],
@@ -184,12 +275,9 @@ class RestaurantPage extends GetView<RestaurantController> {
                             ButtonWidget(
                               isWhiteTheme: false,
                               onPressed: () {
-                                Get.toNamed(Routes.REGISTER_RESERVATION_PAGE,
-                                    arguments: _restaurantController
-                                        .restaurant.value.id);
-                                // Get.toNamed(Routes.REGISTER_RESERVATION_PAGE,
-                                //     arguments: _restaurantController
-                                //         .restaurant.value.id);
+                                showDialog<void>(
+                                    context: context,
+                                    builder: (context) => dialog);
                               },
                               text: "Realizar reserva",
                               height: 60,

@@ -8,6 +8,21 @@ class RegisterReservationPage extends GetView<ReservationController> {
       Get.find<ReservationController>();
   @override
   Widget build(BuildContext context) {
+    final AlertDialog dialog = AlertDialog(
+      title: Text('Confirmação de reserva!'),
+      content: Text('Informe a quantidade de pessoas na mesa'),
+      actions: [
+        // TextFormField(initialValue: ,),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text("Cancelar"),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text("Reservar"),
+        ),
+      ],
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text('Reservar mesa'),
@@ -38,6 +53,16 @@ class RegisterReservationPage extends GetView<ReservationController> {
                 }
                 return null;
               },
+            ),
+            SizedBox(
+              width: 80,
+            ),
+            TextButton(
+              onPressed: () {
+                showDialog<void>(
+                    context: context, builder: (context) => dialog);
+              },
+              child: Text("SHOW DIALOG"),
             ),
           ],
         ),
