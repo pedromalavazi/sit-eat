@@ -4,9 +4,13 @@ import 'package:sit_eat/app/controller/reservation_controller.dart';
 import 'package:sit_eat/app/ui/android/reservation/widgets/reservation_card.dart';
 
 class ReservationPage extends GetView<ReservationController> {
+  // final ReservationController _restaurantController =
+  //     Get.find<ReservationController>();
+
   @override
   Widget build(BuildContext context) {
-    final ReservationController _reservationController = Get.put(ReservationController());
+    final ReservationController _reservationController =
+        Get.put(ReservationController());
 
     return Scaffold(
       appBar: AppBar(
@@ -27,7 +31,8 @@ class ReservationPage extends GetView<ReservationController> {
                     itemCount: _reservationController.allReservations.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ReservationCard(
-                        reservation: _reservationController.allReservations[index],
+                        reservation:
+                            _reservationController.allReservations[index],
                       );
                     },
                   ),

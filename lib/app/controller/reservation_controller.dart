@@ -29,7 +29,8 @@ class ReservationController extends GetxController {
   }
 
   Future<RestaurantModel> getRestaurantProps(String restaurantId) async {
-    RestaurantModel currentRestaurant = await _restaurantService.get(restaurantId);
+    RestaurantModel currentRestaurant =
+        await _restaurantService.get(restaurantId);
     return currentRestaurant;
   }
 
@@ -37,7 +38,8 @@ class ReservationController extends GetxController {
     var reservationsFromBase = await _reservationService.getAll(userId);
     reservationsFromBase.forEach((reservationFromBase) async {
       ReservationCardModel cardTemp = ReservationCardModel();
-      var restaurantTemp = await getRestaurantProps(reservationFromBase.restaurantId);
+      var restaurantTemp =
+          await getRestaurantProps(reservationFromBase.restaurantId);
       cardTemp.id = reservationFromBase.id;
       cardTemp.active = reservationFromBase.active;
       cardTemp.canceled = reservationFromBase.canceled;

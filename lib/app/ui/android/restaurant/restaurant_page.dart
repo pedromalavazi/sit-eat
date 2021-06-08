@@ -1,13 +1,98 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:sit_eat/app/controller/restaurant_controller.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 
 class RestaurantPage extends GetView<RestaurantController> {
-  final RestaurantController _restaurantController = Get.find<RestaurantController>();
+  final RestaurantController _restaurantController =
+      Get.find<RestaurantController>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    final AlertDialog dialog = AlertDialog(
+      title: Text(
+        'Realizar reserva',
+        style: TextStyle(
+          color: Colors.black,
+          fontFamily: "Source Code Pro",
+        ),
+      ),
+      content: Form(
+        key: _formKey,
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                validator: (value) {
+                  if (value.length > 1) {
+                    return "Quantidade inválida!";
+                  } else if (GetUtils.isNullOrBlank(value)) {
+                    return "Preencha o campo!";
+                  }
+                  return null;
+                },
+                controller: _restaurantController.qtdMesaTextController,
+                autofocus: true,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+                ],
+                style: TextStyle(fontFamily: "Source Code Pro"),
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+                  labelText: "Nº de pessoas na mesa:",
+                  labelStyle: TextStyle(
+                    color: Colors.black,
+                    fontFamily: "Source Code Pro",
+                  ),
+                  prefixIcon: Icon(
+                    Icons.group_add_rounded,
+                    color: Colors.black,
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(
+            "Cancelar",
+            style: TextStyle(
+              color: Colors.black,
+              fontFamily: "Source Code Pro",
+            ),
+          ),
+        ),
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+          ),
+          onPressed: () {
+            if (_formKey.currentState.validate()) {
+              _restaurantController.registerReservation();
+              Navigator.pop(context);
+            }
+          },
+          child: Text(
+            "Reservar",
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: "Source Code Pro",
+            ),
+          ),
+        ),
+      ],
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red[500],
@@ -38,7 +123,8 @@ class RestaurantPage extends GetView<RestaurantController> {
                       child: SizedBox(
                         width: 220,
                         height: 200,
-                        child: _restaurantController.setRestaurantImage(_restaurantController.restaurant.value.image),
+                        child: _restaurantController.setRestaurantImage(
+                            _restaurantController.restaurant.value.image),
                       ),
                     ),
                   ),
@@ -72,7 +158,9 @@ class RestaurantPage extends GetView<RestaurantController> {
                             ),
                             Obx(
                               () => Text(
-                                _restaurantController.restaurant.value.address ?? "",
+                                _restaurantController
+                                        .restaurant.value.address ??
+                                    "",
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 20,
@@ -88,7 +176,8 @@ class RestaurantPage extends GetView<RestaurantController> {
                           children: [
                             Obx(
                               () => Text(
-                                _restaurantController.restaurant.value.name ?? "",
+                                _restaurantController.restaurant.value.name ??
+                                    "",
                                 style: TextStyle(
                                   fontSize: 40,
                                   color: Colors.black,
@@ -118,21 +207,30 @@ class RestaurantPage extends GetView<RestaurantController> {
                                 _restaurantController.openTimeFormat.value,
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color: _restaurantController.isOpen.value == true ? Colors.green : Colors.red,
+                                  color:
+                                      _restaurantController.isOpen.value == true
+                                          ? Colors.green
+                                          : Colors.red,
                                 ),
                               ),
                               Text(
                                 " - ",
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color: _restaurantController.isOpen.value == true ? Colors.green : Colors.red,
+                                  color:
+                                      _restaurantController.isOpen.value == true
+                                          ? Colors.green
+                                          : Colors.red,
                                 ),
                               ),
                               Text(
                                 _restaurantController.closeTimeFormat.value,
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color: _restaurantController.isOpen.value == true ? Colors.green : Colors.red,
+                                  color:
+                                      _restaurantController.isOpen.value == true
+                                          ? Colors.green
+                                          : Colors.red,
                                 ),
                               ),
                             ],
@@ -150,7 +248,9 @@ class RestaurantPage extends GetView<RestaurantController> {
                             ButtonWidget(
                               isWhiteTheme: false,
                               onPressed: () {
-                                _restaurantController.launchURLBrowser(_restaurantController.restaurant.value.menu);
+                                _restaurantController.launchURLBrowser(
+                                    _restaurantController
+                                        .restaurant.value.menu);
                               },
                               text: "Menu",
                               height: 60,
@@ -165,11 +265,13 @@ class RestaurantPage extends GetView<RestaurantController> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             ButtonWidget(
-                              isWhiteTheme: true,
+                              isWhiteTheme: false,
                               onPressed: () {
-                                //Reserva de mesa
+                                showDialog<void>(
+                                    context: context,
+                                    builder: (context) => dialog);
                               },
-                              text: "Reservar",
+                              text: "Realizar reserva",
                               height: 60,
                               width: 180,
                             ),
