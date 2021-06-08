@@ -90,9 +90,9 @@ async function verifyQueue(change: any, context: any) {
   // chama método para verificar se tem mesa livre pra reserva
   nextReservation = await runQueue(reservationsFromQueue, tables);
 
-  var queueIdToDelete = (await db.collection(`restaurants/${restaurantId}/queue`).where("reservationId", "==", nextReservation.reservationId).get()).docs[0].id;
-
   if (nextReservation.reservationId && nextReservation.tableId) {
+    var queueIdToDelete = (await db.collection(`restaurants/${restaurantId}/queue`).where("reservationId", "==", nextReservation.reservationId).get()).docs[0].id;
+    
     var batch = db.batch();
     
     // recupera a mesa a ser preenchida
@@ -139,10 +139,21 @@ async function runQueue(reservationList: ReservationModel[], tableList: TableMod
     return 0;
   });
   var stop = false;
+
+  // for(var table of tableList) {
+  //   var reservationId = reservationList.find(r => r.occupationQty <= table.capacity)?.id;
+    
+  //   if (reservationId != undefined && !stop) {
+  //     nextReservation.reservationId = reservationId;
+  //     nextReservation.tableId = table.id;
+  //     break;
+  //   }
+  // }
+
   tableList.forEach(table => {
     if (stop) return;
     var reservationId = reservationList.find(r => r.occupationQty <= table.capacity)?.id;
-    
+
     if (reservationId != undefined && !stop) {
       stop = true;
       nextReservation.reservationId = reservationId;
@@ -158,8 +169,8 @@ async function getReservationsFromQueue(restaurantId: string) {
   var reservations: ReservationModel[] = [];
   
   for (let index = 0; index < queueList.docs.length; index++) {
-    const table = queueList.docs[index];
-    var reservationId = table.data()["reservationId"];
+    const queue = queueList.docs[index];
+    var reservationId = queue.data()["reservationId"];
     var reservationFromDB = await db.collection('reservations').doc(reservationId).get();
     var reservation: ReservationModel = convertReservationFromDB(reservationFromDB);
     reservations.push(reservation);
