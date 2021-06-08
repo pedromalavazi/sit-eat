@@ -7,16 +7,24 @@ class ReservationRepository {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Retorna lista de reservas
-  Future<List<ReservationModel>> getAllReservations() async {
+  Future<List<ReservationModel>> getAllReservations(String userId) async {
     try {
       var reservation = <ReservationModel>[];
       await _firestore
           .collection('reservations')
+          .where('userid', isEqualTo: userId)
           .get()
           .then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((restaurant) {
           reservation.add(ReservationModel.fromSnapshot(restaurant));
         });
+      });
+      reservation.sort((a, b) {
+        var dataA = DateTime.fromMillisecondsSinceEpoch(
+            a.checkIn.millisecondsSinceEpoch);
+        var dataB = DateTime.fromMillisecondsSinceEpoch(
+            b.checkIn.millisecondsSinceEpoch);
+        return -dataA.compareTo(dataB);
       });
       return reservation;
     } catch (e) {
@@ -90,7 +98,7 @@ class ReservationRepository {
       Get.back();
       Get.defaultDialog(
         title: "ERROR",
-        content: Text("ID não encontrado."),
+        content: Text("Erro na reserva."),
       );
       return false;
     }

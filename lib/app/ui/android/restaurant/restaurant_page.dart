@@ -259,7 +259,7 @@ class RestaurantPage extends GetView<RestaurantController> {
                           ],
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 10,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
