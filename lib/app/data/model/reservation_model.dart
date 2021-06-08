@@ -21,8 +21,8 @@ class ReservationModel {
 
   ReservationModel.fromSnapshot(DocumentSnapshot reservation)
       : id = reservation.data()["id"],
-        userId = reservation.data()["userid"],
-        restaurantId = reservation.data()["restaurantid"],
+        userId = reservation.data()["userId"],
+        restaurantId = reservation.data()["restaurantId"],
         checkIn = reservation.data()["checkin"],
         occupationQty = reservation.data()["occupationQty"],
         active = reservation.data()["active"],
