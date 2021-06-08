@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:sit_eat/app/controller/restaurant_controller.dart';
@@ -26,7 +27,7 @@ class RestaurantPage extends GetView<RestaurantController> {
               child: TextFormField(
                 validator: (value) {
                   if (value.length > 1) {
-                    return "O valor digitado é inválido!";
+                    return "Quantidade inválida!";
                   } else if (GetUtils.isNullOrBlank(value)) {
                     return "Preencha o campo!";
                   }
@@ -35,10 +36,13 @@ class RestaurantPage extends GetView<RestaurantController> {
                 controller: _restaurantController.qtdMesaTextController,
                 autofocus: true,
                 keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+                ],
                 style: TextStyle(fontFamily: "Source Code Pro"),
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
-                  labelText: "Nº de pessoas na mesa",
+                  labelText: "Nº de pessoas na mesa:",
                   labelStyle: TextStyle(
                     color: Colors.black,
                     fontFamily: "Source Code Pro",
@@ -80,7 +84,7 @@ class RestaurantPage extends GetView<RestaurantController> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text("Reserva realizada com sucesso..."),
-                  duration: Duration(milliseconds: 3000),
+                  duration: Duration(milliseconds: 4000),
                   action: SnackBarAction(
                     label: "Ok",
                     onPressed: () {
