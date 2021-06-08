@@ -10,14 +10,24 @@ class ReservationRepository {
   Future<List<ReservationModel>> getAllReservations(String userId) async {
     try {
       var reservation = <ReservationModel>[];
-      await _firestore.collection('reservations').where('userid', isEqualTo: userId).get().then((QuerySnapshot querySnapshot) {
+<<<<<<< HEAD
+      await _firestore.collection('reservations').get().then((QuerySnapshot querySnapshot) {
+=======
+      await _firestore
+          .collection('reservations')
+          .where('userid', isEqualTo: userId)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+>>>>>>> origin/develop
         querySnapshot.docs.forEach((restaurant) {
           reservation.add(ReservationModel.fromSnapshot(restaurant));
         });
       });
       reservation.sort((a, b) {
-        var dataA = DateTime.fromMillisecondsSinceEpoch(a.checkIn.millisecondsSinceEpoch);
-        var dataB = DateTime.fromMillisecondsSinceEpoch(b.checkIn.millisecondsSinceEpoch);
+        var dataA = DateTime.fromMillisecondsSinceEpoch(
+            a.checkIn.millisecondsSinceEpoch);
+        var dataB = DateTime.fromMillisecondsSinceEpoch(
+            b.checkIn.millisecondsSinceEpoch);
         return -dataA.compareTo(dataB);
       });
       return reservation;
@@ -45,19 +55,33 @@ class ReservationRepository {
   }
 
   // Cria reserva
-  Future<String> insert(String userId, String restaurantId, int occupationQty) async {
+<<<<<<< HEAD
+  Future<bool> insert(String userId, String restaurantId, int occupationQty) async {
+    try {
+      await _firestore.collection("reservations").add({
+        "userId": userId,
+        "restaurantId": restaurantId,
+        "occupationQty": occupationQty,
+        "checkin": DateTime.now(),
+        "active": true,
+        "canceled": false,
+      }).then(
+=======
+  Future<String> insert(
+      String userId, String restaurantId, int occupationQty) async {
     try {
       String reservationId;
       await _firestore.collection("reservations").add(
         {
-          "userId": userId,
-          "restaurantId": restaurantId,
+          "userid": userId,
+          "restaurantid": restaurantId,
           "occupationQty": occupationQty,
           "checkin": DateTime.now(),
           "active": true,
           "canceled": false,
         },
       ).then(
+>>>>>>> origin/develop
         (doc) => {
           doc.update({"id": doc.id}),
           reservationId = doc.id,
@@ -67,12 +91,14 @@ class ReservationRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      Get.defaultDialog(title: "ERROR", content: Text("Reserva não encontrada."));
+      Get.defaultDialog(
+          title: "ERROR", content: Text("Reserva não encontrada."));
       return "";
     }
   }
 
-  Future<bool> insertIdReservation(String reservationId, String restaurantId) async {
+  Future<bool> insertIdReservation(
+      String reservationId, String restaurantId) async {
     try {
       await _firestore.collection("restaurants/$restaurantId/queue").add(
         {
@@ -83,10 +109,14 @@ class ReservationRepository {
     } catch (e) {
       print(e.code);
       Get.back();
+<<<<<<< HEAD
+      Get.defaultDialog(title: "ERROR", content: Text("Usuário não encontrado."));
+=======
       Get.defaultDialog(
         title: "ERROR",
         content: Text("Erro na reserva."),
       );
+>>>>>>> origin/develop
       return false;
     }
   }

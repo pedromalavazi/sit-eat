@@ -43,9 +43,11 @@ class AuthService extends GetxController {
 
   Future<bool> login(String email, String password) async {
     try {
-      var user = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      var user = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
       box.write("auth1", {"email": email, "pass": password});
-      _user.value = UserModel.fromSnapshot(await _firestore.collection("users").doc(user.user.uid).get());
+      _user.value = UserModel.fromSnapshot(
+          await _firestore.collection("users").doc(user.user.uid).get());
       _user.value.id = user.user.uid;
       return true;
     } catch (e) {
@@ -54,10 +56,12 @@ class AuthService extends GetxController {
     }
   }
 
-  createUser(String email, String password, String name, String phoneNumber) async {
+  createUser(
+      String email, String password, String name, String phoneNumber) async {
     try {
       //Cria usuário do Firebase
-      await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       // Atualizando o nome do usuário
       await _firebaseUser.value.updateProfile(displayName: name);
       await _firebaseUser.value.reload();
@@ -101,7 +105,8 @@ class AuthService extends GetxController {
       await _auth.currentUser.updatePassword(password);
       await _auth.currentUser.reload();
       box.write("auth1", null);
-      box.write("auth1", {"email": box.read("auth1")["email"], "pass": password});
+      box.write(
+          "auth1", {"email": box.read("auth1")["email"], "pass": password});
       return UserFirebaseModel.fromSnapshot(_auth.currentUser);
     } catch (e) {
       throwErrorMessage(e.code);
@@ -179,7 +184,7 @@ class AuthService extends GetxController {
       colorText: Colors.black,
       backgroundColor: Colors.grey[600],
       snackPosition: SnackPosition.BOTTOM,
-      duration: Duration(seconds: 3),
+      duration: Duration(seconds: 5),
       icon: Icon(Icons.info, color: Colors.white),
       shouldIconPulse: true,
     );
