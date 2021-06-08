@@ -81,18 +81,6 @@ class RestaurantPage extends GetView<RestaurantController> {
             if (_formKey.currentState.validate()) {
               _restaurantController.registerReservation();
               Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("Reserva realizada com sucesso..."),
-                  duration: Duration(milliseconds: 4000),
-                  action: SnackBarAction(
-                    label: "Ok",
-                    onPressed: () {
-                      Duration(milliseconds: 0);
-                    },
-                  ),
-                ),
-              );
             }
           },
           child: Text(

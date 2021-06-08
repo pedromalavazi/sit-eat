@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
@@ -48,7 +49,31 @@ class RestaurantController extends GetxController {
     String reservationId = await _reservationService.insert(
         idUserTextController.text, restaurantId, qtdMesa);
 
-    await _reservationService.insertIdReservation(reservationId, restaurantId);
+    var retorno = await _reservationService.insertIdReservation(
+        reservationId, restaurantId);
+    if (retorno) {
+      Get.snackbar(
+        "Sucesso",
+        "Reserva realizada com sucesso...",
+        colorText: Colors.black,
+        backgroundColor: Colors.grey[600],
+        snackPosition: SnackPosition.BOTTOM,
+        duration: Duration(seconds: 3),
+        icon: Icon(Icons.info, color: Colors.white),
+        shouldIconPulse: true,
+      );
+    } else {
+      Get.snackbar(
+        "Error",
+        "Não foi possível realizar a reserva!",
+        colorText: Colors.white,
+        backgroundColor: Colors.red[400],
+        snackPosition: SnackPosition.BOTTOM,
+        duration: Duration(seconds: 3),
+        icon: Icon(Icons.error, color: Colors.white),
+        shouldIconPulse: true,
+      );
+    }
   }
 
   void setTimes() {
