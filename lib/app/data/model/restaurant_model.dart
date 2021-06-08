@@ -25,6 +25,16 @@ class RestaurantModel {
         menu = restaurant.data()["menu"];
 
   Map<String, dynamic> toJson() {
-    return {"id": id, "image": image, "name": name, "address": address, "capacity": capacity, "qrCode": qrCode, "openTime": openTime, "closeTime": closeTime, "menu": menu};
+    return {
+      "id": id,
+      "image": image,
+      "name": name,
+      "address": address,
+      "capacity": capacity,
+      "qrCode": qrCode,
+      "openTime": openTime,
+      "closeTime": closeTime,
+      "menu": menu,
+    };
   }
 }
