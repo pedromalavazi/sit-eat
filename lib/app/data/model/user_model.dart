@@ -5,14 +5,16 @@ class UserModel {
   String name;
   String email;
   String phoneNumber;
+  String tokenMessage;
 
-  UserModel({this.id, this.name, this.email, this.phoneNumber});
+  UserModel({this.id, this.name, this.email, this.phoneNumber, this.tokenMessage});
 
   UserModel.fromSnapshot(DocumentSnapshot currentUser)
       : id = currentUser.data()["id"],
         name = currentUser.data()["name"],
         email = currentUser.data()["email"],
-        phoneNumber = currentUser.data()["phoneNumber"];
+        phoneNumber = currentUser.data()["phoneNumber"],
+        tokenMessage = currentUser.data()["tokenMessage"];
 
   Map<String, dynamic> toJson() {
     return {
@@ -20,6 +22,7 @@ class UserModel {
       "name": name,
       "email": email,
       "phoneNumber": phoneNumber,
+      "tokenMessage": tokenMessage,
     };
   }
 }

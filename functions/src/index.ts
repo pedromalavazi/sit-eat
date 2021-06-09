@@ -55,7 +55,8 @@ async function verifyTables(snap: any, context: any) {
     // ATUALIZAR STATUS DA RESERVATION NA COLLECTION RESERVATIONS
     batch.set(reservationForUpdate, {active: false}, { merge: true })
 
-    return await batch.commit();
+    await batch.commit();
+    return await sendMessage(nextReservation.reservationId);
   }
   else {
     return null;
@@ -109,7 +110,8 @@ async function verifyQueue(change: any, context: any) {
     // ATUALIZAR STATUS DA RESERVATION NA COLLECTION RESERVATIONS
     batch.set(reservationForUpdate, {active: false}, { merge: true })
 
-    return await batch.commit();
+    await batch.commit();
+    return await sendMessage(nextReservation.reservationId);    
   }
   else {
     return null;
@@ -179,5 +181,34 @@ async function getReservationsFromQueue(restaurantId: string) {
   return reservations;
 }
 
+async function sendMessage(reservationId: string) {
+  try {
+    var reservationFromDB = await db.collection(`reservations`).doc(reservationId).get();
+    var reservation = convertReservationFromDB(reservationFromDB);
+    var user = await db.collection(`users`).doc(reservation.userId).get();
+
+    if (user.data()) {
+      var usertokenMessage = user.data()!["tokenMessage"];
+      if (usertokenMessage) {
+        const payload = {
+          notification: {
+            title: "Sua mesa já está disponível!",
+            body: "Entre no aplicativo e verifique sua reserva."
+          }
+        };
+        return await admin.messaging().sendToDevice(usertokenMessage, payload).then((resp) => {
+          console.log(resp);
+        }).catch((error) => {
+          console.log(error);
+        });
+      }
+    }
+    return null;
+  } catch (error) {
+    return null;    
+  }
+  
+
+}
 
 
