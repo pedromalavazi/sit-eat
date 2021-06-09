@@ -5,12 +5,14 @@ import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 import 'package:sit_eat/app/ui/android/widgets/input_field.dart';
 
 class EditProfilePage extends GetView<EditProfileController> {
-  final EditProfileController _editProfileController = Get.find<EditProfileController>();
+  final EditProfileController _editProfileController =
+      Get.find<EditProfileController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(),
         elevation: 1,
         title: Text("Minha Conta"),
         centerTitle: true,
@@ -109,13 +111,15 @@ class EditProfilePage extends GetView<EditProfileController> {
               ),
               SizedBox(height: 15),
               InputField(
-                controller: _editProfileController.confirmPasswordTextController,
+                controller:
+                    _editProfileController.confirmPasswordTextController,
                 validator: (value) {
                   if (!GetUtils.isNullOrBlank(value)) {
                     if (value.length < 6) {
                       return "Confirmação de senha deve conter 6 caracteres";
                     }
-                    if (value != _editProfileController.passwordTextController.text) {
+                    if (value !=
+                        _editProfileController.passwordTextController.text) {
                       return "Confirmação de senha deve ser igual a senha";
                     }
                   }

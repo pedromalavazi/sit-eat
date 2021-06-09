@@ -9,6 +9,7 @@ import 'package:sit_eat/app/ui/android/login/forget-password/forget_password_pag
 import 'package:sit_eat/app/ui/android/login/login_page.dart';
 import 'package:sit_eat/app/ui/android/login/splash_page.dart';
 import 'package:sit_eat/app/ui/android/navigation/navigation_page.dart';
+import 'package:sit_eat/app/ui/android/profile/about.dart';
 import 'package:sit_eat/app/ui/android/profile/editprofile_page.dart';
 import 'package:sit_eat/app/ui/android/profile/profile_page.dart';
 import 'package:sit_eat/app/ui/android/register-user/register_page.dart';
@@ -61,6 +62,11 @@ class AppPages {
       name: Routes.EDIT_PROFILE,
       page: () => EditProfilePage(),
       binding: EditProfileBinding(),
+    ),
+    GetPage(
+      name: Routes.ABOUT,
+      page: () => AboutPage(),
+      // binding: AboutPage(),
     ),
     GetPage(
       name: Routes.RESTAURANT_WAIT_PAGE,
