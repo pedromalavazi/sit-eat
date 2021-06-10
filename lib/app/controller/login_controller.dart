@@ -7,9 +7,11 @@ import 'package:sit_eat/app/routes/app_pages.dart';
 class LoginController extends GetxController {
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
-  final TextEditingController confirmPasswordTextController = TextEditingController();
+  final TextEditingController confirmPasswordTextController =
+      TextEditingController();
   final TextEditingController nameTextController = TextEditingController();
-  final TextEditingController phoneNumberTextController = TextEditingController();
+  final TextEditingController phoneNumberTextController =
+      TextEditingController();
 
   @override
   void onInit() {
@@ -57,7 +59,10 @@ class LoginController extends GetxController {
   showLoader() {
     Get.dialog(
       Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: Colors.red,
+          strokeWidth: 3.5,
+        ),
       ),
       barrierDismissible: false,
     );

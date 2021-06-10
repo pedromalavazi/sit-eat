@@ -24,18 +24,24 @@ class HomePage extends GetView<HomeController> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-                          Text(
-                            "Olá,",
-                            style: TextStyle(fontSize: 25, color: Colors.black54),
-                          ),
-                          Obx(
-                            () => Text(
-                              _homeController.user.value.name,
-                              style: TextStyle(fontSize: 25, color: Colors.black54, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ]),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Olá,",
+                                style: TextStyle(
+                                    fontSize: 25, color: Colors.black54),
+                              ),
+                              Obx(
+                                () => Text(
+                                  _homeController.user.value.name,
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ]),
                         GestureDetector(
                           onTap: () {
                             Get.toNamed(Routes.EDIT_PROFILE);

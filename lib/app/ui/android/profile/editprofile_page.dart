@@ -12,6 +12,7 @@ class EditProfilePage extends GetView<EditProfileController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(),
         elevation: 1,
         title: Text("Minha Conta"),
         centerTitle: true,
