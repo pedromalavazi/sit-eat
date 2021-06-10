@@ -51,7 +51,7 @@ class AboutPage extends StatelessWidget {
                 ),
                 Text(
                   '\n'
-                  'Quaisquer problemas ou duvidas, entre em contato pelo email: appsiteat@gmail.com',
+                  'Quaisquer problemas ou duvidas, entre em contato conosco pelo email: appsiteat@gmail.com',
                   style: TextStyle(fontSize: 16),
                 )
               ],
