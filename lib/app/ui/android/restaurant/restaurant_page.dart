@@ -5,7 +5,8 @@ import 'package:sit_eat/app/controller/restaurant_controller.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 
 class RestaurantPage extends GetView<RestaurantController> {
-  final RestaurantController _restaurantController = Get.find<RestaurantController>();
+  final RestaurantController _restaurantController =
+      Get.find<RestaurantController>();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -25,7 +26,7 @@ class RestaurantPage extends GetView<RestaurantController> {
             Expanded(
               child: TextFormField(
                 validator: (value) {
-                  if (value.length > 1) {
+                  if (int.parse(value) == 0) {
                     return "Quantidade inválida!";
                   } else if (GetUtils.isNullOrBlank(value)) {
                     return "Preencha o campo!";
@@ -35,6 +36,7 @@ class RestaurantPage extends GetView<RestaurantController> {
                 controller: _restaurantController.qtdMesaTextController,
                 autofocus: true,
                 keyboardType: TextInputType.number,
+                maxLength: 2,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp('[0-9]')),
                 ],
@@ -122,7 +124,8 @@ class RestaurantPage extends GetView<RestaurantController> {
                       child: SizedBox(
                         width: 220,
                         height: 200,
-                        child: _restaurantController.setRestaurantImage(_restaurantController.restaurant.value.image),
+                        child: _restaurantController.setRestaurantImage(
+                            _restaurantController.restaurant.value.image),
                       ),
                     ),
                   ),
@@ -156,7 +159,9 @@ class RestaurantPage extends GetView<RestaurantController> {
                             ),
                             Obx(
                               () => Text(
-                                _restaurantController.restaurant.value.address ?? "",
+                                _restaurantController
+                                        .restaurant.value.address ??
+                                    "",
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 20,
@@ -172,7 +177,8 @@ class RestaurantPage extends GetView<RestaurantController> {
                           children: [
                             Obx(
                               () => Text(
-                                _restaurantController.restaurant.value.name ?? "",
+                                _restaurantController.restaurant.value.name ??
+                                    "",
                                 style: TextStyle(
                                   fontSize: 40,
                                   color: Colors.black,
@@ -202,21 +208,30 @@ class RestaurantPage extends GetView<RestaurantController> {
                                 _restaurantController.openTimeFormat.value,
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color: _restaurantController.isOpen.value == true ? Colors.green : Colors.red,
+                                  color:
+                                      _restaurantController.isOpen.value == true
+                                          ? Colors.green
+                                          : Colors.red,
                                 ),
                               ),
                               Text(
                                 " - ",
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color: _restaurantController.isOpen.value == true ? Colors.green : Colors.red,
+                                  color:
+                                      _restaurantController.isOpen.value == true
+                                          ? Colors.green
+                                          : Colors.red,
                                 ),
                               ),
                               Text(
                                 _restaurantController.closeTimeFormat.value,
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color: _restaurantController.isOpen.value == true ? Colors.green : Colors.red,
+                                  color:
+                                      _restaurantController.isOpen.value == true
+                                          ? Colors.green
+                                          : Colors.red,
                                 ),
                               ),
                             ],
@@ -234,7 +249,9 @@ class RestaurantPage extends GetView<RestaurantController> {
                             ButtonWidget(
                               isWhiteTheme: false,
                               onPressed: () {
-                                _restaurantController.launchURLBrowser(_restaurantController.restaurant.value.menu);
+                                _restaurantController.launchURLBrowser(
+                                    _restaurantController
+                                        .restaurant.value.menu);
                               },
                               text: "Menu",
                               height: 60,
@@ -253,7 +270,9 @@ class RestaurantPage extends GetView<RestaurantController> {
                                 ButtonWidget(
                                   isWhiteTheme: false,
                                   onPressed: () {
-                                    showDialog<void>(context: context, builder: (context) => dialog);
+                                    showDialog<void>(
+                                        context: context,
+                                        builder: (context) => dialog);
                                   },
                                   text: "Realizar reserva",
                                   height: 60,
