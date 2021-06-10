@@ -30,11 +30,12 @@ class ReservationController extends GetxController {
   }
 
   void getAllReservations(String userId) async {
-    _reservationService.listenerReservations(userId).listen((reservations) {
+    _reservationService.listenerReservations(userId).listen((reservations) async {
       allReservations.clear();
-      reservations = _reservationService.sortReservationsByCheckIn(reservations);
       reservations = _reservationService.sortReservationsByActive(reservations);
-      reservations.forEach((reservation) async {
+
+      for (var i = 0; i < reservations.length; i++) {
+        var reservation = reservations[i];
         ReservationCardModel cardTemp = ReservationCardModel();
         var restaurantTemp = await getRestaurantProps(reservation.restaurantId);
         cardTemp.id = reservation.id;
@@ -50,7 +51,7 @@ class ReservationController extends GetxController {
         cardTemp.menu = restaurantTemp.menu;
         cardTemp.status = setStatus(reservation.active, reservation.canceled);
         allReservations.add(cardTemp);
-      });
+      }
     });
   }
 
