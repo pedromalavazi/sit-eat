@@ -15,7 +15,7 @@ export function convertReservationFromDB(reservationFromDB: any) {
         reservation.id = reservationFromDB.id;
         reservation.userId = reservationFromDB.data()["userId"];
         reservation.restaurantId = reservationFromDB.data()["restaurantId"];
-        reservation.checkIn = reservationFromDB.data()["checkIn"];
+        reservation.checkIn = reservationFromDB.data()["checkin"];
         reservation.occupationQty = reservationFromDB.data()["occupationQty"];
         reservation.canceled = reservationFromDB.data()["canceled"];
         reservation.active = reservationFromDB.data()["active"];

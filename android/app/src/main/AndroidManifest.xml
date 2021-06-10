@@ -38,14 +38,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <service 
-            android:name=".MyFirebaseInstanceIdService" 
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
-
         <service
             android:name="com.google.firebase.messaging.FirebaseMessagingService"
             android:exported="false">

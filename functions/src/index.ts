@@ -142,16 +142,9 @@ async function runQueue(reservationList: ReservationModel[], tableList: TableMod
   });
   var stop = false;
 
-  // for(var table of tableList) {
-  //   var reservationId = reservationList.find(r => r.occupationQty <= table.capacity)?.id;
-    
-  //   if (reservationId != undefined && !stop) {
-  //     nextReservation.reservationId = reservationId;
-  //     nextReservation.tableId = table.id;
-  //     break;
-  //   }
-  // }
-
+  reservationList.forEach(r => {
+    console.log("quantidade mesa: "+r.occupationQty)
+  });
   tableList.forEach(table => {
     if (stop) return;
     var reservationId = reservationList.find(r => r.occupationQty <= table.capacity)?.id;
@@ -207,8 +200,4 @@ async function sendMessage(reservationId: string) {
   } catch (error) {
     return null;    
   }
-  
-
 }
-
-

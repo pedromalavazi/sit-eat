@@ -15,11 +15,6 @@ class ReservationRepository {
           reservation.add(ReservationModel.fromSnapshot(restaurant));
         });
       });
-      reservation.sort((a, b) {
-        var dataA = DateTime.fromMillisecondsSinceEpoch(a.checkIn.millisecondsSinceEpoch);
-        var dataB = DateTime.fromMillisecondsSinceEpoch(b.checkIn.millisecondsSinceEpoch);
-        return -dataA.compareTo(dataB);
-      });
       return reservation;
     } catch (e) {
       print(e.code);
@@ -89,5 +84,33 @@ class ReservationRepository {
       );
       return false;
     }
+  }
+
+  Stream<List<String>> listenerReservationsFromQueue(String restaurantId) {
+    return _firestore.collection('restaurants/$restaurantId/queue').snapshots().map((doc) {
+      if (doc.docs.length > 0) {
+        return queueFromFirebase(doc);
+      }
+      return <String>[];
+    });
+  }
+
+  Stream<List<ReservationModel>> listenerReservations(String userId) {
+    return _firestore.collection('reservations').where('userId', isEqualTo: userId).snapshots().map((doc) {
+      if (doc.docs.length > 0) {
+        return convertReservationsFromDB(doc);
+      }
+      return <ReservationModel>[];
+    });
+  }
+
+  List<String> queueFromFirebase(QuerySnapshot queuesFromDB) {
+    List<String> queues = <String>[];
+    for (var i = 0; i < queuesFromDB.docs.length; i++) {
+      QueryDocumentSnapshot doc = queuesFromDB.docs[i];
+      String reservationId = doc.data()["reservationId"];
+      queues.add(reservationId);
+    }
+    return queues;
   }
 }

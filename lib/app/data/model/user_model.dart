@@ -10,7 +10,7 @@ class UserModel {
   UserModel({this.id, this.name, this.email, this.phoneNumber, this.tokenMessage});
 
   UserModel.fromSnapshot(DocumentSnapshot currentUser)
-      : id = currentUser.data()["id"],
+      : id = currentUser.id,
         name = currentUser.data()["name"],
         email = currentUser.data()["email"],
         phoneNumber = currentUser.data()["phoneNumber"],

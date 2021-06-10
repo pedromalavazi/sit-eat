@@ -132,10 +132,13 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                         ),
                         Row(
                           children: [
-                            Text(
-                              "Lugar na fila: ",
-                              style: TextStyle(
-                                fontSize: 20,
+                            Obx(
+                              () => Text(
+                                _reservationWaitController.position.value.toString() == "0" ? "Mesa disponível!" : "Lugar na fila: " + _reservationWaitController.position.value.toString(),
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.green,
+                                ),
                               ),
                             ),
                           ],
