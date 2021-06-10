@@ -42,8 +42,7 @@ class ReservationRepository {
   // Cria reserva
   Future<String> insert(String userId, String restaurantId, int occupationQty) async {
     try {
-      String reservationId;
-      await _firestore.collection("reservations").add(
+      var reservationId = await _firestore.collection("reservations").add(
         {
           "userId": userId,
           "restaurantId": restaurantId,
@@ -52,13 +51,8 @@ class ReservationRepository {
           "active": true,
           "canceled": false,
         },
-      ).then(
-        (doc) => {
-          doc.update({"id": doc.id}),
-          reservationId = doc.id,
-        },
       );
-      return reservationId;
+      return reservationId.id;
     } catch (e) {
       print(e.code);
       Get.back();
