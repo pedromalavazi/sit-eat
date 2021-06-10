@@ -19,7 +19,7 @@ class ReservationRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      Get.defaultDialog(title: "ERROR", content: Text("Lista de restaurantes não encontrada."));
+      Get.defaultDialog(title: "ERROR", content: Text("Reservas não encontradas."));
       return <ReservationModel>[];
     }
   }
@@ -34,7 +34,7 @@ class ReservationRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      Get.defaultDialog(title: "ERROR", content: Text("Restaurante não encontrado."));
+      Get.defaultDialog(title: "ERROR", content: Text("Reserva não encontrada."));
       return ReservationModel();
     }
   }
@@ -62,7 +62,7 @@ class ReservationRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      Get.defaultDialog(title: "ERROR", content: Text("Reserva não encontrada."));
+      Get.defaultDialog(title: "ERROR", content: Text("Não foi possível fazer a reserva."));
       return "";
     }
   }
@@ -112,5 +112,21 @@ class ReservationRepository {
       queues.add(reservationId);
     }
     return queues;
+  }
+
+  Future<ReservationModel> getActiveReservation(String userId) async {
+    try {
+      var doc = await _firestore.collection("reservations").where('active', isEqualTo: true).where('userId', isEqualTo: userId).get();
+      if (doc.docs.length == 0) {
+        return null;
+      }
+      ReservationModel reservation = ReservationModel.fromSnapshot(doc.docs[0]);
+      return reservation;
+    } catch (e) {
+      print(e.code);
+      Get.back();
+      Get.defaultDialog(title: "ERROR", content: Text("Reserva não encontrado."));
+      return ReservationModel();
+    }
   }
 }
