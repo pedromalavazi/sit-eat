@@ -72,18 +72,6 @@ class ReservationWaitController extends GetxController {
     try {
       _reservationService.listenerReservationsFromQueue(reservationCardModel.restaurantId, reservationCardModel.userId).listen((event) async {
         var tempPosition = await _reservationService.getPositionInQueue(event, reservationCardModel.userId);
-        if (tempPosition == 0) {
-          Get.snackbar(
-            "Sua mesa já está disponível!",
-            "Dirija-se ao restaurante.",
-            colorText: Colors.black,
-            backgroundColor: Colors.grey[600],
-            snackPosition: SnackPosition.BOTTOM,
-            duration: Duration(seconds: 7),
-            icon: Icon(Icons.event_available, color: Colors.white),
-            shouldIconPulse: true,
-          );
-        }
         position.value = tempPosition;
       });
     } catch (error) {}
