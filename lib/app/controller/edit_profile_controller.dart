@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
 import 'package:sit_eat/app/data/services/user_service.dart';
+import 'package:sit_eat/app/ui/theme/color.red.dart';
 
 class EditProfileController extends GetxController {
   GetStorage box = GetStorage('sit_eat');
@@ -34,6 +35,7 @@ class EditProfileController extends GetxController {
   }
 
   void save() async {
+    showLoader();
     UserModel userToUpdate = user;
     userToUpdate.name = nameTextController.text;
     userToUpdate.phoneNumber = phoneNumberTextController.text;
@@ -42,6 +44,18 @@ class EditProfileController extends GetxController {
       user,
       passwordTextController.text.trim(),
       confirmPasswordTextController.text.trim(),
+    );
+  }
+
+  showLoader() {
+    Get.dialog(
+      Center(
+        child: CircularProgressIndicator(
+          color: Colors.red,
+          strokeWidth: 3.5,
+        ),
+      ),
+      barrierDismissible: false,
     );
   }
 }

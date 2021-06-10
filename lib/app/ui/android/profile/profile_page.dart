@@ -41,8 +41,10 @@ class ProfilePage extends GetView<ProfileController> {
             //Botão Sobre
             ProfileBotao(
               text: "Sobre",
-              icon: Icon(Icons.help, color: Colors.white, size: 25),
-              press: () {},
+              icon: Icon(Icons.info, color: Colors.white, size: 25),
+              press: () {
+                Get.toNamed(Routes.ABOUT);
+              },
             ),
             //Botão Sair
             ProfileBotao(
