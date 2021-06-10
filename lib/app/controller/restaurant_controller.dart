@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sit_eat/app/controller/reservation_controller.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
@@ -12,9 +11,8 @@ import 'package:sit_eat/app/data/services/reservation_service.dart';
 class RestaurantController extends GetxController {
   final RestaurantService _restaurantService = RestaurantService();
   final ReservationService _reservationService = ReservationService();
-  final TextEditingController idUserTextController = TextEditingController();
   final TextEditingController qtdMesaTextController = TextEditingController();
-  UserModel currentUser = AuthService.to.user.value;
+  Rx<UserModel> user = UserModel().obs;
 
   String restaurantId = Get.arguments;
   Rx<RestaurantModel> restaurant = RestaurantModel().obs;
@@ -22,33 +20,28 @@ class RestaurantController extends GetxController {
   RxString closeTimeFormat = "".obs;
   RxBool isOpen = false.obs;
   RxString userName = "".obs;
-  UserModel user = UserModel();
   RxBool hideButton = true.obs;
+  RxBool activeReservation = true.obs;
 
   @override
   void onInit() async {
-    setObsUser();
+    user = AuthService.to.user;
     getRestaurant();
     super.onInit();
-  }
-
-  void setObsUser() {
-    user = currentUser;
-    userName.value = currentUser.name;
-    idUserTextController.text = currentUser.id;
   }
 
   void getRestaurant() async {
     RestaurantModel currentRestaurant = await _restaurantService.get(restaurantId);
     restaurant.value = currentRestaurant;
     setTimes();
+    await verifyReservationsActive();
     setButtonState();
   }
 
   void registerReservation() async {
     int qtdMesa = int.parse(qtdMesaTextController.text);
 
-    String reservationId = await _reservationService.insert(idUserTextController.text, restaurantId, qtdMesa);
+    String reservationId = await _reservationService.insert(user.value.id, restaurantId, qtdMesa);
 
     var retorno = await _reservationService.insertIdReservation(reservationId, restaurantId);
     if (retorno) {
@@ -120,8 +113,15 @@ class RestaurantController extends GetxController {
   }
 
   void setButtonState() {
-    if (isOpen.value) {
+    if (isOpen.isTrue && activeReservation.isFalse) {
       hideButton.value = false;
+    }
+  }
+
+  verifyReservationsActive() async {
+    var activeReservation = await _reservationService.getActiveReservation(user.value.id);
+    if (activeReservation == null) {
+      this.activeReservation.value = false;
     }
   }
 }

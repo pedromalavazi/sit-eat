@@ -4,7 +4,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
 import 'package:sit_eat/app/data/services/user_service.dart';
-import 'package:sit_eat/app/ui/theme/color.red.dart';
 
 class EditProfileController extends GetxController {
   GetStorage box = GetStorage('sit_eat');
@@ -15,11 +14,9 @@ class EditProfileController extends GetxController {
   final UserService _userService = UserService();
 
   final TextEditingController nameTextController = TextEditingController();
-  final TextEditingController phoneNumberTextController =
-      TextEditingController();
+  final TextEditingController phoneNumberTextController = TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
-  final TextEditingController confirmPasswordTextController =
-      TextEditingController();
+  final TextEditingController confirmPasswordTextController = TextEditingController();
 
   @override
   void onInit() {
@@ -45,6 +42,7 @@ class EditProfileController extends GetxController {
       passwordTextController.text.trim(),
       confirmPasswordTextController.text.trim(),
     );
+    Get.back();
   }
 
   showLoader() {

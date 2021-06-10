@@ -13,21 +13,12 @@ class ReservationService extends GetxService {
     }
   }
 
-  Future<List<ReservationModel>> getAll(userId) async {
-    var reservations = await _reservationRepository.getAllReservations(userId);
-
-    reservations = sortReservationsByCheckIn(reservations);
-
-    // Ordenar por reservas abertas primeiro
-    reservations.sort((a, b) {
-      if (a.active && !b.active)
-        return -1;
-      else if (!a.active && b.active)
-        return 1;
-      else
-        return 0;
-    });
-    return reservations;
+  Future<ReservationModel> getActiveReservation(String userId) async {
+    if (!GetUtils.isNullOrBlank(userId)) {
+      return await _reservationRepository.getActiveReservation(userId);
+    } else {
+      return null;
+    }
   }
 
   Future<String> insert(String userId, String restaurantId, int occupationQty) async {
@@ -41,7 +32,7 @@ class ReservationService extends GetxService {
   Future<int> getPositionInQueue(List<String> restaurantsId, String userId) async {
     int position = 0;
     List<ReservationModel> reservations = <ReservationModel>[];
-
+    restaurantsId.removeWhere((id) => id == null);
     if (restaurantsId.length > 0) {
       for (var reservationId in restaurantsId) {
         ReservationModel reservation = await get(reservationId);
@@ -77,11 +68,33 @@ class ReservationService extends GetxService {
 
   List<ReservationModel> sortReservationsByCheckIn(List<ReservationModel> reservations) {
     // Ordenar por data
+    if (reservations.length == 1) {
+      return reservations;
+    }
     reservations.sort((a, b) {
-      var dataA = DateTime.fromMillisecondsSinceEpoch(a.checkIn.millisecondsSinceEpoch);
-      var dataB = DateTime.fromMillisecondsSinceEpoch(b.checkIn.millisecondsSinceEpoch);
+      var checkInA = a == null ? 0 : a.checkIn.millisecondsSinceEpoch;
+      var checkInB = b == null ? 0 : b.checkIn.millisecondsSinceEpoch;
+      var dataA = DateTime.fromMillisecondsSinceEpoch(checkInA);
+      var dataB = DateTime.fromMillisecondsSinceEpoch(checkInB);
       if (dataA.isAfter(dataB)) return 1;
       if (dataA.isBefore(dataB))
+        return -1;
+      else
+        return 0;
+    });
+
+    return reservations;
+  }
+
+  List<ReservationModel> sortReservationsByActive(List<ReservationModel> reservations) {
+    // Ordenar por data
+    if (reservations.length == 1) {
+      return reservations;
+    }
+    reservations.sort((a, b) {
+      if (!a.active && b.active)
+        return 1;
+      else if (a.active && !b.active)
         return -1;
       else
         return 0;

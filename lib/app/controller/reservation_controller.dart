@@ -32,6 +32,8 @@ class ReservationController extends GetxController {
   void getAllReservations(String userId) async {
     _reservationService.listenerReservations(userId).listen((reservations) {
       allReservations.clear();
+      reservations = _reservationService.sortReservationsByCheckIn(reservations);
+      reservations = _reservationService.sortReservationsByActive(reservations);
       reservations.forEach((reservation) async {
         ReservationCardModel cardTemp = ReservationCardModel();
         var restaurantTemp = await getRestaurantProps(reservation.restaurantId);
