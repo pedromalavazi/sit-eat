@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sit_eat/app/data/model/user_firebase_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class AuthService extends GetxController {
   GetStorage box = GetStorage('sit_eat');
@@ -39,15 +40,15 @@ class AuthService extends GetxController {
   Rx<UserModel> get user => _user;
   static AuthService get to => Get.find<AuthService>();
 
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<bool> login(String email, String password) async {
     try {
-      var user = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
+      var user = await _auth.signInWithEmailAndPassword(email: email, password: password);
       box.write("auth1", {"email": email, "pass": password});
-      _user.value = UserModel.fromSnapshot(
-          await _firestore.collection("users").doc(user.user.uid).get());
+
+      _user.value = UserModel.fromSnapshot(await _firestore.collection("users").doc(user.user.uid).get());
       _user.value.id = user.user.uid;
       return true;
     } catch (e) {
@@ -56,21 +57,20 @@ class AuthService extends GetxController {
     }
   }
 
-  createUser(
-      String email, String password, String name, String phoneNumber) async {
+  createUser(String email, String password, String name, String phoneNumber) async {
     try {
       //Cria usuário do Firebase
-      await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      await _auth.createUserWithEmailAndPassword(email: email, password: password);
       // Atualizando o nome do usuário
       await _firebaseUser.value.updateProfile(displayName: name);
       await _firebaseUser.value.reload();
-
+      var tokenMessage = await _firebaseMessaging.getToken();
       //Cria usuário de controle do app
       await _firestore.collection("users").doc(_firebaseUser.value.uid).set({
         "email": email,
         "name": name,
         "phoneNumber": phoneNumber,
+        "tokenMessage": tokenMessage,
       });
     } catch (e) {
       throwErrorMessage(e.code);
@@ -105,8 +105,7 @@ class AuthService extends GetxController {
       await _auth.currentUser.updatePassword(password);
       await _auth.currentUser.reload();
       box.write("auth1", null);
-      box.write(
-          "auth1", {"email": box.read("auth1")["email"], "pass": password});
+      box.write("auth1", {"email": box.read("auth1")["email"], "pass": password});
       return UserFirebaseModel.fromSnapshot(_auth.currentUser);
     } catch (e) {
       throwErrorMessage(e.code);

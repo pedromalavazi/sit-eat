@@ -13,10 +13,6 @@ class ReservationController extends GetxController {
   RxList<ReservationCardModel> allReservations = RxList<ReservationCardModel>();
   Rx<UserModel> user = UserModel().obs;
 
-  RxBool active = false.obs;
-  RxBool canceled = false.obs;
-  RxString status = "".obs;
-
   @override
   void onInit() {
     super.onInit();
@@ -29,44 +25,41 @@ class ReservationController extends GetxController {
   }
 
   Future<RestaurantModel> getRestaurantProps(String restaurantId) async {
-    RestaurantModel currentRestaurant =
-        await _restaurantService.get(restaurantId);
+    RestaurantModel currentRestaurant = await _restaurantService.get(restaurantId);
     return currentRestaurant;
   }
 
   void getAllReservations(String userId) async {
-    var reservationsFromBase = await _reservationService.getAll(userId);
-    reservationsFromBase.forEach((reservationFromBase) async {
-      ReservationCardModel cardTemp = ReservationCardModel();
-      var restaurantTemp =
-          await getRestaurantProps(reservationFromBase.restaurantId);
-      cardTemp.id = reservationFromBase.id;
-      cardTemp.active = reservationFromBase.active;
-      cardTemp.canceled = reservationFromBase.canceled;
-      cardTemp.checkIn = reservationFromBase.checkIn;
-      cardTemp.occupationQty = reservationFromBase.occupationQty;
-      cardTemp.restaurantId = reservationFromBase.restaurantId;
-      cardTemp.restaurantImage = restaurantTemp.image;
-      cardTemp.restaurantName = restaurantTemp.name;
-      cardTemp.userId = reservationFromBase.userId;
-      cardTemp.address = restaurantTemp.address;
-      cardTemp.menu = restaurantTemp.menu;
-      active.value = reservationFromBase.active;
-      canceled.value = reservationFromBase.canceled;
-      setStatus();
-      cardTemp.status = status.value;
-      allReservations.add(cardTemp);
+    _reservationService.listenerReservations(userId).listen((reservations) {
+      allReservations.clear();
+      reservations.forEach((reservation) async {
+        ReservationCardModel cardTemp = ReservationCardModel();
+        var restaurantTemp = await getRestaurantProps(reservation.restaurantId);
+        cardTemp.id = reservation.id;
+        cardTemp.active = reservation.active;
+        cardTemp.canceled = reservation.canceled;
+        cardTemp.checkIn = reservation.checkIn;
+        cardTemp.occupationQty = reservation.occupationQty;
+        cardTemp.restaurantId = reservation.restaurantId;
+        cardTemp.restaurantImage = restaurantTemp.image;
+        cardTemp.restaurantName = restaurantTemp.name;
+        cardTemp.userId = reservation.userId;
+        cardTemp.address = restaurantTemp.address;
+        cardTemp.menu = restaurantTemp.menu;
+        cardTemp.status = setStatus(reservation.active, reservation.canceled);
+        allReservations.add(cardTemp);
+      });
     });
   }
 
-  void setStatus() {
-    if (active.isTrue && canceled.isFalse) {
-      status.value = "Reservado";
-    } else if (active.isFalse && canceled.isTrue) {
-      status.value = "Cancelado";
-    } else if (active.isFalse && canceled.isFalse) {
-      status.value = "Finalizado";
+  String setStatus(bool active, bool canceled) {
+    if (canceled) {
+      return "Cancelado";
+    } else if (active) {
+      return "Reservado";
+    } else if (!active) {
+      return "Finalizado";
     } else
-      status.value = "error";
+      return "error";
   }
 }

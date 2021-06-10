@@ -20,11 +20,19 @@ class ReservationModel {
   });
 
   ReservationModel.fromSnapshot(DocumentSnapshot reservation)
-      : id = reservation.data()["id"],
+      : id = reservation.id,
         userId = reservation.data()["userId"],
         restaurantId = reservation.data()["restaurantId"],
         checkIn = reservation.data()["checkin"],
         occupationQty = reservation.data()["occupationQty"],
         active = reservation.data()["active"],
         canceled = reservation.data()["canceled"];
+}
+
+List<ReservationModel> convertReservationsFromDB(QuerySnapshot reservationsFromDB) {
+  List<ReservationModel> reservations = <ReservationModel>[];
+  reservationsFromDB.docs.forEach((restaurant) {
+    reservations.add(ReservationModel.fromSnapshot(restaurant));
+  });
+  return reservations;
 }

@@ -55,7 +55,7 @@ class RestaurantService extends GetxService {
     var openDate = DateTime(now.year, now.month, now.day, openTime.hour, openTime.minute, openTime.second);
     var closeDate = DateTime(now.year, now.month, now.day, closeTime.hour, closeTime.minute, closeTime.second);
     if (openDate.isAfter(closeDate)) {
-      closeDate = closeDate.add(const Duration(days: 1));
+      openDate = openDate.add(const Duration(days: -1));
     }
 
     if (now.isAfter(openDate) && now.isBefore(closeDate)) {

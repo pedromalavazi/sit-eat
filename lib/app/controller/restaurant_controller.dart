@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sit_eat/app/controller/reservation_controller.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
@@ -22,6 +23,7 @@ class RestaurantController extends GetxController {
   RxBool isOpen = false.obs;
   RxString userName = "".obs;
   UserModel user = UserModel();
+  RxBool hideButton = true.obs;
 
   @override
   void onInit() async {
@@ -37,20 +39,18 @@ class RestaurantController extends GetxController {
   }
 
   void getRestaurant() async {
-    RestaurantModel currentRestaurant =
-        await _restaurantService.get(restaurantId);
+    RestaurantModel currentRestaurant = await _restaurantService.get(restaurantId);
     restaurant.value = currentRestaurant;
     setTimes();
+    setButtonState();
   }
 
   void registerReservation() async {
     int qtdMesa = int.parse(qtdMesaTextController.text);
 
-    String reservationId = await _reservationService.insert(
-        idUserTextController.text, restaurantId, qtdMesa);
+    String reservationId = await _reservationService.insert(idUserTextController.text, restaurantId, qtdMesa);
 
-    var retorno = await _reservationService.insertIdReservation(
-        reservationId, restaurantId);
+    var retorno = await _reservationService.insertIdReservation(reservationId, restaurantId);
     if (retorno) {
       Get.snackbar(
         "Sucesso",
@@ -77,14 +77,12 @@ class RestaurantController extends GetxController {
   }
 
   void setTimes() {
-    var openDateTime = DateTime.fromMillisecondsSinceEpoch(
-        restaurant.value.openTime.millisecondsSinceEpoch);
+    var openDateTime = DateTime.fromMillisecondsSinceEpoch(restaurant.value.openTime.millisecondsSinceEpoch);
     openTimeFormat.value = _restaurantService.convertDateTimeToHourFormat(
       openDateTime,
     );
 
-    var closeDateTime = DateTime.fromMillisecondsSinceEpoch(
-        restaurant.value.closeTime.millisecondsSinceEpoch);
+    var closeDateTime = DateTime.fromMillisecondsSinceEpoch(restaurant.value.closeTime.millisecondsSinceEpoch);
     closeTimeFormat.value = _restaurantService.convertDateTimeToHourFormat(
       closeDateTime,
     );
@@ -118,6 +116,12 @@ class RestaurantController extends GetxController {
       await launch(url);
     } else {
       throw 'Nao foi possivel abrir $url';
+    }
+  }
+
+  void setButtonState() {
+    if (isOpen.value) {
+      hideButton.value = false;
     }
   }
 }

@@ -14,7 +14,7 @@ class RestaurantModel {
   RestaurantModel({this.id, this.image, this.name, this.address, this.capacity, this.openTime, this.closeTime, this.qrCode, this.menu});
 
   RestaurantModel.fromSnapshot(DocumentSnapshot restaurant)
-      : id = restaurant.data()["id"],
+      : id = restaurant.id,
         image = restaurant.data()["image"],
         name = restaurant.data()["name"],
         address = restaurant.data()["address"],

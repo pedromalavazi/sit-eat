@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/reservation_card_model.dart';
+import 'package:sit_eat/app/data/services/reservation_service.dart';
 import 'package:sit_eat/app/data/services/restaurant_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ReservationWaitController extends GetxController {
-  ReservationCardModel reservationModel = Get.arguments;
+  final ReservationService _reservationService = ReservationService();
+  ReservationCardModel reservationCardModel = Get.arguments;
   Rx<ReservationCardModel> reservation = ReservationCardModel().obs;
 
   final RestaurantService _restaurantService = RestaurantService();
@@ -16,15 +18,17 @@ class ReservationWaitController extends GetxController {
   RxString image = "".obs;
   RxInt occupationQty = 0.obs;
   RxString menu = "".obs;
+  RxInt position = 0.obs;
 
   @override
-  void onInit() async {
-    reservation.value = reservationModel;
+  void onReady() {
+    reservation.value = reservationCardModel;
     getReservationDetails(reservation.value);
-    super.onInit();
+    getQueuePosition();
+    super.onReady();
   }
 
-  void getReservationDetails(ReservationCardModel reservation) async {
+  void getReservationDetails(ReservationCardModel reservation) {
     address.value = reservation.address;
     restaurantName.value = reservation.restaurantName;
     checkIn.value = reservation.checkIn.toString();
@@ -62,5 +66,26 @@ class ReservationWaitController extends GetxController {
     } else {
       throw 'Nao foi possivel abrir $url';
     }
+  }
+
+  getQueuePosition() async {
+    try {
+      _reservationService.listenerReservationsFromQueue(reservationCardModel.restaurantId, reservationCardModel.userId).listen((event) async {
+        var tempPosition = await _reservationService.getPositionInQueue(event, reservationCardModel.userId);
+        if (tempPosition == 0) {
+          Get.snackbar(
+            "Sua mesa já está disponível!",
+            "Dirija-se ao restaurante.",
+            colorText: Colors.black,
+            backgroundColor: Colors.grey[600],
+            snackPosition: SnackPosition.BOTTOM,
+            duration: Duration(seconds: 7),
+            icon: Icon(Icons.event_available, color: Colors.white),
+            shouldIconPulse: true,
+          );
+        }
+        position.value = tempPosition;
+      });
+    } catch (error) {}
   }
 }
