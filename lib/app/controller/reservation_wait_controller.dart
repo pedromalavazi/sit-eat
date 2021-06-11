@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/reservation_card_model.dart';
 import 'package:sit_eat/app/data/services/reservation_service.dart';
-import 'package:sit_eat/app/data/services/restaurant_service.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ReservationWaitController extends GetxController {
@@ -10,37 +10,28 @@ class ReservationWaitController extends GetxController {
   ReservationCardModel reservationCardModel = Get.arguments;
   Rx<ReservationCardModel> reservation = ReservationCardModel().obs;
 
-  final RestaurantService _restaurantService = RestaurantService();
-
-  RxString restaurantName = "".obs;
-  RxString address = "".obs;
-  RxString checkIn = "".obs;
-  RxString image = "".obs;
+  // RxString restaurantName = "".obs;
+  // RxString address = "".obs;
+  RxString checkInHour = "".obs;
+  RxString checkInDate = "".obs;
+  // RxString image = "".obs;
   RxInt occupationQty = 0.obs;
-  RxString menu = "".obs;
-  RxInt position = 0.obs;
+  // RxString menu = "".obs;
+  RxString position = "".obs;
 
   @override
-  void onReady() {
+  void onInit() {
     reservation.value = reservationCardModel;
     getReservationDetails(reservation.value);
     getQueuePosition();
-    super.onReady();
+    super.onInit();
   }
 
   void getReservationDetails(ReservationCardModel reservation) {
-    address.value = reservation.address;
-    restaurantName.value = reservation.restaurantName;
-    checkIn.value = reservation.checkIn.toString();
     occupationQty.value = reservation.occupationQty;
-    image.value = reservation.restaurantImage;
-    menu.value = reservation.menu;
-    setCheckin();
-  }
-
-  void setCheckin() {
-    var checkInConverted = DateTime.fromMillisecondsSinceEpoch(reservation.value.checkIn.millisecondsSinceEpoch);
-    checkIn.value = _restaurantService.convertDateTimeToHourFormat(checkInConverted);
+    var checkInConverted = DateTime.fromMillisecondsSinceEpoch(reservation.checkIn.millisecondsSinceEpoch);
+    checkInHour.value = DateFormat.Hm().format(checkInConverted);
+    checkInDate.value = DateFormat('dd/MM/yyyy').format(checkInConverted);
   }
 
   Widget setRestaurantImage(String image) {
@@ -72,7 +63,7 @@ class ReservationWaitController extends GetxController {
     try {
       _reservationService.listenerReservationsFromQueue(reservationCardModel.restaurantId, reservationCardModel.userId).listen((event) async {
         var tempPosition = await _reservationService.getPositionInQueue(event, reservationCardModel.userId);
-        position.value = tempPosition;
+        position.value = tempPosition.toString();
       });
     } catch (error) {}
   }

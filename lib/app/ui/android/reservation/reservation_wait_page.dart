@@ -43,7 +43,7 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                       child: SizedBox(
                         width: 140,
                         height: 120,
-                        child: _reservationWaitController.setRestaurantImage(_reservationWaitController.image.value),
+                        child: _reservationWaitController.setRestaurantImage(_reservationWaitController.reservation.value.restaurantImage),
                       ),
                     ),
                   ),
@@ -77,7 +77,7 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                             ),
                             Obx(
                               () => Text(
-                                _reservationWaitController.address.value ?? "",
+                                _reservationWaitController.reservation.value.address ?? "",
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 20,
@@ -93,7 +93,7 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                           children: [
                             Obx(
                               () => Text(
-                                _reservationWaitController.restaurantName.value ?? "",
+                                _reservationWaitController.reservation.value.restaurantName ?? "",
                                 style: TextStyle(
                                   fontSize: 35,
                                   color: Colors.black,
@@ -110,41 +110,81 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                           children: [
                             Obx(
                               () => Text(
-                                "Horário de Check-in: " + _reservationWaitController.checkIn.value ?? "",
+                                "Data: " + _reservationWaitController.checkInDate.value,
                                 style: TextStyle(
                                   fontSize: 20,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Obx(
-                              () => Text(
-                                "Lugares: " + _reservationWaitController.occupationQty.value.toString() ?? "",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Obx(
-                              () => Text(
-                                _reservationWaitController.position.value.toString() == "0" ? "Mesa disponível!" : "Lugar na fila: " + _reservationWaitController.position.value.toString(),
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.green,
                                 ),
                               ),
                             ),
                           ],
                         ),
                         SizedBox(
-                          height: 80,
+                          height: 7,
+                        ),
+                        Row(
+                          children: [
+                            Obx(
+                              () => Text(
+                                "Hora: " + _reservationWaitController.checkInHour.value,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 7,
+                        ),
+                        Row(
+                          children: [
+                            Obx(
+                              () => Text(
+                                "Lugares: " + _reservationWaitController.reservation.value.occupationQty.toString() ?? "",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        Column(
+                          children: [
+                            Obx(
+                              () => _reservationWaitController.position.value == "0"
+                                  ? Text(
+                                      "Mesa disponível!",
+                                      style: TextStyle(
+                                        fontSize: 35,
+                                        color: Colors.green,
+                                      ),
+                                    )
+                                  : Column(
+                                      children: [
+                                        Text(
+                                          "Lugar na fila",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.green,
+                                          ),
+                                        ),
+                                        Text(
+                                          _reservationWaitController.position.value,
+                                          style: TextStyle(
+                                            fontSize: 60,
+                                            color: Colors.green,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 50,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -152,7 +192,7 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                             ButtonWidget(
                               isWhiteTheme: false,
                               onPressed: () {
-                                _reservationWaitController.launchURLBrowser(_reservationWaitController.menu.value);
+                                _reservationWaitController.launchURLBrowser(_reservationWaitController.reservation.value.menu);
                               },
                               text: "Menu",
                               height: 60,
@@ -161,7 +201,7 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                           ],
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 15,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
