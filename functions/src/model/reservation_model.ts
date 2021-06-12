@@ -4,9 +4,16 @@ export class ReservationModel {
     restaurantId: string = "";
     checkIn: Date = new Date;
     occupationQty: number = 0;
-    active: boolean = false;
-    canceled: boolean = false;
+    status: ReservationStatus = ReservationStatus.ATIVO;
 }
+
+export enum ReservationStatus {
+    RESERVADO,
+    AGUARDANDO,
+    ATIVO,
+    FINALIZADO,
+    CANCELADO,
+  }
 
 export function convertReservationFromDB(reservationFromDB: any) {
     var reservation = new ReservationModel;
@@ -17,9 +24,25 @@ export function convertReservationFromDB(reservationFromDB: any) {
         reservation.restaurantId = reservationFromDB.data()["restaurantId"];
         reservation.checkIn = reservationFromDB.data()["checkin"];
         reservation.occupationQty = reservationFromDB.data()["occupationQty"];
-        reservation.canceled = reservationFromDB.data()["canceled"];
-        reservation.active = reservationFromDB.data()["active"];
+        reservation.status = getStatusEnum(reservationFromDB.data()["status"]);
     }
     
     return reservation;
+  }
+
+  function getStatusEnum(statusFromDB: string) {
+    switch (statusFromDB) {
+        case "RESERVADO":
+            return ReservationStatus.RESERVADO;
+        case "AGUARDANDO":
+            return ReservationStatus.AGUARDANDO;
+        case "ATIVO":
+            return ReservationStatus.ATIVO;
+        case "FINALIZADO":
+            return ReservationStatus.FINALIZADO;
+        case "CANCELADO":
+            return ReservationStatus.CANCELADO;
+        default:
+            return ReservationStatus.ATIVO;
+    }
   }

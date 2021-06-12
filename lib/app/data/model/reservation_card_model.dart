@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sit_eat/app/data/model/enum/reservation_status_enum.dart';
 
 class ReservationCardModel {
   String id;
@@ -10,9 +11,7 @@ class ReservationCardModel {
   int occupationQty;
   String address;
   String menu;
-  bool active;
-  bool canceled;
-  String status;
+  ReservationStatus status;
 
   ReservationCardModel({
     this.id,
@@ -24,8 +23,6 @@ class ReservationCardModel {
     this.restaurantName,
     this.address,
     this.menu,
-    this.active,
-    this.canceled,
     this.status,
   });
 }

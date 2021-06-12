@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sit_eat/app/controller/reservation_controller.dart';
+import 'package:sit_eat/app/data/model/enum/reservation_status_enum.dart';
 import 'package:sit_eat/app/data/model/reservation_card_model.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 
 class ReservationCard extends StatelessWidget {
   final ReservationCardModel reservation;
   ReservationCard({this.reservation});
+
+  final ReservationController _reservationController = Get.find<ReservationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +20,7 @@ class ReservationCard extends StatelessWidget {
           Get.toNamed(Routes.RESTAURANT_WAIT_PAGE, arguments: reservation);
         },
         child: Opacity(
-          opacity: reservation.status == 'Reservado' ? 1 : 0.5,
+          opacity: _reservationController.getStatusOpacity(reservation.status),
           child: Card(
             shadowColor: Colors.grey,
             margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -24,7 +28,7 @@ class ReservationCard extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            color: reservation.status == 'Reservado' ? Colors.white : Colors.grey.shade300,
+            color: _reservationController.getCardColor(reservation.status),
             child: Padding(
               padding: EdgeInsets.all(20.0),
               //EdgeInsets.symmetric(horizontal: 26.0, vertical: 36),
@@ -76,10 +80,10 @@ class ReservationCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              reservation.status,
+                              reservation.status.description,
                               style: TextStyle(
                                 fontSize: 20,
-                                color: reservation.status == 'Reservado' ? Colors.green : Colors.red,
+                                color: _reservationController.getStatusColor(reservation.status),
                               ),
                             ),
                           ],

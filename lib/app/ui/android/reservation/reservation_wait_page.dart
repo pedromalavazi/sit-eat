@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:sit_eat/app/controller/reservation_wait_controller.dart';
+import 'package:sit_eat/app/data/model/enum/reservation_status_enum.dart';
 import 'package:sit_eat/app/data/model/reservation_card_model.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 
@@ -151,11 +152,11 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                         SizedBox(
                           height: 25,
                         ),
-                        if (_reservationWaitController.queueActive.isTrue)
+                        if (_reservationWaitController.status.value == ReservationStatus.RESERVADO || _reservationWaitController.status.value == ReservationStatus.AGUARDANDO)
                           Obx(
                             () => Column(
                               children: [
-                                _reservationWaitController.position.value == "0"
+                                _reservationWaitController.status.value == ReservationStatus.AGUARDANDO
                                     ? Text(
                                         "Mesa disponível!",
                                         style: TextStyle(
@@ -201,7 +202,7 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                                 SizedBox(
                                   height: 15,
                                 ),
-                                if (_reservationWaitController.position.value != "" && _reservationWaitController.position.value != "0")
+                                if (_reservationWaitController.status.value == ReservationStatus.RESERVADO || _reservationWaitController.status.value == ReservationStatus.AGUARDANDO)
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [

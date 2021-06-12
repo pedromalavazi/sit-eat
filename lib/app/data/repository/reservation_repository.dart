@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sit_eat/app/data/model/enum/reservation_status_enum.dart';
 import 'package:sit_eat/app/data/services/util_service.dart';
 import 'package:sit_eat/app/data/model/reservation_model.dart';
 
@@ -45,14 +46,7 @@ class ReservationRepository {
   Future<String> insert(String userId, String restaurantId, int occupationQty) async {
     try {
       var reservationId = await _firestore.collection("reservations").add(
-        {
-          "userId": userId,
-          "restaurantId": restaurantId,
-          "occupationQty": occupationQty,
-          "checkin": DateTime.now(),
-          "active": true,
-          "canceled": false,
-        },
+        {"userId": userId, "restaurantId": restaurantId, "occupationQty": occupationQty, "checkin": DateTime.now(), "status": ReservationStatus.RESERVADO.toUpper},
       );
       return reservationId.id;
     } catch (e) {
@@ -112,7 +106,7 @@ class ReservationRepository {
 
   Future<ReservationModel> getActiveReservation(String userId) async {
     try {
-      var doc = await _firestore.collection("reservations").where('active', isEqualTo: true).where('userId', isEqualTo: userId).get();
+      var doc = await _firestore.collection("reservations").where('status', whereIn: [ReservationStatus.ATIVO.toUpper, ReservationStatus.AGUARDANDO.toUpper, ReservationStatus.RESERVADO.toUpper]).where('userId', isEqualTo: userId).get();
       if (doc.docs.length == 0) {
         return null;
       }
@@ -128,13 +122,22 @@ class ReservationRepository {
 
   Future<bool> cancelReservation(String reservationId, String restaurantId) async {
     try {
-      var reservationToCancel = _firestore.doc('reservations/$reservationId');
-      var queueIdToDelete = (await _firestore.collection('restaurants/$restaurantId/queue').where("reservationId", isEqualTo: reservationId).get()).docs[0].id;
-      var queue = _firestore.doc('restaurants/$restaurantId/queue/$queueIdToDelete');
-
       var batch = _firestore.batch();
-      batch.delete(queue);
-      batch.update(reservationToCancel, {"active": false, "canceled": true});
+
+      var reservationToCancel = _firestore.doc('reservations/$reservationId');
+      var reservation = ReservationModel.fromSnapshot(await reservationToCancel.get());
+
+      if (reservation.status == ReservationStatus.RESERVADO) {
+        var queueIdToDelete = (await _firestore.collection('restaurants/$restaurantId/queue').where("reservationId", isEqualTo: reservationId).get()).docs.first.id;
+        var queue = _firestore.doc('restaurants/$restaurantId/queue/$queueIdToDelete');
+        batch.delete(queue);
+      } else if (reservation.status == ReservationStatus.AGUARDANDO) {
+        var tableIdToDelete = (await _firestore.collection('restaurants/$restaurantId/tables').where("reservationid", isEqualTo: reservationId).get()).docs.first.id;
+        var table = _firestore.doc('restaurants/$restaurantId/tables/$tableIdToDelete');
+        batch.update(table, {"busy": false});
+      }
+
+      batch.update(reservationToCancel, {"status": ReservationStatus.CANCELADO.toUpper});
       await batch.commit();
       return true;
     } catch (e) {
