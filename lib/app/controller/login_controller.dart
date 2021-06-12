@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
+import 'package:sit_eat/app/data/services/util_service.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 
 class LoginController extends GetxController {
+  final UtilService _util = UtilService();
+
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
-  final TextEditingController confirmPasswordTextController =
-      TextEditingController();
+  final TextEditingController confirmPasswordTextController = TextEditingController();
   final TextEditingController nameTextController = TextEditingController();
-  final TextEditingController phoneNumberTextController =
-      TextEditingController();
+  final TextEditingController phoneNumberTextController = TextEditingController();
 
   @override
   void onInit() {
@@ -26,7 +27,7 @@ class LoginController extends GetxController {
   }
 
   void registerUser() async {
-    showLoader();
+    _util.showLoader();
     await AuthService.to.createUser(
       emailTextController.text.trim(),
       passwordTextController.text.trim(),
@@ -37,7 +38,7 @@ class LoginController extends GetxController {
   }
 
   void login() async {
-    showLoader();
+    _util.showLoader();
     bool logged = await AuthService.to.login(
       emailTextController.text.trim(),
       passwordTextController.text.trim(),
@@ -54,17 +55,5 @@ class LoginController extends GetxController {
     if (!userExist) {
       emailTextController.text = "";
     }
-  }
-
-  showLoader() {
-    Get.dialog(
-      Center(
-        child: CircularProgressIndicator(
-          color: Colors.red,
-          strokeWidth: 3.5,
-        ),
-      ),
-      barrierDismissible: false,
-    );
   }
 }

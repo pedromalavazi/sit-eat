@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sit_eat/app/data/model/user_firebase_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:sit_eat/app/data/services/util_service.dart';
 
 class AuthService extends GetxController {
+  final UtilService _util = UtilService();
+
   GetStorage box = GetStorage('sit_eat');
   FirebaseAuth _auth = FirebaseAuth.instance;
   Rx<User> _firebaseUser;
@@ -81,7 +83,7 @@ class AuthService extends GetxController {
     try {
       await _auth.sendPasswordResetEmail(email: email);
       Get.back();
-      showMessage("Aviso", "E-mail enviado");
+      _util.showInformationMessage("Aviso", "E-mail enviado");
       return true;
     } catch (e) {
       throwErrorMessage(e.code);
@@ -118,7 +120,7 @@ class AuthService extends GetxController {
       box.write("auth1", null);
       await _auth.signOut();
     } catch (e) {
-      showMessage('Erro ao sair!', e.message);
+      _util.showErrorMessage('Erro ao sair!', e.message);
     }
   }
 
@@ -133,59 +135,31 @@ class AuthService extends GetxController {
   throwErrorMessage(String errorCode) {
     switch (errorCode) {
       case "user-not-found":
-        showErrorMessage("Erro", "Usuário não encontrado.");
+        _util.showErrorMessage("Erro", "Usuário não encontrado.");
         break;
       case "wrong-password":
-        showErrorMessage("Erro", "Usuário ou senha incorreta.");
+        _util.showErrorMessage("Erro", "Usuário ou senha incorreta.");
         break;
       case "operation-not-allowed":
-        showErrorMessage("Erro", "Login não permitido.");
+        _util.showErrorMessage("Erro", "Login não permitido.");
         break;
       case "invalid-password":
-        showErrorMessage("Erro", "Senha fraca. É necessário seis caracteres.");
+        _util.showErrorMessage("Erro", "Senha fraca. É necessário seis caracteres.");
         break;
       case "invalid-email":
-        showErrorMessage("Erro", "E-mail é inválido.");
+        _util.showErrorMessage("Erro", "E-mail é inválido.");
         break;
       case "email-already-exists":
-        showErrorMessage("Erro", "E-mail já cadastrado.");
+        _util.showErrorMessage("Erro", "E-mail já cadastrado.");
         break;
       case "invalid-credential":
-        showErrorMessage("Erro", "Email inválido.");
+        _util.showErrorMessage("Erro", "Email inválido.");
         break;
       default:
-        showErrorMessage(
+        _util.showErrorMessage(
           "Erro",
           "Erro desconhecido, tente novamente mais tarde ou entre em contato com nosso e-mail: appsiteat@gmail.com",
         );
     }
-  }
-
-  showErrorMessage(String title, String message) {
-    Get.back();
-    return Get.snackbar(
-      title,
-      message,
-      colorText: Colors.white,
-      backgroundColor: Colors.red[400],
-      snackPosition: SnackPosition.BOTTOM,
-      duration: Duration(seconds: 3),
-      icon: Icon(Icons.error, color: Colors.white),
-      shouldIconPulse: true,
-    );
-  }
-
-  showMessage(String title, String message) {
-    Get.back();
-    return Get.snackbar(
-      title,
-      message,
-      colorText: Colors.black,
-      backgroundColor: Colors.grey[600],
-      snackPosition: SnackPosition.BOTTOM,
-      duration: Duration(seconds: 5),
-      icon: Icon(Icons.info, color: Colors.white),
-      shouldIconPulse: true,
-    );
   }
 }

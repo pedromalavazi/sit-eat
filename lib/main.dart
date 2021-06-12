@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+import 'config.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:sit_eat/binding.dart';
+import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
-import 'package:get/route_manager.dart';
-import 'package:sit_eat/binding.dart';
-import 'config.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 Future<void> main() async {
   await initConfigurations();

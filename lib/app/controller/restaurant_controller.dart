@@ -5,10 +5,13 @@ import 'package:sit_eat/app/data/model/restaurant_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
 import 'package:sit_eat/app/data/services/restaurant_service.dart';
+import 'package:sit_eat/app/data/services/util_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:sit_eat/app/data/services/reservation_service.dart';
 
 class RestaurantController extends GetxController {
+  final _util = UtilService();
+
   final RestaurantService _restaurantService = RestaurantService();
   final ReservationService _reservationService = ReservationService();
   final TextEditingController qtdMesaTextController = TextEditingController();
@@ -45,27 +48,11 @@ class RestaurantController extends GetxController {
 
     var retorno = await _reservationService.insertIdReservation(reservationId, restaurantId);
     if (retorno) {
-      Get.snackbar(
-        "Sucesso",
-        "Reserva realizada com sucesso...",
-        colorText: Colors.black,
-        backgroundColor: Colors.grey[600],
-        snackPosition: SnackPosition.BOTTOM,
-        duration: Duration(seconds: 3),
-        icon: Icon(Icons.info, color: Colors.white),
-        shouldIconPulse: true,
-      );
+      this.activeReservation.value = true;
+      setButtonState();
+      _util.showSuccessMessage("Sucesso", "Reserva realizada com sucesso!");
     } else {
-      Get.snackbar(
-        "Error",
-        "Não foi possível realizar a reserva!",
-        colorText: Colors.white,
-        backgroundColor: Colors.red[400],
-        snackPosition: SnackPosition.BOTTOM,
-        duration: Duration(seconds: 3),
-        icon: Icon(Icons.error, color: Colors.white),
-        shouldIconPulse: true,
-      );
+      _util.showSuccessMessage("Erro", "Não foi possível realizar a reserva.");
     }
   }
 
@@ -115,6 +102,8 @@ class RestaurantController extends GetxController {
   void setButtonState() {
     if (isOpen.isTrue && activeReservation.isFalse) {
       hideButton.value = false;
+    } else {
+      hideButton.value = true;
     }
   }
 

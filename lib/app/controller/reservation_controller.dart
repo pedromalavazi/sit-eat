@@ -15,13 +15,9 @@ class ReservationController extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
-    setUser();
-    getAllReservations(user.value.id);
-  }
-
-  setUser() {
     user = AuthService.to.user;
+    getAllReservations(user.value.id);
+    super.onInit();
   }
 
   Future<RestaurantModel> getRestaurantProps(String restaurantId) async {

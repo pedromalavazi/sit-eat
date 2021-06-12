@@ -1,10 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sit_eat/app/data/services/util_service.dart';
 import 'package:sit_eat/app/data/model/reservation_model.dart';
 
 class ReservationRepository {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  final UtilService _util = UtilService();
 
   // Retorna lista de reservas
   Future<List<ReservationModel>> getAllReservations(String userId) async {
@@ -19,7 +21,7 @@ class ReservationRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      Get.defaultDialog(title: "ERROR", content: Text("Reservas não encontradas."));
+      _util.showErrorMessage("Erro", "Não foi possível recuperar as reservas.");
       return <ReservationModel>[];
     }
   }
@@ -34,7 +36,7 @@ class ReservationRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      Get.defaultDialog(title: "ERROR", content: Text("Reserva não encontrada."));
+      _util.showErrorMessage("Erro", "Reserva não encontrada.");
       return ReservationModel();
     }
   }
@@ -56,7 +58,7 @@ class ReservationRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      Get.defaultDialog(title: "ERROR", content: Text("Não foi possível fazer a reserva."));
+      _util.showErrorMessage("Erro", "Não foi possível fazer sua reserva.");
       return "";
     }
   }
@@ -72,9 +74,9 @@ class ReservationRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      Get.defaultDialog(
-        title: "ERROR",
-        content: Text("Erro na reserva."),
+      _util.showErrorMessage(
+        "ERROR",
+        "Não foi possível fazer sua reserva.",
       );
       return false;
     }
@@ -91,10 +93,10 @@ class ReservationRepository {
 
   Stream<List<ReservationModel>> listenerReservations(String userId) {
     return _firestore.collection('reservations').where('userId', isEqualTo: userId).snapshots().map((doc) {
-      if (doc.docs.length > 0) {
-        return convertReservationsFromDB(doc);
+      if (doc.docs.length == 0) {
+        return <ReservationModel>[];
       }
-      return <ReservationModel>[];
+      return convertReservationsFromDB(doc);
     });
   }
 
@@ -119,8 +121,25 @@ class ReservationRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      Get.defaultDialog(title: "ERROR", content: Text("Reserva não encontrado."));
+      _util.showErrorMessage("Erro", "Reserva não encontrado.");
       return ReservationModel();
+    }
+  }
+
+  Future<bool> cancelReservation(String reservationId, String restaurantId) async {
+    try {
+      var reservationToCancel = _firestore.doc('reservations/$reservationId');
+      var queueIdToDelete = (await _firestore.collection('restaurants/$restaurantId/queue').where("reservationId", isEqualTo: reservationId).get()).docs[0].id;
+      var queue = _firestore.doc('restaurants/$restaurantId/queue/$queueIdToDelete');
+
+      var batch = _firestore.batch();
+      batch.delete(queue);
+      batch.update(reservationToCancel, {"active": false, "canceled": true});
+      await batch.commit();
+      return true;
+    } catch (e) {
+      _util.showErrorMessage("Erro", "Não foi possível cancelar sua reserva.");
+      return false;
     }
   }
 }

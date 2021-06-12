@@ -151,70 +151,74 @@ class ReservationWaitPage extends GetView<ReservationWaitController> {
                         SizedBox(
                           height: 25,
                         ),
-                        Column(
-                          children: [
-                            Obx(
-                              () => _reservationWaitController.position.value == "0"
-                                  ? Text(
-                                      "Mesa disponível!",
-                                      style: TextStyle(
-                                        fontSize: 35,
-                                        color: Colors.green,
+                        if (_reservationWaitController.queueActive.isTrue)
+                          Obx(
+                            () => Column(
+                              children: [
+                                _reservationWaitController.position.value == "0"
+                                    ? Text(
+                                        "Mesa disponível!",
+                                        style: TextStyle(
+                                          fontSize: 35,
+                                          color: Colors.green,
+                                        ),
+                                      )
+                                    : Column(
+                                        children: [
+                                          Text(
+                                            "Lugar na fila",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.green,
+                                            ),
+                                          ),
+                                          Text(
+                                            _reservationWaitController.position.value,
+                                            style: TextStyle(
+                                              fontSize: 60,
+                                              color: Colors.green,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    )
-                                  : Column(
-                                      children: [
-                                        Text(
-                                          "Lugar na fila",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.green,
-                                          ),
-                                        ),
-                                        Text(
-                                          _reservationWaitController.position.value,
-                                          style: TextStyle(
-                                            fontSize: 60,
-                                            color: Colors.green,
-                                          ),
-                                        ),
-                                      ],
+                                SizedBox(
+                                  height: 50,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    ButtonWidget(
+                                      isWhiteTheme: false,
+                                      onPressed: () {
+                                        _reservationWaitController.launchURLBrowser(_reservationWaitController.reservation.value.menu);
+                                      },
+                                      text: "Menu",
+                                      height: 60,
+                                      width: 180,
                                     ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                if (_reservationWaitController.position.value != "" && _reservationWaitController.position.value != "0")
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      ButtonWidget(
+                                        isWhiteTheme: true,
+                                        onPressed: () {
+                                          _reservationWaitController.cancelReservation();
+                                        },
+                                        text: "Cancelar reserva",
+                                        height: 60,
+                                        width: 180,
+                                      )
+                                    ],
+                                  )
+                              ],
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            ButtonWidget(
-                              isWhiteTheme: false,
-                              onPressed: () {
-                                _reservationWaitController.launchURLBrowser(_reservationWaitController.reservation.value.menu);
-                              },
-                              text: "Menu",
-                              height: 60,
-                              width: 180,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            ButtonWidget(
-                              isWhiteTheme: true,
-                              onPressed: () {},
-                              text: "Cancelar reserva",
-                              height: 60,
-                              width: 180,
-                            )
-                          ],
-                        )
+                          ),
                       ],
                     ),
                   ),

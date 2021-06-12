@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/reservation_model.dart';
 import 'package:sit_eat/app/data/repository/reservation_repository.dart';
+import 'package:sit_eat/app/data/services/util_service.dart';
 
 class ReservationService extends GetxService {
   final ReservationRepository _reservationRepository = ReservationRepository();
+  final _util = UtilService();
 
   Future<ReservationModel> get(String id) async {
     if (!GetUtils.isNullOrBlank(id)) {
@@ -86,20 +88,11 @@ class ReservationService extends GetxService {
     return reservations;
   }
 
-  List<ReservationModel> sortReservationsByActive(List<ReservationModel> reservations) {
-    // Ordenar por data
-    if (reservations.length == 1) {
-      return reservations;
+  Future<bool> cancelReservation(String reservationId, String restaurantId) async {
+    if (reservationId.isBlank || restaurantId.isBlank) {
+      _util.showInformationMessage("Erro", "Não foi possível cancelar sua reserva.");
+      return false;
     }
-    reservations.sort((a, b) {
-      if (!a.active && b.active)
-        return 1;
-      else if (a.active && !b.active)
-        return -1;
-      else
-        return 0;
-    });
-
-    return reservations;
+    return await _reservationRepository.cancelReservation(reservationId, restaurantId);
   }
 }

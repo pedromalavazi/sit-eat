@@ -4,19 +4,12 @@ import 'package:sit_eat/app/data/services/auth_service.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 
 class ProfileController extends GetxController {
-  // Variaveis
   Rx<UserModel> user = UserModel().obs;
-  //RxString userName = "".obs;
-  //
 
   @override
   void onInit() {
-    super.onInit();
-    setUser();
-  }
-
-  setUser() {
     user = AuthService.to.user;
+    super.onInit();
   }
 
   logout() async {
