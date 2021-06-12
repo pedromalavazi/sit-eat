@@ -11,10 +11,8 @@ class UserService extends GetxService {
     return _userRepository.getUser(id);
   }
 
-  Future<void> updateUserPassword(
-      String password, String confirmPassword) async {
-    if (!GetUtils.isNullOrBlank(password) &&
-        !GetUtils.isNullOrBlank(confirmPassword)) {
+  Future<void> updateUserPassword(String password, String confirmPassword) async {
+    if (!GetUtils.isNullOrBlank(password) && !GetUtils.isNullOrBlank(confirmPassword)) {
       await AuthService.to.updateUserPassword(password);
     }
   }
@@ -23,15 +21,12 @@ class UserService extends GetxService {
     return await AuthService.to.updateUserName(userName);
   }
 
-  Future<void> updateUser(
-      UserModel user, String password, String confirmPassword) async {
-    // Atualiza senha
+  Future<void> updateUser(UserModel user, String password, String confirmPassword) async {
     await updateUserPassword(password, confirmPassword);
-    //Atualiza usuário logado e o da base do firebase
+
     var newFirebaseUser = await updateUserName(user.name);
 
     if (newFirebaseUser != null) {
-      //Atualiza usuário na nossa base
       await _userRepository.updateUser(user);
     }
   }

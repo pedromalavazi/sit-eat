@@ -53,7 +53,7 @@ async function verifyTables(snap: any, context: any) {
     // REMOVER O RESERVATIONID DA QUEUE    
     batch.delete(reservationInQueue);
     // ATUALIZAR STATUS DA RESERVATION NA COLLECTION RESERVATIONS
-    batch.set(reservationForUpdate, {active: false}, { merge: true })
+    batch.set(reservationForUpdate, {status: "AGUARDANDO"}, { merge: true })
 
     await batch.commit();
     return await sendMessage(nextReservation.reservationId);
@@ -108,7 +108,7 @@ async function verifyQueue(change: any, context: any) {
     // REMOVER O RESERVATIONID DA QUEUE    
     batch.delete(reservationInQueue);
     // ATUALIZAR STATUS DA RESERVATION NA COLLECTION RESERVATIONS
-    batch.set(reservationForUpdate, {active: false}, { merge: true })
+    batch.set(reservationForUpdate, {status: "AGUARDANDO"}, { merge: true })
 
     await batch.commit();
     return await sendMessage(nextReservation.reservationId);    

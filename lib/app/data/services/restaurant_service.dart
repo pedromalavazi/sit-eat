@@ -7,55 +7,52 @@ class RestaurantService extends GetxService {
   final RestaurantRepository _restaurantRepository = RestaurantRepository();
 
   Future<RestaurantModel> get(String id) async {
-    if (!GetUtils.isNullOrBlank(id)) {
-      return await _restaurantRepository.getRestaurant(id);
-    } else {
+    if (GetUtils.isNullOrBlank(id)) {
       return null;
     }
+    return await _restaurantRepository.getRestaurant(id);
   }
 
   Future<List<RestaurantModel>> getAll() {
     return _restaurantRepository.getAllRestaurant();
   }
 
-  Future<List<RestaurantModel>> getByName(
-    String name,
-  ) async {
-    if (!GetUtils.isNullOrBlank(name)) {
-      return await _restaurantRepository.getRestaurantsByName(name);
-    } else {
+  Future<List<RestaurantModel>> getByName(String name) async {
+    if (GetUtils.isNullOrBlank(name)) {
       return getAll();
     }
+    return await _restaurantRepository.getRestaurantsByName(name);
   }
 
   List<RestaurantModel> filterByName(List<RestaurantModel> restaurants, String name) {
     if (GetUtils.isNullOrBlank(name)) {
       return restaurants;
-    } else {
-      List<RestaurantModel> newRestaurants = <RestaurantModel>[];
-      restaurants.forEach((restaurant) {
-        if (restaurant.name.toLowerCase().contains(name.toLowerCase())) {
-          newRestaurants.add(restaurant);
-        }
-      });
-      return newRestaurants;
     }
+    List<RestaurantModel> newRestaurants = <RestaurantModel>[];
+    restaurants.forEach((restaurant) {
+      if (restaurant.name.toLowerCase().contains(name.toLowerCase())) {
+        newRestaurants.add(restaurant);
+      }
+    });
+    return newRestaurants;
   }
 
   Future<RestaurantModel> getByQrCode(String envioQr) async {
     if (!GetUtils.isNullOrBlank(envioQr)) {
-      return _restaurantRepository.getRestaurantByQrCode(envioQr);
-    } else {
       return null;
     }
+    return _restaurantRepository.getRestaurantByQrCode(envioQr);
   }
 
   bool verifyIsOpen(DateTime openTime, DateTime closeTime) {
     var now = DateTime.now();
     var openDate = DateTime(now.year, now.month, now.day, openTime.hour, openTime.minute, openTime.second);
     var closeDate = DateTime(now.year, now.month, now.day, closeTime.hour, closeTime.minute, closeTime.second);
+
     if (openDate.isAfter(closeDate)) {
-      openDate = openDate.add(const Duration(days: -1));
+      if (now.isAfter(openDate) || now.isBefore(closeDate)) {
+        return true;
+      }
     }
 
     if (now.isAfter(openDate) && now.isBefore(closeDate)) {

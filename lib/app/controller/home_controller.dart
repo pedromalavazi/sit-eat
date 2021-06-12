@@ -24,14 +24,10 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
-    setUser();
+    user = AuthService.to.user;
     setFilters();
     getRestaurants();
-  }
-
-  setUser() {
-    user = AuthService.to.user;
+    super.onInit();
   }
 
   Future<void> scanQrCode() async {
@@ -43,7 +39,7 @@ class HomeController extends GetxController {
     );
 
     if (barcodeScanRes == '-1') {
-      Get.snackbar('Cancelado', 'Leitura cancelada');
+      Get.snackbar('Cancelado', 'Leitura cancelada', snackPosition: SnackPosition.BOTTOM);
     } else {
       getRestaurantByQrCode(barcodeScanRes);
     }
@@ -61,16 +57,14 @@ class HomeController extends GetxController {
   }
 
   void searchRestaurants() {
-    var restaurantsFromBase = _restaurantService.filterByName(
-        allRestaurants, searchTextController.text.trim());
+    var restaurantsFromBase = _restaurantService.filterByName(allRestaurants, searchTextController.text.trim());
     restaurants.clear();
     restaurants.addAll(restaurantsFromBase);
   }
 
   void setFilters() {
     searchTextController.addListener(() {
-      EasyDebounce.debounce('time-debounce', Duration(milliseconds: 1000),
-          () => searchRestaurants());
+      EasyDebounce.debounce('time-debounce', Duration(milliseconds: 1000), () => searchRestaurants());
     });
   }
 }

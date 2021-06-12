@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sit_eat/app/data/model/enum/reservation_status_enum.dart';
 import 'package:sit_eat/app/data/model/reservation_card_model.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
@@ -15,13 +18,9 @@ class ReservationController extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
-    setUser();
-    getAllReservations(user.value.id);
-  }
-
-  setUser() {
     user = AuthService.to.user;
+    getAllReservations(user.value.id);
+    super.onInit();
   }
 
   Future<RestaurantModel> getRestaurantProps(String restaurantId) async {
@@ -39,8 +38,6 @@ class ReservationController extends GetxController {
         ReservationCardModel cardTemp = ReservationCardModel();
         var restaurantTemp = await getRestaurantProps(reservation.restaurantId);
         cardTemp.id = reservation.id;
-        cardTemp.active = reservation.active;
-        cardTemp.canceled = reservation.canceled;
         cardTemp.checkIn = reservation.checkIn;
         cardTemp.occupationQty = reservation.occupationQty;
         cardTemp.restaurantId = reservation.restaurantId;
@@ -49,20 +46,44 @@ class ReservationController extends GetxController {
         cardTemp.userId = reservation.userId;
         cardTemp.address = restaurantTemp.address;
         cardTemp.menu = restaurantTemp.menu;
-        cardTemp.status = setStatus(reservation.active, reservation.canceled);
+        cardTemp.status = reservation.status;
         allReservations.add(cardTemp);
       }
     });
   }
 
-  String setStatus(bool active, bool canceled) {
-    if (canceled) {
-      return "Cancelado";
-    } else if (active) {
-      return "Reservado";
-    } else if (!active) {
-      return "Finalizado";
-    } else
-      return "error";
+  double getStatusOpacity(ReservationStatus status) {
+    if (status == ReservationStatus.RESERVADO || status == ReservationStatus.AGUARDANDO) {
+      return 1;
+    }
+    return 0.5;
+  }
+
+  Color getStatusColor(ReservationStatus status) {
+    switch (status) {
+      case ReservationStatus.RESERVADO:
+        return Colors.green;
+      case ReservationStatus.AGUARDANDO:
+        return Colors.amber[700];
+      case ReservationStatus.ATIVO:
+        return Colors.blue;
+      case ReservationStatus.FINALIZADO:
+        return Colors.grey[800];
+      case ReservationStatus.CANCELADO:
+        return Colors.red;
+      default:
+        return Colors.black;
+    }
+  }
+
+  Color getCardColor(ReservationStatus status) {
+    switch (status) {
+      case ReservationStatus.FINALIZADO:
+        return Colors.grey[300];
+      case ReservationStatus.CANCELADO:
+        return Colors.grey[300];
+      default:
+        return Colors.white;
+    }
   }
 }
