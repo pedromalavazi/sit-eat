@@ -7,7 +7,7 @@ import 'package:sit_eat/app/binding/restaurant_binding.dart';
 import 'package:sit_eat/app/ui/android/home/home_page.dart';
 import 'package:sit_eat/app/ui/android/login/forget-password/forget_password_page.dart';
 import 'package:sit_eat/app/ui/android/login/login_page.dart';
-import 'package:sit_eat/app/ui/all/splash_page.dart';
+import 'package:sit_eat/app/ui/android/login/splash_page.dart';
 import 'package:sit_eat/app/ui/android/navigation/navigation_page.dart';
 import 'package:sit_eat/app/ui/android/profile/about.dart';
 import 'package:sit_eat/app/ui/android/profile/editprofile_page.dart';
