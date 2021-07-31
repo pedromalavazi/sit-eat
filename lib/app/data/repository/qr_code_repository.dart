@@ -9,25 +9,23 @@ class QrCodeRepository {
   // Retorna um restaurant pelo QR Code
   Future<QrCodeModel> getByQrCode(String qrCode) async {
     try {
-      QrCodeModel qrCode = QrCodeModel();
+      QrCodeModel qrCodeModel = QrCodeModel();
       await _firestore
           .collection('qrCodes')
           .where('qrCode', isEqualTo: qrCode)
           .get()
-          .then(
-            (QuerySnapshot doc) => {
-              if (doc.docs.length > 0)
-                {
-                  qrCode = QrCodeModel.fromSnapshot(doc.docs.first),
-                }
-              else
-                {
-                  qrCode = null,
-                }
-            },
-          );
+          .then((QuerySnapshot doc) => {
+                if (doc.docs.length > 0)
+                  {
+                    qrCodeModel = QrCodeModel.fromSnapshot(doc.docs.first),
+                  }
+                else
+                  {
+                    qrCodeModel = null,
+                  }
+              });
 
-      return qrCode;
+      return qrCodeModel;
     } catch (e) {
       Get.defaultDialog(
           title: "ERROR", content: Text("QrCode não encontrado."));

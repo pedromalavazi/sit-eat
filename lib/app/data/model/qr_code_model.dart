@@ -9,12 +9,12 @@ class QrCodeModel {
 
   QrCodeModel({this.id, this.qrCode, this.referenceId, this.type});
 
-  QrCodeModel.fromSnapshot(DocumentSnapshot qrCode)
-      : id = qrCode.data()["id"],
-        qrCode = qrCode.data()["qrCode"],
-        referenceId = qrCode.data()["referenceId"],
+  QrCodeModel.fromSnapshot(DocumentSnapshot qrCodeDoc)
+      : id = qrCodeDoc.id,
+        qrCode = qrCodeDoc.data()["qrCode"],
+        referenceId = qrCodeDoc.data()["referenceId"],
         type = QrCodeType.values
-            .where((status) => status.toUpper == qrCode.data()["type"])
+            .where((status) => status.toUpper == qrCodeDoc.data()["type"])
             .first;
 
   Map<String, dynamic> toJson() {

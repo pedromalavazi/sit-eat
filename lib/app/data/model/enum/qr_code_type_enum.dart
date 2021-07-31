@@ -7,9 +7,9 @@ extension SelectedColorExtension on QrCodeType {
   String get description {
     switch (this) {
       case QrCodeType.RESTAURANT:
-        return 'Reservado';
+        return 'RESTAURANT';
       case QrCodeType.TABLE:
-        return 'Aguardando';
+        return 'TABLE';
       default:
         return '';
     }
@@ -18,9 +18,9 @@ extension SelectedColorExtension on QrCodeType {
   String get toUpper {
     switch (this) {
       case QrCodeType.RESTAURANT:
-        return 'Reservado';
+        return 'RESTAURANT';
       case QrCodeType.TABLE:
-        return 'Aguardando';
+        return 'TABLE';
       default:
         return '';
     }
