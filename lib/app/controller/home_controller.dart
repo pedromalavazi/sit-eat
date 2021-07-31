@@ -6,17 +6,18 @@ import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
+import 'package:sit_eat/app/data/services/qr_code_service.dart';
 import 'package:sit_eat/app/data/services/restaurant_service.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 
 class HomeController extends GetxController {
   final RestaurantService _restaurantService = RestaurantService();
+  final QrCodeService _qrCodeService = QrCodeService();
   final TextEditingController searchTextController = TextEditingController();
 
   RxList<RestaurantModel> allRestaurants = RxList<RestaurantModel>();
   RxList<RestaurantModel> restaurants = RxList<RestaurantModel>();
   Rx<UserModel> user = UserModel().obs;
-  RxString userName = "".obs;
   RxString valorQrCode = "".obs;
   RxString restaurantName = "".obs;
   RxInt restaurantCapacity = 0.obs;
@@ -39,15 +40,11 @@ class HomeController extends GetxController {
     );
 
     if (barcodeScanRes == '-1') {
-      Get.snackbar('Cancelado', 'Leitura cancelada', snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar('Cancelado', 'Leitura cancelada',
+          snackPosition: SnackPosition.BOTTOM);
     } else {
-      getRestaurantByQrCode(barcodeScanRes);
+      _qrCodeService.readQrCode(barcodeScanRes);
     }
-  }
-
-  void getRestaurantByQrCode(String qrCode) async {
-    RestaurantModel restaurant = await _restaurantService.getByQrCode(qrCode);
-    Get.toNamed(Routes.RESTAURANT, arguments: restaurant.id);
   }
 
   void getRestaurants() async {
@@ -57,14 +54,16 @@ class HomeController extends GetxController {
   }
 
   void searchRestaurants() {
-    var restaurantsFromBase = _restaurantService.filterByName(allRestaurants, searchTextController.text.trim());
+    var restaurantsFromBase = _restaurantService.filterByName(
+        allRestaurants, searchTextController.text.trim());
     restaurants.clear();
     restaurants.addAll(restaurantsFromBase);
   }
 
   void setFilters() {
     searchTextController.addListener(() {
-      EasyDebounce.debounce('time-debounce', Duration(milliseconds: 1000), () => searchRestaurants());
+      EasyDebounce.debounce('time-debounce', Duration(milliseconds: 1000),
+          () => searchRestaurants());
     });
   }
 }

@@ -8,10 +8,17 @@ class RestaurantModel {
   int capacity;
   Timestamp openTime;
   Timestamp closeTime;
-  String qrCode;
   String menu;
 
-  RestaurantModel({this.id, this.image, this.name, this.address, this.capacity, this.openTime, this.closeTime, this.qrCode, this.menu});
+  RestaurantModel(
+      {this.id,
+      this.image,
+      this.name,
+      this.address,
+      this.capacity,
+      this.openTime,
+      this.closeTime,
+      this.menu});
 
   RestaurantModel.fromSnapshot(DocumentSnapshot restaurant)
       : id = restaurant.id,
@@ -20,7 +27,6 @@ class RestaurantModel {
         address = restaurant.data()["address"],
         capacity = restaurant.data()["capacity"],
         openTime = restaurant.data()["openTime"],
-        qrCode = restaurant.data()["qrCode"],
         closeTime = restaurant.data()["closeTime"],
         menu = restaurant.data()["menu"];
 
@@ -31,7 +37,6 @@ class RestaurantModel {
       "name": name,
       "address": address,
       "capacity": capacity,
-      "qrCode": qrCode,
       "openTime": openTime,
       "closeTime": closeTime,
       "menu": menu,
