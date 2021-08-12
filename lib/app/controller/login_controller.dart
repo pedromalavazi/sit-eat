@@ -10,9 +10,11 @@ class LoginController extends GetxController {
 
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
-  final TextEditingController confirmPasswordTextController = TextEditingController();
+  final TextEditingController confirmPasswordTextController =
+      TextEditingController();
   final TextEditingController nameTextController = TextEditingController();
-  final TextEditingController phoneNumberTextController = TextEditingController();
+  final TextEditingController phoneNumberTextController =
+      TextEditingController();
 
   @override
   void onInit() {

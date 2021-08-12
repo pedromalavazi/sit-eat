@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sit_eat/app/data/model/enum/login_status_enum.dart';
+import 'package:sit_eat/app/data/model/enum/login_type_enum.dart';
 
 class UserModel {
   String id;
@@ -6,15 +8,30 @@ class UserModel {
   String email;
   String phoneNumber;
   String tokenMessage;
+  LoginType type;
+  LoginStatus status;
 
-  UserModel({this.id, this.name, this.email, this.phoneNumber, this.tokenMessage});
+  UserModel(
+      {this.id,
+      this.name,
+      this.email,
+      this.phoneNumber,
+      this.tokenMessage,
+      this.type,
+      this.status});
 
   UserModel.fromSnapshot(DocumentSnapshot currentUser)
       : id = currentUser.id,
         name = currentUser.data()["name"],
         email = currentUser.data()["email"],
         phoneNumber = currentUser.data()["phoneNumber"],
-        tokenMessage = currentUser.data()["tokenMessage"];
+        tokenMessage = currentUser.data()["tokenMessage"],
+        type = LoginType.values
+            .where((type) => type.toUpper == currentUser.data()["type"])
+            .first,
+        status = LoginStatus.values
+            .where((status) => status.toUpper == currentUser.data()["status"])
+            .first;
 
   Map<String, dynamic> toJson() {
     return {
@@ -23,6 +40,8 @@ class UserModel {
       "email": email,
       "phoneNumber": phoneNumber,
       "tokenMessage": tokenMessage,
+      "type": type,
+      "status": status
     };
   }
 }

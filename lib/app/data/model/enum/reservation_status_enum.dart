@@ -6,7 +6,7 @@ enum ReservationStatus {
   CANCELADO,
 }
 
-extension SelectedColorExtension on ReservationStatus {
+extension ReservationStatusExtension on ReservationStatus {
   String get description {
     switch (this) {
       case ReservationStatus.RESERVADO:

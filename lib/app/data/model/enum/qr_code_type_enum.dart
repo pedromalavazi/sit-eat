@@ -3,7 +3,7 @@ enum QrCodeType {
   TABLE,
 }
 
-extension SelectedColorExtension on QrCodeType {
+extension QrCodeTypeExtension on QrCodeType {
   String get description {
     switch (this) {
       case QrCodeType.RESTAURANT:
