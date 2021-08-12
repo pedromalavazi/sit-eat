@@ -27,7 +27,7 @@ class NavigationPage extends GetView<NavigationController> {
               : [
                   // Usuário sentado na mesa
                   //MenuPage()
-                  //OrderPage
+                  //OrderPage()
                   ReservationPage(),
                   ProfilePage(),
                 ],
@@ -92,19 +92,6 @@ class NavigationPage extends GetView<NavigationController> {
               ),
               title: Text("Perfil"),
             ),
-            if (_navigationController.userIsSitting.value)
-              BubbleBottomBarItem(
-                backgroundColor: Colors.red,
-                icon: Icon(
-                  Icons.person_outlined,
-                  color: Colors.black,
-                ),
-                activeIcon: Icon(
-                  Icons.person,
-                  color: Colors.red,
-                ),
-                title: Text("Perfil"),
-              ),
           ],
         ),
       ),

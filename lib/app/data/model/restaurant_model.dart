@@ -9,6 +9,7 @@ class RestaurantModel {
   Timestamp openTime;
   Timestamp closeTime;
   String menu;
+  bool active;
 
   RestaurantModel(
       {this.id,
@@ -18,7 +19,8 @@ class RestaurantModel {
       this.capacity,
       this.openTime,
       this.closeTime,
-      this.menu});
+      this.menu,
+      this.active});
 
   RestaurantModel.fromSnapshot(DocumentSnapshot restaurant)
       : id = restaurant.id,
@@ -28,7 +30,8 @@ class RestaurantModel {
         capacity = restaurant.data()["capacity"],
         openTime = restaurant.data()["openTime"],
         closeTime = restaurant.data()["closeTime"],
-        menu = restaurant.data()["menu"];
+        menu = restaurant.data()["menu"],
+        active = restaurant.data()["active"];
 
   Map<String, dynamic> toJson() {
     return {
@@ -40,6 +43,7 @@ class RestaurantModel {
       "openTime": openTime,
       "closeTime": closeTime,
       "menu": menu,
+      "active": active,
     };
   }
 }
