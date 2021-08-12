@@ -13,4 +13,5 @@ abstract class Routes {
   static const EDIT_PROFILE = '/edit-profile';
   static const ABOUT = '/about';
   static const RESTAURANT_WAIT_PAGE = '/restaurant-wait';
+  static const RESTAURANT_MENU = '/restaurant-menu';
 }
