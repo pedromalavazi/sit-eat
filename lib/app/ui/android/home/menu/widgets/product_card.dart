@@ -4,10 +4,16 @@ import 'package:sit_eat/app/data/model/product_model.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 
 class ProductCard extends StatelessWidget {
-  final ProductModel food;
-  ProductCard({this.food});
+  final ProductModel product;
+  ProductCard({this.product});
 
-  int _itemCount = 0;
+  RxInt _itemCount = 0.obs;
+
+  void checkDecrease(RxInt itemCount) {
+    if (itemCount > 0) {
+      _itemCount--;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +40,11 @@ class ProductCard extends StatelessWidget {
                   height: 70,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
+
                     // Imagem Prato
                     image: DecorationImage(
                       image: NetworkImage(
-                        food.image.isEmpty ? 'https://static.thenounproject.com/png/2393016-200.png' : food.image,
+                        product.image.isEmpty ? 'https://static.thenounproject.com/png/2393016-200.png' : product.image,
                       ),
                       fit: BoxFit.fill,
                     ),
@@ -53,7 +60,7 @@ class ProductCard extends StatelessWidget {
                     children: <Widget>[
                       // Nome Prato
                       Text(
-                        food.name,
+                        product.name,
                         style: TextStyle(
                           fontSize: 25,
                           color: Colors.black54,
@@ -62,54 +69,66 @@ class ProductCard extends StatelessWidget {
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
+
                         // Price
                         children: <Widget>[
                           Icon(
                             Icons.attach_money,
-                            size: 24,
-                            color: Colors.black,
+                            size: 28,
+                            color: Colors.black54,
                           ),
                           Text(
-                            food.price.toString(),
-                            style: Theme.of(context).textTheme.headline6,
+                            product.price.toString(),
+                            style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Row(
                             children: [
                               SizedBox(
-                                height: 30,
-                                width: 30,
+                                height: 35,
+                                width: 40,
                               ),
                             ],
                           ),
-
                           // Item Counter
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              InkWell(
-                                onTap: () {},
-                                child: Icon(
-                                  Icons.remove,
-                                  color: Colors.black,
-                                  size: 20,
+                              Visibility(
+                                child: InkWell(
+                                  onTap: () {
+                                    checkDecrease(_itemCount);
+                                  },
+                                  child: Icon(
+                                    Icons.remove,
+                                    color: Colors.black54,
+                                    size: 24,
+                                  ),
+                                ),
+                                visible: true,
+                              ),
+                              Obx(
+                                () => Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 3),
+                                  padding: EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Colors.white),
+                                  child: Text(
+                                    _itemCount.toString(),
+                                    style: TextStyle(color: Colors.black54, fontSize: 24),
+                                  ),
                                 ),
                               ),
-                              Container(
-                                margin: EdgeInsets.symmetric(horizontal: 3),
-                                padding: EdgeInsets.symmetric(horizontal: 3, vertical: 2),
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Colors.white),
-                                child: Text(
-                                  _itemCount.toString(),
-                                  // PENSAR COMO MANIPULAR ESSA PORRA
-                                  style: TextStyle(color: Colors.black, fontSize: 18),
-                                ),
-                              ),
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  _itemCount++;
+                                },
                                 child: Icon(
                                   Icons.add,
-                                  color: Colors.black,
-                                  size: 20,
+                                  color: Colors.black54,
+                                  size: 24,
                                 ),
                               ),
                             ],

@@ -9,6 +9,10 @@ class MenuPage extends GetView<MenuController> {
     final MenuController _menuController = Get.find<MenuController>();
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Menu"),
+        centerTitle: true,
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
@@ -30,7 +34,7 @@ class MenuPage extends GetView<MenuController> {
                     itemCount: _menuController.products.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ProductCard(
-                        food: _menuController.products[index],
+                        product: _menuController.products[index],
                       );
                     },
                   ),
