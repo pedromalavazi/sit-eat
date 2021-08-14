@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:sit_eat/app/controller/home_controller.dart';
 import 'package:sit_eat/app/controller/navigation_controller.dart';
-import 'package:sit_eat/app/data/model/enum/login_status_enum.dart';
 import 'package:sit_eat/app/ui/android/home/home_page.dart';
 import 'package:sit_eat/app/ui/android/profile/profile_page.dart';
 import 'package:sit_eat/app/ui/android/reservation/reservation_page.dart';
