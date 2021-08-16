@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:sit_eat/app/data/model/enum/login_status_enum.dart';
 import 'package:sit_eat/app/data/model/enum/login_type_enum.dart';
 import 'package:sit_eat/app/data/model/user_firebase_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
@@ -98,6 +99,8 @@ class AuthService extends GetxController {
         "name": name,
         "phoneNumber": phoneNumber,
         "tokenMessage": tokenMessage,
+        "type": LoginType.RESTAURANT.toUpper,
+        "status": LoginStatus.OUT.toUpper,
       });
     } catch (e) {
       throwErrorMessage(e.code);
