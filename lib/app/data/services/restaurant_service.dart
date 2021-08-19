@@ -17,14 +17,8 @@ class RestaurantService extends GetxService {
     return _restaurantRepository.getAllRestaurant();
   }
 
-  Future<List<RestaurantModel>> getByName(String name) async {
-    if (GetUtils.isNullOrBlank(name)) {
-      return getAll();
-    }
-    return await _restaurantRepository.getRestaurantsByName(name);
-  }
-
-  List<RestaurantModel> filterByName(List<RestaurantModel> restaurants, String name) {
+  List<RestaurantModel> filterByName(
+      List<RestaurantModel> restaurants, String name) {
     if (GetUtils.isNullOrBlank(name)) {
       return restaurants;
     }
@@ -46,8 +40,10 @@ class RestaurantService extends GetxService {
 
   bool verifyIsOpen(DateTime openTime, DateTime closeTime) {
     var now = DateTime.now();
-    var openDate = DateTime(now.year, now.month, now.day, openTime.hour, openTime.minute, openTime.second);
-    var closeDate = DateTime(now.year, now.month, now.day, closeTime.hour, closeTime.minute, closeTime.second);
+    var openDate = DateTime(now.year, now.month, now.day, openTime.hour,
+        openTime.minute, openTime.second);
+    var closeDate = DateTime(now.year, now.month, now.day, closeTime.hour,
+        closeTime.minute, closeTime.second);
 
     if (openDate.isAfter(closeDate)) {
       if (now.isAfter(openDate) || now.isBefore(closeDate)) {

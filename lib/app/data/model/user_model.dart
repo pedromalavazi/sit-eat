@@ -11,14 +11,15 @@ class UserModel {
   LoginType type;
   LoginStatus status;
 
-  UserModel(
-      {this.id,
-      this.name,
-      this.email,
-      this.phoneNumber,
-      this.tokenMessage,
-      this.type,
-      this.status});
+  UserModel({
+    this.id,
+    this.name,
+    this.email,
+    this.phoneNumber,
+    this.tokenMessage,
+    this.type,
+    this.status,
+  });
 
   UserModel.fromSnapshot(DocumentSnapshot currentUser)
       : id = currentUser.id,
