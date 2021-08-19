@@ -3,24 +3,23 @@ import 'package:sit_eat/app/data/model/product_model.dart';
 import 'package:sit_eat/app/data/services/menu_service.dart';
 import 'package:flutter/material.dart';
 
-class MenuController extends GetxController {
-  final ProductService _productService = ProductService();
+class ProductController extends GetxController {
+  final ProductService _menuService = ProductService();
 
-  String restaurantId = Get.arguments;
-  RxList<ProductModel> products = RxList<ProductModel>();
+  String productId = Get.arguments;
   Rx<ProductModel> product = ProductModel().obs;
 
   RxInt productCount = 0.obs;
 
   @override
   void onInit() async {
-    getProducts(restaurantId);
+    getProductDetails();
     super.onInit();
   }
 
-  void getProducts(String restaurantId) async {
-    var productsFromBase = await _productService.getProducts(restaurantId);
-    products.addAll(productsFromBase);
+  void getProductDetails() async {
+    ProductModel currentProduct = await _menuService.get(productId);
+    product.value = currentProduct;
   }
 
   void checkDecrease(RxInt itemCount) {

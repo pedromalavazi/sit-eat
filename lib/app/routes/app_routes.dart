@@ -14,4 +14,5 @@ abstract class Routes {
   static const ABOUT = '/about';
   static const RESTAURANT_WAIT_PAGE = '/restaurant-wait';
   static const RESTAURANT_MENU = '/restaurant-menu';
+  static const RESTAURANT_MENU_DETAIL = '/restaurant-menu-detail';
 }

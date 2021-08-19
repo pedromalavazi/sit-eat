@@ -3,9 +3,11 @@ import 'package:sit_eat/app/binding/edit_profile_binding.dart';
 import 'package:sit_eat/app/binding/login_binding.dart';
 import 'package:sit_eat/app/binding/menu_binding.dart';
 import 'package:sit_eat/app/binding/navigation_binding.dart';
+import 'package:sit_eat/app/binding/product_binding.dart';
 import 'package:sit_eat/app/binding/reservation_binding.dart';
 import 'package:sit_eat/app/binding/restaurant_binding.dart';
 import 'package:sit_eat/app/ui/android/home/home_page.dart';
+import 'package:sit_eat/app/ui/android/home/menu/product_detail_page.dart';
 import 'package:sit_eat/app/ui/android/login/forget-password/forget_password_page.dart';
 import 'package:sit_eat/app/ui/android/login/login_page.dart';
 import 'package:sit_eat/app/ui/android/login/splash_page.dart';
@@ -79,6 +81,11 @@ class AppPages {
       name: Routes.RESTAURANT_MENU,
       page: () => MenuPage(),
       binding: MenuBinding(),
+    ),
+    GetPage(
+      name: Routes.RESTAURANT_MENU_DETAIL,
+      page: () => ProductDetailPage(),
+      binding: ProductBinding(),
     ),
   ];
 }

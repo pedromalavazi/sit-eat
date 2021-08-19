@@ -7,21 +7,13 @@ class ProductCard extends StatelessWidget {
   final ProductModel product;
   ProductCard({this.product});
 
-  RxInt _itemCount = 0.obs;
-
-  void checkDecrease(RxInt itemCount) {
-    if (itemCount > 0) {
-      _itemCount--;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       // Card Itens
       child: GestureDetector(
         onTap: () {
-          //Get.toNamed(Routes.RESTAURANT_MENU, arguments: food.restaurantId);
+          Get.toNamed(Routes.RESTAURANT_MENU_DETAIL, arguments: product.id);
         },
         child: Card(
           shadowColor: Colors.grey,
@@ -68,68 +60,34 @@ class ProductCard extends StatelessWidget {
                         ),
                       ),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         // Price
                         children: <Widget>[
-                          Icon(
-                            Icons.attach_money,
-                            size: 28,
-                            color: Colors.black54,
-                          ),
-                          Text(
-                            product.price.toString(),
-                            style: TextStyle(
-                              fontSize: 24,
-                              color: Colors.black54,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                "R\$ ",
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              Text(
+                                product.price.toString(),
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           ),
                           Row(
                             children: [
                               SizedBox(
                                 height: 35,
                                 width: 40,
-                              ),
-                            ],
-                          ),
-                          // Item Counter
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Visibility(
-                                child: InkWell(
-                                  onTap: () {
-                                    checkDecrease(_itemCount);
-                                  },
-                                  child: Icon(
-                                    Icons.remove,
-                                    color: Colors.black54,
-                                    size: 24,
-                                  ),
-                                ),
-                                visible: true,
-                              ),
-                              Obx(
-                                () => Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 3),
-                                  padding: EdgeInsets.symmetric(horizontal: 3, vertical: 2),
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Colors.white),
-                                  child: Text(
-                                    _itemCount.toString(),
-                                    style: TextStyle(color: Colors.black54, fontSize: 24),
-                                  ),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  _itemCount++;
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                  color: Colors.black54,
-                                  size: 24,
-                                ),
                               ),
                             ],
                           ),
