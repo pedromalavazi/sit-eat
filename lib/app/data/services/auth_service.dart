@@ -99,7 +99,8 @@ class AuthService extends GetxController {
         "name": name,
         "phoneNumber": phoneNumber,
         "tokenMessage": tokenMessage,
-        "type": LoginType.RESTAURANT.toUpper,
+        "restaurantId": "", // criar apenas o campo nulo pra não dar erro no Get
+        "type": LoginType.CLIENT.toUpper,
         "status": LoginStatus.OUT.toUpper,
       });
     } catch (e) {

@@ -8,6 +8,7 @@ class UserModel {
   String email;
   String phoneNumber;
   String tokenMessage;
+  String restaurantId;
   LoginType type;
   LoginStatus status;
 
@@ -17,6 +18,7 @@ class UserModel {
     this.email,
     this.phoneNumber,
     this.tokenMessage,
+    this.restaurantId,
     this.type,
     this.status,
   });
@@ -41,6 +43,7 @@ class UserModel {
       "email": email,
       "phoneNumber": phoneNumber,
       "tokenMessage": tokenMessage,
+      "restaurantId": restaurantId,
       "type": type,
       "status": status
     };
