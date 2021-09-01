@@ -6,6 +6,8 @@ import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 class ProductDetailPage extends GetView<ProductController> {
   final ProductController _productController = Get.find<ProductController>();
 
+  int _itemCount = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,6 +84,23 @@ class ProductDetailPage extends GetView<ProductController> {
                                 ),
                               ],
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Obx(
+                                  () => Container(
+                                    child: Text(
+                                      "R\$ " + _productController.product.value.price.toString().replaceFirst(".", ",") ?? "",
+                                      style: TextStyle(
+                                        fontSize: 32,
+                                        color: Colors.green.shade600,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                             SizedBox(
                               height: 15,
                             ),
@@ -123,13 +142,14 @@ class ProductDetailPage extends GetView<ProductController> {
                                   padding: EdgeInsets.symmetric(horizontal: 3, vertical: 2),
                                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Colors.white),
                                   child: Text(
-                                    "0",
+                                    _itemCount.toString(),
                                     style: TextStyle(color: Colors.black54, fontSize: 26),
                                   ),
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    //_itemCount++;
+                                    _itemCount++;
+                                    _productController.productCount++;
                                   },
                                   child: Icon(
                                     Icons.add,
@@ -148,7 +168,7 @@ class ProductDetailPage extends GetView<ProductController> {
                                 ButtonWidget(
                                   isWhiteTheme: false,
                                   onPressed: () {
-                                    //_productController.
+                                    _productController.createOrder();
                                   },
                                   text: "Realizar pedido",
                                   height: 80,

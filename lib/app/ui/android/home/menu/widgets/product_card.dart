@@ -74,7 +74,7 @@ class ProductCard extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                product.price.toString(),
+                                product.price.toString().replaceFirst(".", ",") ?? "",
                                 style: TextStyle(
                                   fontSize: 24,
                                   color: Colors.black54,
