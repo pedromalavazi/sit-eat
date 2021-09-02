@@ -6,7 +6,7 @@ import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 class ProductDetailPage extends GetView<ProductController> {
   final ProductController _productController = Get.find<ProductController>();
 
-  int _itemCount = 0;
+  RxInt _itemCount = 0.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,6 @@ class ProductDetailPage extends GetView<ProductController> {
       ),
       body: Container(
         //width: double.infinity,
-
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -63,8 +62,6 @@ class ProductDetailPage extends GetView<ProductController> {
                     child: Padding(
                       padding: EdgeInsets.all(30),
                       child: Container(
-                        //alignment: Alignment.center,
-
                         child: Column(
                           children: <Widget>[
                             Row(
@@ -109,18 +106,19 @@ class ProductDetailPage extends GetView<ProductController> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Obx(() => Text(
-                                        _productController.product.value.description ?? "",
-                                        //"teste de uma descrição infinita só pra testar até quanto essa merda suporta de caracteres e se é possivel escrever um livro",
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 20,
-                                        ),
-                                      )),
+                                  Obx(
+                                    () => Text(
+                                      _productController.product.value.description ?? "",
+                                      //"teste de uma descrição infinita só pra testar até quanto essa merda suporta de caracteres e se é possivel escrever um livro",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
-
                             // Item Counter
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +126,10 @@ class ProductDetailPage extends GetView<ProductController> {
                                 Container(
                                   child: InkWell(
                                     onTap: () {
-                                      //checkDecrease(_itemCount);
+                                      if (_itemCount > 0) {
+                                        _itemCount--;
+                                        _productController.productCount--;
+                                      }
                                     },
                                     child: Icon(
                                       Icons.remove,
@@ -141,20 +142,24 @@ class ProductDetailPage extends GetView<ProductController> {
                                   margin: EdgeInsets.symmetric(horizontal: 3),
                                   padding: EdgeInsets.symmetric(horizontal: 3, vertical: 2),
                                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Colors.white),
-                                  child: Text(
-                                    _itemCount.toString(),
-                                    style: TextStyle(color: Colors.black54, fontSize: 26),
+                                  child: Obx(
+                                    () => Text(
+                                      _itemCount.toString() ?? "null",
+                                      style: TextStyle(color: Colors.black54, fontSize: 26),
+                                    ),
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    _itemCount++;
-                                    _productController.productCount++;
-                                  },
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Colors.black54,
-                                    size: 26,
+                                Container(
+                                  child: InkWell(
+                                    onTap: () {
+                                      _itemCount++;
+                                      _productController.productCount++;
+                                    },
+                                    child: Icon(
+                                      Icons.add,
+                                      color: Colors.black54,
+                                      size: 26,
+                                    ),
                                   ),
                                 ),
                               ],

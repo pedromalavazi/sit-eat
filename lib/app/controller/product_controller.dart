@@ -7,6 +7,7 @@ import 'package:sit_eat/app/data/services/menu_service.dart';
 import 'package:flutter/material.dart';
 import 'package:sit_eat/app/data/services/order_service.dart';
 import 'package:sit_eat/app/data/services/reservation_service.dart';
+import 'package:sit_eat/app/routes/app_pages.dart';
 
 class ProductController extends GetxController {
   final ProductService _menuService = ProductService();
@@ -34,22 +35,19 @@ class ProductController extends GetxController {
     product.value = currentProduct;
   }
 
-  void checkDecrease(RxInt itemCount) {
-    if (productCount > 0) {
-      productCount--;
-    }
-  }
-
-  // Chamar o OrderService e enviar ordem
   void createOrder() async {
-    OrderModel order = OrderModel();
-    var reservationId = await _reservationService.getReservationIdByUser(user.value.id);
-    order.reservationId = reservationId;
-    order.productId = product.value.id;
-    order.quantity = productCount.value;
-    order.userId = user.value.id;
+    if (productCount.value > 0) {
+      OrderModel order = OrderModel();
+      var reservationId = await _reservationService.getReservationIdByUser(user.value.id);
+      order.reservationId = reservationId;
+      order.productId = product.value.id;
+      order.quantity = productCount.value;
+      order.userId = user.value.id;
 
-    await _orderService.createOrder(order);
+      await _orderService.createOrder(order);
+    } else {
+      Get.snackbar('Erro', 'Quantidade inválida para realizar pedido', snackPosition: SnackPosition.BOTTOM);
+    }
   }
 
   Widget setProductImage(String image) {

@@ -41,6 +41,7 @@ class NavigationPage extends GetView<NavigationController> {
         onPressed: () {
           //Get.find<HomeController>().scanQrCode();
           Get.toNamed(Routes.RESTAURANT_MENU);
+          //Get.toNamed(Routes.RESTAURANT_ORDERS);
         },
         child: Icon(Icons.qr_code_scanner),
         backgroundColor: Colors.red,

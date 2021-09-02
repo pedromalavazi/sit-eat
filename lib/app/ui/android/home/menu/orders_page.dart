@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sit_eat/app/controller/menu_controller.dart';
-import 'package:sit_eat/app/ui/android/home/menu/widgets/product_card.dart';
+import 'package:sit_eat/app/controller/order_controller.dart';
 
-class MenuPage extends GetView<MenuController> {
+class OrdersPage extends GetView<OrderController> {
   @override
   Widget build(BuildContext context) {
-    final MenuController _menuController = Get.find<MenuController>();
+    final OrderController _orderController = Get.find<OrderController>();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Menu"),
+        title: Text("Pedidos"),
         centerTitle: true,
       ),
       backgroundColor: Colors.white,
@@ -26,7 +25,8 @@ class MenuPage extends GetView<MenuController> {
                 ),
               ),
 
-              // Lista de produtos
+              // Lista de pedidos realizados
+              /*
               Obx(
                 () => Expanded(
                   child: ListView.builder(
@@ -40,6 +40,7 @@ class MenuPage extends GetView<MenuController> {
                   ),
                 ),
               ),
+              */
             ],
           ),
         ),
