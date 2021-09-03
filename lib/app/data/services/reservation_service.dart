@@ -95,4 +95,13 @@ class ReservationService extends GetxService {
     }
     return await _reservationRepository.cancelReservation(reservationId, restaurantId);
   }
+
+  Future<String> getReservationIdByUser(String userId) async {
+    if (!GetUtils.isNullOrBlank(userId)) {
+      var reservationId = await _reservationRepository.getReservationIdByUser(userId);
+      return reservationId;
+    } else {
+      return null;
+    }
+  }
 }

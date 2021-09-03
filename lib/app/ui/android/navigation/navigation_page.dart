@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:sit_eat/app/controller/home_controller.dart';
 import 'package:sit_eat/app/controller/navigation_controller.dart';
+import 'package:sit_eat/app/data/model/enum/login_status_enum.dart';
+import 'package:sit_eat/app/routes/app_pages.dart';
 import 'package:sit_eat/app/ui/android/home/home_page.dart';
+import 'package:sit_eat/app/ui/android/home/menu/menu_page.dart';
 import 'package:sit_eat/app/ui/android/profile/profile_page.dart';
 import 'package:sit_eat/app/ui/android/reservation/reservation_page.dart';
 
 class NavigationPage extends GetView<NavigationController> {
-  final NavigationController _navigationController =
-      Get.put(NavigationController());
+  final NavigationController _navigationController = Get.put(NavigationController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class NavigationPage extends GetView<NavigationController> {
               : [
                   // Usuário sentado na mesa
                   //MenuPage()
-                  //OrderPage()
+                  //OrderPage
                   ReservationPage(),
                   ProfilePage(),
                 ],
@@ -37,7 +39,9 @@ class NavigationPage extends GetView<NavigationController> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.find<HomeController>().scanQrCode();
+          //Get.find<HomeController>().scanQrCode();
+          Get.toNamed(Routes.RESTAURANT_MENU);
+          //Get.toNamed(Routes.RESTAURANT_ORDERS);
         },
         child: Icon(Icons.qr_code_scanner),
         backgroundColor: Colors.red,
@@ -91,6 +95,19 @@ class NavigationPage extends GetView<NavigationController> {
               ),
               title: Text("Perfil"),
             ),
+            if (_navigationController.userIsSitting.value)
+              BubbleBottomBarItem(
+                backgroundColor: Colors.red,
+                icon: Icon(
+                  Icons.person_outlined,
+                  color: Colors.black,
+                ),
+                activeIcon: Icon(
+                  Icons.person,
+                  color: Colors.red,
+                ),
+                title: Text("Perfil"),
+              ),
           ],
         ),
       ),
