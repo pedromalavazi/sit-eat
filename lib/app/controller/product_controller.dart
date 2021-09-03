@@ -7,7 +7,6 @@ import 'package:sit_eat/app/data/services/menu_service.dart';
 import 'package:flutter/material.dart';
 import 'package:sit_eat/app/data/services/order_service.dart';
 import 'package:sit_eat/app/data/services/reservation_service.dart';
-import 'package:sit_eat/app/routes/app_pages.dart';
 
 class ProductController extends GetxController {
   final ProductService _menuService = ProductService();
@@ -45,6 +44,7 @@ class ProductController extends GetxController {
       order.userId = user.value.id;
 
       await _orderService.createOrder(order);
+      Get.snackbar('', 'Pedido realizado!', snackPosition: SnackPosition.BOTTOM);
     } else {
       Get.snackbar('Erro', 'Quantidade inválida para realizar pedido', snackPosition: SnackPosition.BOTTOM);
     }
