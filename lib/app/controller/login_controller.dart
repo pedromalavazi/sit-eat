@@ -30,13 +30,14 @@ class LoginController extends GetxController {
 
   void registerUser() async {
     _util.showLoader();
-    await AuthService.to.createUser(
+    bool success = await AuthService.to.createUser(
       emailTextController.text.trim(),
       passwordTextController.text.trim(),
       nameTextController.text,
       phoneNumberTextController.text,
     );
-    Get.toNamed(Routes.LOGIN);
+
+    if (success) Get.back();
   }
 
   void login() async {
