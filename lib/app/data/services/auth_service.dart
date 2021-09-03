@@ -12,6 +12,7 @@ import 'package:sit_eat/app/data/services/util_service.dart';
 class AuthService extends GetxController {
   final UtilService _util = UtilService();
 
+  static const TABLE = 'users';
   GetStorage box = GetStorage('sit_eat');
   FirebaseAuth _auth = FirebaseAuth.instance;
   Rx<User> _firebaseUser;
@@ -55,14 +56,14 @@ class AuthService extends GetxController {
           email: email, password: password);
 
       _user.value = UserModel.fromSnapshot(
-          await _firestore.collection("users").doc(user.user.uid).get());
+          await _firestore.collection(TABLE).doc(user.user.uid).get());
 
       if (_user.value.type != LoginType.CLIENT) {
         resetUser();
         Get.back();
         _util.showErrorMessage(
           "Usuário inválido",
-          "Usuário sem permissão para logar no aplicativo",
+          "Usuário não encontrado",
         );
         return false;
       }
@@ -83,28 +84,31 @@ class AuthService extends GetxController {
     box.write("auth2", null);
   }
 
-  createUser(
+  Future<bool> createUser(
       String email, String password, String name, String phoneNumber) async {
     try {
       //Cria usuário do Firebase
-      await _auth.createUserWithEmailAndPassword(
+      var newUser = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       // Atualizando o nome do usuário
       await _firebaseUser.value.updateProfile(displayName: name);
       await _firebaseUser.value.reload();
       var tokenMessage = await _firebaseMessaging.getToken();
       //Cria usuário de controle do app
-      await _firestore.collection("users").doc(_firebaseUser.value.uid).set({
+      await _firestore.collection(TABLE).doc(newUser.user.uid).set({
         "email": email,
         "name": name,
         "phoneNumber": phoneNumber,
         "tokenMessage": tokenMessage,
-        "restaurantId": "", // criar apenas o campo nulo pra não dar erro no Get
         "type": LoginType.CLIENT.toUpper,
         "status": LoginStatus.OUT.toUpper,
       });
+
+      return true;
     } catch (e) {
+      Get.back();
       throwErrorMessage(e.code);
+      return false;
     }
   }
 
@@ -161,7 +165,7 @@ class AuthService extends GetxController {
   }
 
   Stream<UserModel> userListener(String id) {
-    return _firestore.collection('users').doc(id).snapshots().map((doc) {
+    return _firestore.collection(TABLE).doc(id).snapshots().map((doc) {
       return UserModel.fromSnapshot(doc);
     });
   }
@@ -181,10 +185,14 @@ class AuthService extends GetxController {
         _util.showErrorMessage(
             "Erro", "Senha fraca. É necessário seis caracteres.");
         break;
+      case "weak-password":
+      _util.showErrorMessage(
+            "Erro", "Senha fraca.");
+        break;
       case "invalid-email":
         _util.showErrorMessage("Erro", "E-mail é inválido.");
         break;
-      case "email-already-exists":
+      case "email-already-in-use":
         _util.showErrorMessage("Erro", "E-mail já cadastrado.");
         break;
       case "invalid-credential":
