@@ -3,14 +3,9 @@ import 'package:sit_eat/app/data/model/order_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
 import 'package:sit_eat/app/data/services/order_service.dart';
-import 'package:sit_eat/app/data/services/reservation_service.dart';
-import 'package:sit_eat/app/data/services/util_service.dart';
 
 class OrderController extends GetxController {
-  final _util = UtilService();
-
   final OrderService _orderService = OrderService();
-  final ReservationService _reservationService = ReservationService();
   Rx<UserModel> user = UserModel().obs;
   RxString userName = "".obs;
 

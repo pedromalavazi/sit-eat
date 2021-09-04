@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/controller/menu_controller.dart';
-import 'package:sit_eat/app/ui/android/home/menu/widgets/product_card.dart';
+import 'package:sit_eat/app/ui/android/menu/widgets/product_card.dart';
 
 class MenuPage extends GetView<MenuController> {
   @override
