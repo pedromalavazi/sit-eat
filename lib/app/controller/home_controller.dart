@@ -8,7 +8,6 @@ import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
 import 'package:sit_eat/app/data/services/qr_code_service.dart';
 import 'package:sit_eat/app/data/services/restaurant_service.dart';
-import 'package:sit_eat/app/routes/app_pages.dart';
 
 class HomeController extends GetxController {
   final RestaurantService _restaurantService = RestaurantService();

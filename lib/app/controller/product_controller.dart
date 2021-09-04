@@ -19,6 +19,7 @@ class ProductController extends GetxController {
 
   RxList<OrderModel> orders = RxList<OrderModel>();
 
+  RxInt itemCount = 0.obs;
   RxInt productCount = 0.obs;
   RxDouble price = 0.0.obs;
 
@@ -37,16 +38,19 @@ class ProductController extends GetxController {
   void createOrder() async {
     if (productCount.value > 0) {
       OrderModel order = OrderModel();
-      var reservationId = await _reservationService.getReservationIdByUser(user.value.id);
+      var reservationId =
+          await _reservationService.getReservationIdByUser(user.value.id);
       order.reservationId = reservationId;
       order.productId = product.value.id;
       order.quantity = productCount.value;
       order.userId = user.value.id;
 
       await _orderService.createOrder(order);
-      Get.snackbar('', 'Pedido realizado!', snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar('', 'Pedido realizado!',
+          snackPosition: SnackPosition.BOTTOM);
     } else {
-      Get.snackbar('Erro', 'Quantidade inválida para realizar pedido', snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar('Erro', 'Quantidade inválida para realizar pedido',
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 

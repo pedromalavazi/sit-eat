@@ -7,16 +7,26 @@ class ProductModel {
   String name;
   double price;
   String description;
+  String measure;
 
-  ProductModel({this.id, this.restaurantId, this.image, this.name, this.price, this.description});
+  ProductModel({
+    this.id,
+    this.restaurantId,
+    this.image,
+    this.name,
+    this.price,
+    this.description,
+    this.measure,
+  });
 
   ProductModel.fromSnapshot(DocumentSnapshot product)
       : id = product.id,
         restaurantId = product.data()["restaurantId"],
         image = product.data()["image"],
         name = product.data()["name"],
-        price = double.parse(product.data()["price"]),
-        description = product.data()["description"];
+        price = double.parse(product.data()["price"].toString()),
+        description = product.data()["description"],
+        measure = product.data()["measure"];
 
   Map<String, dynamic> toJson() {
     return {
@@ -26,6 +36,7 @@ class ProductModel {
       "name": name,
       "price": price,
       "description": description,
+      "measure": measure,
     };
   }
 }
