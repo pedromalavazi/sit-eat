@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
 import 'package:sit_eat/app/data/services/user_service.dart';
@@ -16,9 +17,29 @@ class EditProfileController extends GetxController {
   final UtilService _util = UtilService();
 
   final TextEditingController nameTextController = TextEditingController();
-  final TextEditingController phoneNumberTextController = TextEditingController();
+  final TextEditingController phoneNumberTextController =
+      TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
-  final TextEditingController confirmPasswordTextController = TextEditingController();
+  final TextEditingController confirmPasswordTextController =
+      TextEditingController();
+
+  var selectedImagePath = ''.obs;
+
+  void getImage(ImageSource imageSource) async {
+    final pickedFile = await ImagePicker().pickImage(source: imageSource);
+
+    if (pickedFile != null) {
+      selectedImagePath.value = pickedFile.path;
+    } else {
+      Get.snackbar(
+        'Error!',
+        'Nenhuma imagem selecionada',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
 
   @override
   void onInit() {

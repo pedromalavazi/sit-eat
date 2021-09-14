@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sit_eat/app/controller/edit_profile_controller.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 import 'package:sit_eat/app/ui/android/widgets/input_field.dart';
@@ -29,32 +30,160 @@ class EditProfilePage extends GetView<EditProfileController> {
             padding: EdgeInsets.only(left: 15, right: 15),
             children: [
               Center(
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 130,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 4,
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            spreadRadius: 2,
-                            blurRadius: 10,
-                            color: Colors.black.withOpacity(0.15),
-                            offset: Offset(0, 10),
-                          )
-                        ],
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage("assets/logo5.png"),
+                child: SizedBox(
+                  width: 130,
+                  height: 130,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Obx(
+                        () => controller.selectedImagePath.value == ''
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 4,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      spreadRadius: 2,
+                                      blurRadius: 10,
+                                      color: Colors.black.withOpacity(0.15),
+                                      offset: Offset(0, 10),
+                                    )
+                                  ],
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage("assets/logo5.png"),
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 4,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      spreadRadius: 2,
+                                      blurRadius: 10,
+                                      color: Colors.black.withOpacity(0.15),
+                                      offset: Offset(0, 10),
+                                    )
+                                  ],
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: FileImage(File(
+                                        controller.selectedImagePath.value)),
+                                  ),
+                                ),
+                              ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Color(0xFFF5F6F9),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                side: BorderSide(color: Colors.black12),
+                              ),
+                            ),
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: ((builder) => Container(
+                                      height: 100,
+                                      width: context.mediaQuerySize.width,
+                                      margin: EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                        vertical: 20,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'Escolha uma opção',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontFamily: "Source Code Pro",
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              TextButton.icon(
+                                                onPressed: () {
+                                                  controller.getImage(
+                                                      ImageSource.camera);
+                                                },
+                                                icon: Icon(
+                                                  Icons.camera,
+                                                  color: Colors.black,
+                                                ),
+                                                label: Text(
+                                                  'Camera',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily:
+                                                        "Source Code Pro",
+                                                    fontSize: 17,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              TextButton.icon(
+                                                onPressed: () {
+                                                  controller.getImage(
+                                                      ImageSource.gallery);
+                                                },
+                                                icon: Icon(
+                                                  Icons.image,
+                                                  color: Colors.black,
+                                                ),
+                                                label: Text(
+                                                  'Galeria',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily:
+                                                        "Source Code Pro",
+                                                    fontSize: 17,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    )),
+                              );
+                            },
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: Colors.black,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 10),
