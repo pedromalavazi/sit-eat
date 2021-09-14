@@ -29,32 +29,57 @@ class EditProfilePage extends GetView<EditProfileController> {
             padding: EdgeInsets.only(left: 15, right: 15),
             children: [
               Center(
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 130,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 4,
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            spreadRadius: 2,
-                            blurRadius: 10,
-                            color: Colors.black.withOpacity(0.15),
-                            offset: Offset(0, 10),
-                          )
-                        ],
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage("assets/logo5.png"),
+                child: SizedBox(
+                  width: 130,
+                  height: 130,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 4,
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              spreadRadius: 2,
+                              blurRadius: 10,
+                              color: Colors.black.withOpacity(0.15),
+                              offset: Offset(0, 10),
+                            )
+                          ],
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage("assets/logo5.png"),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Color(0xFFF5F6F9),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                side: BorderSide(color: Colors.black12),
+                              ),
+                            ),
+                            onPressed: () {},
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 10),
