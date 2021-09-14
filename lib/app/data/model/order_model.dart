@@ -20,3 +20,11 @@ class OrderModel {
         total = order.data()["total"],
         userId = order.data()["userId"];
 }
+
+List<OrderModel> convertOrdersFromDB(QuerySnapshot ordersFromDB) {
+  List<OrderModel> orders = <OrderModel>[];
+  ordersFromDB.docs.forEach((order) {
+    orders.add(OrderModel.fromSnapshot(order));
+  });
+  return orders;
+}

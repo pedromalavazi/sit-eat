@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/controller/order_controller.dart';
+import 'package:sit_eat/app/ui/android/menu/widgets/order_card.dart';
 
 class OrdersPage extends GetView<OrderController> {
   @override
@@ -24,25 +25,30 @@ class OrdersPage extends GetView<OrderController> {
                   padding: EdgeInsets.only(top: 10),
                 ),
               ),
-
               // Lista de pedidos realizados
-              /*
               Obx(
                 () => Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: _menuController.products.length,
+                    itemCount: _orderController.orders.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return ProductCard(
-                        product: _menuController.products[index],
+                      return OrderCard(
+                        order: _orderController.orders[index],
                       );
                     },
                   ),
                 ),
               ),
-              */
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(primary: Colors.red[500], padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20), textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          child: Text('Fechar Conta'),
         ),
       ),
     );
