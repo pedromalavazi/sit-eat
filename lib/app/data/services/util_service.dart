@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class UtilService extends GetxService {
   showErrorMessage(String title, String message) {
@@ -50,5 +51,11 @@ class UtilService extends GetxService {
       ),
       barrierDismissible: false,
     );
+  }
+
+  setCurrencyPattern(double value) {
+    var pattern = NumberFormat('###.00#', 'pt_BR');
+    var newValue = pattern.format(value);
+    return newValue;
   }
 }

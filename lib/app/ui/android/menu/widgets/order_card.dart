@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:sit_eat/app/data/model/order_card_model.dart';
+import 'package:sit_eat/app/data/services/util_service.dart';
 
 class OrderCard extends StatelessWidget {
   final OrderCardModel order;
   OrderCard({this.order});
-  var pattern = NumberFormat('###.00#', 'pt_BR');
+  final UtilService _util = UtilService();
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +103,7 @@ class OrderCard extends StatelessWidget {
                         ),
                         Text(
                           //order.price.toString().replaceFirst(".", ",") ?? "",
-                          pattern.format(order.price) ?? "",
+                          _util.setCurrencyPattern(order.price) ?? "",
                           style: TextStyle(
                             fontSize: 24,
                             color: Colors.green,
