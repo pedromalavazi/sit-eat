@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:sit_eat/app/data/model/order_card_model.dart';
-import 'package:sit_eat/app/routes/app_pages.dart';
 
 class OrderCard extends StatelessWidget {
   final OrderCardModel order;
   OrderCard({this.order});
+  var pattern = NumberFormat('###.00#', 'pt_BR');
 
   @override
   Widget build(BuildContext context) {
     return Container(
       // Card Itens
       child: GestureDetector(
-        onTap: () {
-          //Get.toNamed(Routes.RESTAURANT_MENU_DETAIL, arguments: order.id);
-        },
+        onTap: () {},
         child: Card(
           shadowColor: Colors.grey,
           margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
@@ -104,7 +102,8 @@ class OrderCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          order.price.toString().replaceFirst(".", ",") ?? "",
+                          //order.price.toString().replaceFirst(".", ",") ?? "",
+                          pattern.format(order.price) ?? "",
                           style: TextStyle(
                             fontSize: 24,
                             color: Colors.green,

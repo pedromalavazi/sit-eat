@@ -19,12 +19,11 @@ class OrderController extends GetxController {
   RxList<OrderCardModel> orders = RxList<OrderCardModel>();
   RxList<OrderModel> ordersFromRestaurant = RxList<OrderModel>();
   RxList<ProductModel> products = RxList<ProductModel>();
+  RxDouble total = 0.0.obs;
 
   @override
   void onInit() async {
     user = AuthService.to.user;
-    //getReservationId(user.value.id);
-    //getAllOrders(reservationIdCaptured);
     getOrders(user.value.id);
     super.onInit();
   }
@@ -44,7 +43,12 @@ class OrderController extends GetxController {
     return currentProduct;
   }
 
-  // PASSAR AS ORDERS PARA O CARD
+  void calculateTotal(double price, int quantity) {
+    double orderPrice = quantity * price;
+    total.value += orderPrice;
+  }
+
+  // Preenche o OrderCardModel
   void getOrders(String userId) async {
     ordersFromRestaurant.clear();
     var reservationId = await getReservationId(userId);
@@ -58,11 +62,11 @@ class OrderController extends GetxController {
       cardTemp.reservationId = order.reservationId;
       cardTemp.quantity = order.quantity;
       cardTemp.total = order.total;
-
       cardTemp.image = orderTemp.image;
       cardTemp.name = orderTemp.name;
       cardTemp.price = orderTemp.price;
       cardTemp.measure = orderTemp.measure;
+      calculateTotal(orderTemp.price, order.quantity);
       orders.add(cardTemp);
     }
   }

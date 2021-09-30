@@ -8,8 +8,9 @@ class OrderModel {
   String productId;
   int quantity;
   double total;
+  bool delivered;
 
-  OrderModel({this.id, this.orderTime, this.productId, this.quantity, this.reservationId, this.total, this.userId});
+  OrderModel({this.id, this.orderTime, this.productId, this.quantity, this.reservationId, this.total, this.userId, this.delivered});
 
   OrderModel.fromSnapshot(DocumentSnapshot order)
       : id = order.id,
@@ -18,7 +19,8 @@ class OrderModel {
         quantity = order.data()["quantity"],
         reservationId = order.data()["reservationId"],
         total = order.data()["total"],
-        userId = order.data()["userId"];
+        userId = order.data()["userId"],
+        delivered = order.data()["delivered"];
 }
 
 List<OrderModel> convertOrdersFromDB(QuerySnapshot ordersFromDB) {
