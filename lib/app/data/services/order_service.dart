@@ -9,7 +9,11 @@ class OrderService extends GetxService {
     return await _orderRepository.createOrder(order);
   }
 
-  Future<List<OrderModel>> getOrdersById(String userId) {
-    return _orderRepository.getOrdersById(userId);
+  Future<List<OrderModel>> getOrdersByUser(String userId, String reservationId) {
+    return _orderRepository.getOrdersByUser(userId, reservationId);
+  }
+
+  Future<List<OrderModel>> getOrdersByReservation(String reservationId) {
+    return _orderRepository.getOrdersByReservation(reservationId);
   }
 }
