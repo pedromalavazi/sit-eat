@@ -41,7 +41,7 @@ class AuthService extends GetxController {
   @override
   void onClose() {}
 
-  User get firebaseUser => _firebaseUser.value;
+  Rx<User> get firebaseUser => _firebaseUser;
   Rx<UserModel> get user => _user;
   static AuthService get to => Get.find<AuthService>();
 
@@ -124,11 +124,11 @@ class AuthService extends GetxController {
     }
   }
 
-  Future<UserFirebaseModel> updateUserName(String userName) async {
+  Future<UserFirebaseModel> updateUserDetails(String userName) async {
     try {
-      await _auth.currentUser.updateProfile(displayName: userName);
-      await _auth.currentUser.reload();
-      return UserFirebaseModel.fromSnapshot(_auth.currentUser);
+      await _firebaseUser.value.updateProfile(displayName: userName);
+      await _firebaseUser.value.reload();
+      return UserFirebaseModel.fromSnapshot(_firebaseUser.value);
     } catch (e) {
       throwErrorMessage(e.code);
       return UserFirebaseModel();
@@ -186,8 +186,7 @@ class AuthService extends GetxController {
             "Erro", "Senha fraca. É necessário seis caracteres.");
         break;
       case "weak-password":
-      _util.showErrorMessage(
-            "Erro", "Senha fraca.");
+        _util.showErrorMessage("Erro", "Senha fraca.");
         break;
       case "invalid-email":
         _util.showErrorMessage("Erro", "E-mail é inválido.");

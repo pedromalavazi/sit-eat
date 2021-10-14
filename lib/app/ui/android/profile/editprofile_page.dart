@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sit_eat/app/controller/edit_profile_controller.dart';
+import 'package:sit_eat/app/data/services/auth_service.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 import 'package:sit_eat/app/ui/android/widgets/input_field.dart';
 
@@ -37,52 +40,34 @@ class EditProfilePage extends GetView<EditProfileController> {
                     fit: StackFit.expand,
                     children: [
                       Obx(
-                        () => controller.selectedImagePath.value == ''
-                            ? Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 4,
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      spreadRadius: 2,
-                                      blurRadius: 10,
-                                      color: Colors.black.withOpacity(0.15),
-                                      offset: Offset(0, 10),
-                                    )
-                                  ],
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage("assets/logo5.png"),
-                                  ),
-                                ),
+                        () => Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 4,
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                spreadRadius: 2,
+                                blurRadius: 10,
+                                color: Colors.black.withOpacity(0.15),
+                                offset: Offset(0, 10),
                               )
-                            : Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 4,
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      spreadRadius: 2,
-                                      blurRadius: 10,
-                                      color: Colors.black.withOpacity(0.15),
-                                      offset: Offset(0, 10),
+                            ],
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: _editProfileController.image.value != null
+                                  ? FileImage(
+                                      File(_editProfileController
+                                          .image.value.path),
                                     )
-                                  ],
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: FileImage(File(
-                                        controller.selectedImagePath.value)),
-                                  ),
-                                ),
-                              ),
+                                  : NetworkImage(
+                                      _editProfileController.userImage.value,
+                                    ),
+                            ),
+                          ),
+                        ),
                       ),
                       Positioned(
                         right: 0,
@@ -127,8 +112,9 @@ class EditProfilePage extends GetView<EditProfileController> {
                                             children: [
                                               TextButton.icon(
                                                 onPressed: () {
-                                                  controller.getImage(
-                                                      ImageSource.camera);
+                                                  _editProfileController
+                                                      .pickImage(
+                                                          ImageSource.camera);
                                                 },
                                                 icon: Icon(
                                                   Icons.camera,
@@ -150,8 +136,9 @@ class EditProfilePage extends GetView<EditProfileController> {
                                               ),
                                               TextButton.icon(
                                                 onPressed: () {
-                                                  controller.getImage(
-                                                      ImageSource.gallery);
+                                                  _editProfileController
+                                                      .pickImage(
+                                                          ImageSource.gallery);
                                                 },
                                                 icon: Icon(
                                                   Icons.image,
@@ -189,7 +176,7 @@ class EditProfilePage extends GetView<EditProfileController> {
               SizedBox(height: 10),
               Obx(
                 () => Text(
-                  _editProfileController.userName.value,
+                  _editProfileController.user.value.name,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,

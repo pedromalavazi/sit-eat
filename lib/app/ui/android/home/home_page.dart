@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:sit_eat/app/controller/home_controller.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 import 'package:sit_eat/app/ui/android/home/widgets/restaurant_card.dart';
-import 'package:sit_eat/app/ui/android/profile/profile_components/profile_foto.dart';
+import 'package:sit_eat/app/ui/android/profile/profile_components/profile_photo.dart';
 
 class HomePage extends GetView<HomeController> {
   @override
@@ -49,7 +49,39 @@ class HomePage extends GetView<HomeController> {
                           child: CircleAvatar(
                             radius: 35,
                             backgroundColor: Colors.white,
-                            child: ProfileFoto(),
+                            child: ProfilePhoto(),
+                            // SizedBox(
+                            //   height: 130,
+                            //   width: 130,
+                            //   child: Stack(
+                            //     //fit: StackFit.expand,
+                            //     //overflow: Overflow.visible,
+                            //     children: [
+                            //       Container(
+                            //         decoration: BoxDecoration(
+                            //           border: Border.all(
+                            //               width: 4,
+                            //               color: Theme.of(context)
+                            //                   .scaffoldBackgroundColor),
+                            //           boxShadow: [
+                            //             BoxShadow(
+                            //               spreadRadius: 2,
+                            //               blurRadius: 10,
+                            //               color: Colors.black.withOpacity(0.15),
+                            //               offset: Offset(0, 10),
+                            //             )
+                            //           ],
+                            //           shape: BoxShape.circle,
+                            //           image: DecorationImage(
+                            //             fit: BoxFit.cover,
+                            //             image: NetworkImage(
+                            //                 _homeController.userImage.value),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                           ),
                         )
                       ],
