@@ -19,18 +19,28 @@ class UserService extends GetxService {
     }
   }
 
-  Future<UserFirebaseModel> updateUserName(String userName) async {
-    return await AuthService.to.updateUserName(userName);
+  Future<UserFirebaseModel> updateUserDetails(String userName) async {
+    return await AuthService.to.updateUserDetails(userName);
   }
 
-  Future<void> updateUser(
+  Future<bool> updateUser(
       UserModel user, String password, String confirmPassword) async {
-    await updateUserPassword(password, confirmPassword);
+    try {
+      await updateUserPassword(password, confirmPassword);
 
-    var newFirebaseUser = await updateUserName(user.name);
+      var newFirebaseUser = await updateUserDetails(user.name);
 
-    if (newFirebaseUser != null) {
-      await _userRepository.updateUser(user);
+      if (newFirebaseUser != null) {
+        await _userRepository.updateUser(user);
+        AuthService.to.user.value.image = user.image;
+      }
+      return true;
+    } catch (e) {
+      return false;
     }
+  }
+
+  Stream<String> listenerUserPhoto() {
+    return _userRepository.listenerUserPhoto(AuthService.to.user.value.id);
   }
 }

@@ -12,7 +12,7 @@ import 'package:sit_eat/app/data/services/util_service.dart';
 class AuthService extends GetxController {
   final UtilService _util = UtilService();
 
-  static const TABLE = 'users';
+  static const _TABLE = 'users';
   GetStorage box = GetStorage('sit_eat');
   FirebaseAuth _auth = FirebaseAuth.instance;
   Rx<User> _firebaseUser;
@@ -41,7 +41,7 @@ class AuthService extends GetxController {
   @override
   void onClose() {}
 
-  User get firebaseUser => _firebaseUser.value;
+  Rx<User> get firebaseUser => _firebaseUser;
   Rx<UserModel> get user => _user;
   static AuthService get to => Get.find<AuthService>();
 
@@ -56,7 +56,7 @@ class AuthService extends GetxController {
           email: email, password: password);
 
       _user.value = UserModel.fromSnapshot(
-          await _firestore.collection(TABLE).doc(user.user.uid).get());
+          await _firestore.collection(_TABLE).doc(user.user.uid).get());
 
       if (_user.value.type != LoginType.CLIENT) {
         resetUser();
@@ -95,7 +95,7 @@ class AuthService extends GetxController {
       await _firebaseUser.value.reload();
       var tokenMessage = await _firebaseMessaging.getToken();
       //Cria usuário de controle do app
-      await _firestore.collection(TABLE).doc(newUser.user.uid).set({
+      await _firestore.collection(_TABLE).doc(newUser.user.uid).set({
         "email": email,
         "name": name,
         "phoneNumber": phoneNumber,
@@ -124,11 +124,11 @@ class AuthService extends GetxController {
     }
   }
 
-  Future<UserFirebaseModel> updateUserName(String userName) async {
+  Future<UserFirebaseModel> updateUserDetails(String userName) async {
     try {
-      await _auth.currentUser.updateProfile(displayName: userName);
-      await _auth.currentUser.reload();
-      return UserFirebaseModel.fromSnapshot(_auth.currentUser);
+      await _firebaseUser.value.updateProfile(displayName: userName);
+      await _firebaseUser.value.reload();
+      return UserFirebaseModel.fromSnapshot(_firebaseUser.value);
     } catch (e) {
       throwErrorMessage(e.code);
       return UserFirebaseModel();
@@ -165,7 +165,7 @@ class AuthService extends GetxController {
   }
 
   Stream<UserModel> userListener(String id) {
-    return _firestore.collection(TABLE).doc(id).snapshots().map((doc) {
+    return _firestore.collection(_TABLE).doc(id).snapshots().map((doc) {
       return UserModel.fromSnapshot(doc);
     });
   }
@@ -186,8 +186,7 @@ class AuthService extends GetxController {
             "Erro", "Senha fraca. É necessário seis caracteres.");
         break;
       case "weak-password":
-      _util.showErrorMessage(
-            "Erro", "Senha fraca.");
+        _util.showErrorMessage("Erro", "Senha fraca.");
         break;
       case "invalid-email":
         _util.showErrorMessage("Erro", "E-mail é inválido.");

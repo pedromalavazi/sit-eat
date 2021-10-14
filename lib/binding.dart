@@ -3,7 +3,7 @@ import 'package:sit_eat/app/data/services/auth_service.dart';
 
 class Binding implements Bindings {
   @override
-  void dependencies() {
+  void dependencies() async {
     //Services
     Get.put(AuthService(), permanent: true);
   }
