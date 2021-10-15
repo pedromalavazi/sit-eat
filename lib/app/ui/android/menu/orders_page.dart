@@ -7,7 +7,7 @@ import 'package:sit_eat/app/ui/android/menu/widgets/order_card.dart';
 class OrdersPage extends GetView<OrderController> {
   @override
   Widget build(BuildContext context) {
-    final OrderController _orderController = Get.find<OrderController>();
+    final OrderController _orderController = Get.put(OrderController());
     final UtilService _util = UtilService();
 
     return Scaffold(
@@ -40,7 +40,8 @@ class OrdersPage extends GetView<OrderController> {
                         key: ValueKey(_orderController.orders[index]),
                         background: Container(
                           color: Colors.redAccent,
-                          child: Icon(Icons.delete, color: Colors.white, size: 40),
+                          child:
+                              Icon(Icons.delete, color: Colors.white, size: 40),
                           padding: EdgeInsets.all(8.0),
                           margin: EdgeInsets.all(8.0),
                         ),
@@ -50,16 +51,19 @@ class OrdersPage extends GetView<OrderController> {
                             context: context,
                             builder: (ctx) => AlertDialog(
                               title: Text("Confirmar cancelamento"),
-                              content: Text("Tem certeza que deseja cancelar o pedido?"),
+                              content: Text(
+                                  "Tem certeza que deseja cancelar o pedido?"),
                               actions: [
                                 ElevatedButton(
-                                    style: ElevatedButton.styleFrom(primary: Colors.red[500]),
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.red[500]),
                                     onPressed: () {
                                       Navigator.of(ctx).pop(false);
                                     },
                                     child: Text("Cancelar")),
                                 ElevatedButton(
-                                    style: ElevatedButton.styleFrom(primary: Colors.red[500]),
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.red[500]),
                                     onPressed: () {
                                       Navigator.of(ctx).pop(true);
                                     },
@@ -71,7 +75,8 @@ class OrdersPage extends GetView<OrderController> {
                         onDismissed: (DismissDirection direction) {
                           if (direction == DismissDirection.endToStart) {
                             _orderController.orders.removeAt(index);
-                            _util.showSuccessMessage("Pedido cancelado", "O restaurante será notificado sobre o cancelamento!");
+                            _util.showSuccessMessage("Pedido cancelado",
+                                "O restaurante será notificado sobre o cancelamento!");
                           }
                         },
                         child: OrderCard(order: _orderController.orders[index]),
@@ -88,13 +93,17 @@ class OrdersPage extends GetView<OrderController> {
         padding: EdgeInsets.all(10.0),
         child: ElevatedButton(
           onPressed: () {},
-          style: ElevatedButton.styleFrom(primary: Colors.red[500], padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20), textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          style: ElevatedButton.styleFrom(
+              primary: Colors.red[500],
+              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+              textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Fechar Conta'),
               Obx(
-                () => Text('R\$ ${_util.setCurrencyPattern(_orderController.total.value)}'),
+                () => Text(
+                    'R\$ ${_util.setCurrencyPattern(_orderController.total.value)}'),
               ),
             ],
           ),

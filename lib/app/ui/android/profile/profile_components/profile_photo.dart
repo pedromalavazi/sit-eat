@@ -30,9 +30,7 @@ class ProfilePhoto extends StatelessWidget {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(
-                    _profilePhotoController.userImage.value,
-                  ),
+                  image: NetworkImage(_profilePhotoController.userImage.value),
                 ),
               ),
             ),

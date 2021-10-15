@@ -6,7 +6,7 @@ import 'package:sit_eat/app/ui/android/menu/widgets/product_card.dart';
 class MenuPage extends GetView<MenuController> {
   @override
   Widget build(BuildContext context) {
-    final MenuController _menuController = Get.find<MenuController>();
+    final MenuController _menuController = Get.put(MenuController());
 
     return Scaffold(
       appBar: AppBar(

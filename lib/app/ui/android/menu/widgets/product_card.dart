@@ -34,11 +34,7 @@ class ProductCard extends StatelessWidget {
                     shape: BoxShape.circle,
                     // Imagem Prato
                     image: DecorationImage(
-                      image: NetworkImage(
-                        product.image.isEmpty
-                            ? 'https://static.thenounproject.com/png/2393016-200.png'
-                            : product.image,
-                      ),
+                      image: NetworkImage(product.image),
                       fit: BoxFit.fill,
                     ),
                   ),

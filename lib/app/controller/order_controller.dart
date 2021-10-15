@@ -13,9 +13,8 @@ class OrderController extends GetxController {
   final OrderService _orderService = OrderService();
   final ProductService _productService = ProductService();
 
-  Rx<UserModel> user = UserModel().obs;
-  String restaurantId = Get.arguments;
-  Rx<OrderModel> order = OrderModel().obs;
+  String restaurantId;
+  String reservationId;
   RxList<OrderCardModel> orders = RxList<OrderCardModel>();
   RxList<OrderModel> ordersFromRestaurant = RxList<OrderModel>();
   RxList<ProductModel> products = RxList<ProductModel>();
@@ -23,36 +22,23 @@ class OrderController extends GetxController {
 
   @override
   void onInit() async {
-    user = AuthService.to.user;
-    getOrders(user.value.id);
+    getCurrentRestaurantAndReservation();
+    getOrders();
     super.onInit();
   }
 
-  Future<String> getReservationId(String userId) async {
-    var reservationId = await _reservationService.getReservationIdByUser(userId);
-    return reservationId;
-  }
+  Future<void> getCurrentRestaurantAndReservation() async {
+    var reservation = await _reservationService
+        .getActiveReservation(AuthService.to.user.value.id);
 
-  Future<void> getAllOrders(String userId, String reservationId) async {
-    var ordersFromRestaurantId = await _orderService.getOrdersByUser(userId, reservationId);
-    ordersFromRestaurant.addAll(ordersFromRestaurantId);
-  }
-
-  Future<ProductModel> getProductProps(String productId) async {
-    ProductModel currentProduct = await _productService.get(productId);
-    return currentProduct;
-  }
-
-  void calculateTotal(double price, int quantity) {
-    double orderPrice = quantity * price;
-    total.value += orderPrice;
+    restaurantId = reservation.restaurantId;
+    reservationId = reservation.id;
   }
 
   // Preenche o OrderCardModel
-  void getOrders(String userId) async {
-    ordersFromRestaurant.clear();
-    var reservationId = await getReservationId(userId);
-    await getAllOrders(userId, reservationId);
+  void getOrders() async {
+    var ordersFromRestaurant = await _orderService.getOrdersByUser(
+        AuthService.to.user.value.id, reservationId);
 
     for (var i = 0; i < ordersFromRestaurant.length; i++) {
       var order = ordersFromRestaurant[i];
@@ -69,5 +55,15 @@ class OrderController extends GetxController {
       calculateTotal(orderTemp.price, order.quantity);
       orders.add(cardTemp);
     }
+  }
+
+  Future<ProductModel> getProductProps(String productId) async {
+    ProductModel currentProduct = await _productService.get(productId);
+    return currentProduct;
+  }
+
+  void calculateTotal(double price, int quantity) {
+    double orderPrice = quantity * price;
+    total.value += orderPrice;
   }
 }
