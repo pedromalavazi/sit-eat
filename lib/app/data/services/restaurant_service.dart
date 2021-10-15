@@ -14,7 +14,7 @@ class RestaurantService extends GetxService {
     }
     var restaurant = await _restaurantRepository.getRestaurant(id);
 
-    await downloadRestaurantImage(restaurant);
+    await getRestaurantImage(restaurant);
 
     return restaurant;
   }
@@ -23,7 +23,7 @@ class RestaurantService extends GetxService {
     var restaurants = await _restaurantRepository.getAllRestaurant();
 
     for (var i = 0; i < restaurants.length; i++) {
-      await downloadRestaurantImage(restaurants[i]);
+      await getRestaurantImage(restaurants[i]);
     }
 
     return restaurants;
@@ -74,7 +74,7 @@ class RestaurantService extends GetxService {
     return DateFormat.Hm().format(dateTime);
   }
 
-  Future<void> downloadRestaurantImage(RestaurantModel restaurant) async {
+  Future<void> getRestaurantImage(RestaurantModel restaurant) async {
     restaurant.image = await _imageService.downloadRestaurantUrl(
         restaurant.image, restaurant.id);
   }

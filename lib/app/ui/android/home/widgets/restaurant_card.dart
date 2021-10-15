@@ -35,9 +35,7 @@ class RestaurantCard extends StatelessWidget {
                     shape: BoxShape.circle,
                     // Logo image restaurante
                     image: DecorationImage(
-                      image: NetworkImage(
-                        restaurant.image.isEmpty ? 'https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png' : restaurant.image,
-                      ),
+                      image: NetworkImage(restaurant.image),
                       fit: BoxFit.fill,
                     ),
                   ),
