@@ -47,6 +47,7 @@ class UserRepository {
       await _firestore.collection("users").doc(user.id).update({
         "name": user.name,
         "phoneNumber": user.phoneNumber,
+        "image": user.image
       });
     } catch (e) {
       Get.defaultDialog(
@@ -54,4 +55,23 @@ class UserRepository {
           content: Text("Não foi possível atualizar os dados."));
     }
   }
+
+  Stream<String> listenerUserPhoto(String userId) {
+    return _firestore.collection('users').doc(userId).snapshots().map((doc) {
+      return UserModel.fromSnapshot(doc).image;
+    });
+  }
+
+  // Stream<List<String>> listenerReservationsFromQueue(String restaurantId) {
+  //   return _firestore
+  //       .collection('restaurants/$restaurantId/queue')
+  //       .snapshots()
+  //       .map((doc) {
+  //     doc.docs;
+  //     if (doc.docs.length > 0) {
+  //       return queueFromFirebase(doc);
+  //     }
+  //     return <String>[];
+  //   });
+  // }
 }

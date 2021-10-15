@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
+import 'package:sit_eat/app/data/services/image_service.dart';
 import 'package:sit_eat/app/data/services/qr_code_service.dart';
 import 'package:sit_eat/app/data/services/restaurant_service.dart';
 
@@ -13,7 +14,9 @@ class HomeController extends GetxController {
   final RestaurantService _restaurantService = RestaurantService();
   final QrCodeService _qrCodeService = QrCodeService();
   final TextEditingController searchTextController = TextEditingController();
+  final ImageService _imageService = ImageService();
 
+  RxString userImage = "".obs;
   RxList<RestaurantModel> allRestaurants = RxList<RestaurantModel>();
   RxList<RestaurantModel> restaurants = RxList<RestaurantModel>();
   Rx<UserModel> user = UserModel().obs;
@@ -25,6 +28,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     user = AuthService.to.user;
+    loadUserImage();
     setFilters();
     getRestaurants();
     super.onInit();
@@ -64,5 +68,9 @@ class HomeController extends GetxController {
       EasyDebounce.debounce('time-debounce', Duration(milliseconds: 1000),
           () => searchRestaurants());
     });
+  }
+
+  void loadUserImage() async {
+    userImage.value = await _imageService.downloadUserUrl(user.value.image);
   }
 }

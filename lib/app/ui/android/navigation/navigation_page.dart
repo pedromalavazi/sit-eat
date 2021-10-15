@@ -1,14 +1,17 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+import 'package:sit_eat/app/controller/home_controller.dart';
 import 'package:sit_eat/app/controller/navigation_controller.dart';
-import 'package:sit_eat/app/routes/app_pages.dart';
 import 'package:sit_eat/app/ui/android/home/home_page.dart';
+import 'package:sit_eat/app/ui/android/menu/menu_page.dart';
+import 'package:sit_eat/app/ui/android/menu/orders_page.dart';
 import 'package:sit_eat/app/ui/android/profile/profile_page.dart';
 import 'package:sit_eat/app/ui/android/reservation/reservation_page.dart';
 
 class NavigationPage extends GetView<NavigationController> {
-  final NavigationController _navigationController = Get.put(NavigationController());
+  final NavigationController _navigationController =
+      Get.put(NavigationController());
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +27,8 @@ class NavigationPage extends GetView<NavigationController> {
                 ]
               : [
                   // Usuário sentado na mesa
-                  //MenuPage()
-                  //OrderPage
+                  MenuPage(),
+                  OrdersPage(),
                   ReservationPage(),
                   ProfilePage(),
                 ],
@@ -36,9 +39,7 @@ class NavigationPage extends GetView<NavigationController> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //Get.find<HomeController>().scanQrCode();
-          //Get.toNamed(Routes.RESTAURANT_MENU);
-          Get.toNamed(Routes.RESTAURANT_ORDERS);
+          Get.find<HomeController>().scanQrCode();
         },
         child: Icon(Icons.qr_code_scanner),
         backgroundColor: Colors.red,
@@ -56,18 +57,45 @@ class NavigationPage extends GetView<NavigationController> {
           borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
           elevation: 8,
           items: <BubbleBottomBarItem>[
-            BubbleBottomBarItem(
-              backgroundColor: Colors.red,
-              icon: Icon(
-                Icons.home_outlined,
-                color: Colors.black,
+            if (!_navigationController.userIsSitting.value)
+              BubbleBottomBarItem(
+                backgroundColor: Colors.red,
+                icon: Icon(
+                  Icons.home_outlined,
+                  color: Colors.black,
+                ),
+                activeIcon: Icon(
+                  Icons.home,
+                  color: Colors.red,
+                ),
+                title: Text("Home"),
               ),
-              activeIcon: Icon(
-                Icons.home,
-                color: Colors.red,
+            if (_navigationController.userIsSitting.value)
+              BubbleBottomBarItem(
+                backgroundColor: Colors.red,
+                icon: Icon(
+                  Icons.menu_book_rounded,
+                  color: Colors.black,
+                ),
+                activeIcon: Icon(
+                  Icons.menu_book_rounded,
+                  color: Colors.red,
+                ),
+                title: Text("Menu"),
               ),
-              title: Text("Home"),
-            ),
+            if (_navigationController.userIsSitting.value)
+              BubbleBottomBarItem(
+                backgroundColor: Colors.red,
+                icon: Icon(
+                  Icons.pending_actions_outlined,
+                  color: Colors.black,
+                ),
+                activeIcon: Icon(
+                  Icons.pending_actions_outlined,
+                  color: Colors.red,
+                ),
+                title: Text("Pedidos"),
+              ),
             BubbleBottomBarItem(
               backgroundColor: Colors.red,
               icon: Icon(
@@ -75,7 +103,7 @@ class NavigationPage extends GetView<NavigationController> {
                 color: Colors.black,
               ),
               activeIcon: Icon(
-                Icons.schedule,
+                Icons.schedule_outlined,
                 color: Colors.red,
               ),
               title: Text("Reservas"),
@@ -87,24 +115,11 @@ class NavigationPage extends GetView<NavigationController> {
                 color: Colors.black,
               ),
               activeIcon: Icon(
-                Icons.person,
+                Icons.person_outlined,
                 color: Colors.red,
               ),
               title: Text("Perfil"),
             ),
-            if (_navigationController.userIsSitting.value)
-              BubbleBottomBarItem(
-                backgroundColor: Colors.red,
-                icon: Icon(
-                  Icons.person_outlined,
-                  color: Colors.black,
-                ),
-                activeIcon: Icon(
-                  Icons.person,
-                  color: Colors.red,
-                ),
-                title: Text("Perfil"),
-              ),
           ],
         ),
       ),

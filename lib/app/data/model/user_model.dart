@@ -8,6 +8,7 @@ class UserModel {
   String email;
   String phoneNumber;
   String tokenMessage;
+  String image;
   LoginType type;
   LoginStatus status;
 
@@ -17,6 +18,7 @@ class UserModel {
     this.email,
     this.phoneNumber,
     this.tokenMessage,
+    this.image,
     this.type,
     this.status,
   });
@@ -27,6 +29,7 @@ class UserModel {
         email = currentUser.data()["email"],
         phoneNumber = currentUser.data()["phoneNumber"],
         tokenMessage = currentUser.data()["tokenMessage"],
+        image = currentUser.data()["image"],
         type = LoginType.values
             .where((type) => type.toUpper == currentUser.data()["type"])
             .first,
@@ -42,6 +45,7 @@ class UserModel {
       "phoneNumber": phoneNumber,
       "tokenMessage": tokenMessage,
       "type": type,
+      "image": image,
       "status": status
     };
   }

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:sit_eat/app/controller/profile_controller.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 import 'package:sit_eat/app/ui/android/profile/profile_components/profile_botao.dart';
-import 'package:sit_eat/app/ui/android/profile/profile_components/profile_foto.dart';
+import 'package:sit_eat/app/ui/android/profile/profile_components/profile_photo.dart';
 
 class ProfilePage extends GetView<ProfileController> {
   @override
@@ -19,7 +19,7 @@ class ProfilePage extends GetView<ProfileController> {
         child: Column(
           children: [
             SizedBox(height: 20),
-            ProfileFoto(),
+            ProfilePhoto(),
             SizedBox(height: 10),
             Obx(
               () => Text(

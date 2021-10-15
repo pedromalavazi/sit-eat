@@ -2,19 +2,31 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
 import 'package:sit_eat/app/data/repository/restaurant_repository.dart';
+import 'package:sit_eat/app/data/services/image_service.dart';
 
 class RestaurantService extends GetxService {
   final RestaurantRepository _restaurantRepository = RestaurantRepository();
+  final ImageService _imageService = ImageService();
 
   Future<RestaurantModel> get(String id) async {
     if (GetUtils.isNullOrBlank(id)) {
       return null;
     }
-    return await _restaurantRepository.getRestaurant(id);
+    var restaurant = await _restaurantRepository.getRestaurant(id);
+
+    await getRestaurantImage(restaurant);
+
+    return restaurant;
   }
 
-  Future<List<RestaurantModel>> getAll() {
-    return _restaurantRepository.getAllRestaurant();
+  Future<List<RestaurantModel>> getAll() async {
+    var restaurants = await _restaurantRepository.getAllRestaurant();
+
+    for (var i = 0; i < restaurants.length; i++) {
+      await getRestaurantImage(restaurants[i]);
+    }
+
+    return restaurants;
   }
 
   List<RestaurantModel> filterByName(
@@ -60,5 +72,10 @@ class RestaurantService extends GetxService {
 
   String convertDateTimeToHourFormat(DateTime dateTime) {
     return DateFormat.Hm().format(dateTime);
+  }
+
+  Future<void> getRestaurantImage(RestaurantModel restaurant) async {
+    restaurant.image = await _imageService.downloadRestaurantUrl(
+        restaurant.image, restaurant.id);
   }
 }

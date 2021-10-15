@@ -32,9 +32,7 @@ class OrderCard extends StatelessWidget {
                     shape: BoxShape.circle,
                     // Imagem Prato
                     image: DecorationImage(
-                      image: NetworkImage(
-                        order.image.isEmpty ? 'https://static.thenounproject.com/png/2393016-200.png' : order.image,
-                      ),
+                      image: NetworkImage(order.image),
                       fit: BoxFit.fill,
                     ),
                   ),

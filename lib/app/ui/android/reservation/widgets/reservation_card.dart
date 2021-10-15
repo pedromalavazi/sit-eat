@@ -9,7 +9,8 @@ class ReservationCard extends StatelessWidget {
   final ReservationCardModel reservation;
   ReservationCard({this.reservation});
 
-  final ReservationController _reservationController = Get.find<ReservationController>();
+  final ReservationController _reservationController =
+      Get.find<ReservationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +42,7 @@ class ReservationCard extends StatelessWidget {
                       shape: BoxShape.circle,
                       // Logo image restaurante
                       image: DecorationImage(
-                        image: NetworkImage(
-                          reservation.restaurantImage.isEmpty ? 'https://yummmy.s3.amazonaws.com/uploads/image/file/86274/regular_perfil-rei-dos-lanches--1-.png' : reservation.restaurantImage,
-                        ),
+                        image: NetworkImage(reservation.restaurantImage),
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -69,7 +68,8 @@ class ReservationCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              "Lugares: " + reservation.occupationQty.toString(),
+                              "Lugares: " +
+                                  reservation.occupationQty.toString(),
                               style: TextStyle(
                                 fontSize: 20,
                               ),
@@ -83,7 +83,8 @@ class ReservationCard extends StatelessWidget {
                               reservation.status.description,
                               style: TextStyle(
                                 fontSize: 20,
-                                color: _reservationController.getStatusColor(reservation.status),
+                                color: _reservationController
+                                    .getStatusColor(reservation.status),
                               ),
                             ),
                           ],
