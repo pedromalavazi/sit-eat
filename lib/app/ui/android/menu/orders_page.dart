@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/controller/order_controller.dart';
@@ -40,8 +41,7 @@ class OrdersPage extends GetView<OrderController> {
                         key: ValueKey(_orderController.orders[index]),
                         background: Container(
                           color: Colors.redAccent,
-                          child:
-                              Icon(Icons.delete, color: Colors.white, size: 40),
+                          child: Icon(Icons.delete, color: Colors.white, size: 40),
                           padding: EdgeInsets.all(8.0),
                           margin: EdgeInsets.all(8.0),
                         ),
@@ -51,34 +51,34 @@ class OrdersPage extends GetView<OrderController> {
                             context: context,
                             builder: (ctx) => AlertDialog(
                               title: Text("Confirmar cancelamento"),
-                              content: Text(
-                                  "Tem certeza que deseja cancelar o pedido?"),
+                              content: Text("Tem certeza que deseja cancelar o pedido?"),
                               actions: [
                                 ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Colors.red[500]),
+                                    style: ElevatedButton.styleFrom(primary: Colors.red[500]),
                                     onPressed: () {
                                       Navigator.of(ctx).pop(false);
                                     },
                                     child: Text("Cancelar")),
                                 ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Colors.red[500]),
+                                    style: ElevatedButton.styleFrom(primary: Colors.red[500]),
                                     onPressed: () {
-                                      Navigator.of(ctx).pop(true);
+                                      _orderController.checkCancelRequest(_orderController.orders[index].orderTime);
+                                      if (_orderController.cancelRequest.isTrue) {
+                                        Navigator.of(ctx).pop(true);
+                                        _orderController.orders.removeAt(index);
+                                        _orderController.removeOrder(_orderController.orders[index].id);
+                                        _util.showSuccessMessage("Pedido cancelado", "O restaurante será notificado sobre o cancelamento!");
+                                      } else {
+                                        Navigator.of(ctx).pop(false);
+                                        _util.showSuccessMessage("Erro no cancelamento", "Restaurante já está preparando o pedido!");
+                                      }
                                     },
                                     child: Text("Confirmar")),
                               ],
                             ),
                           );
                         },
-                        onDismissed: (DismissDirection direction) {
-                          if (direction == DismissDirection.endToStart) {
-                            _orderController.orders.removeAt(index);
-                            _util.showSuccessMessage("Pedido cancelado",
-                                "O restaurante será notificado sobre o cancelamento!");
-                          }
-                        },
+                        onDismissed: (DismissDirection direction) {},
                         child: OrderCard(order: _orderController.orders[index]),
                       );
                     },
@@ -93,17 +93,13 @@ class OrdersPage extends GetView<OrderController> {
         padding: EdgeInsets.all(10.0),
         child: ElevatedButton(
           onPressed: () {},
-          style: ElevatedButton.styleFrom(
-              primary: Colors.red[500],
-              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-              textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          style: ElevatedButton.styleFrom(primary: Colors.red[500], padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20), textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Fechar Conta'),
               Obx(
-                () => Text(
-                    'R\$ ${_util.setCurrencyPattern(_orderController.total.value)}'),
+                () => Text('R\$ ${_util.setCurrencyPattern(_orderController.total.value)}'),
               ),
             ],
           ),

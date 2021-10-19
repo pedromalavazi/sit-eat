@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/order_card_model.dart';
 import 'package:sit_eat/app/data/model/order_model.dart';
@@ -18,6 +19,7 @@ class OrderController extends GetxController {
   RxList<OrderModel> ordersFromRestaurant = RxList<OrderModel>();
   RxList<ProductModel> products = RxList<ProductModel>();
   RxDouble total = 0.0.obs;
+  RxBool cancelRequest = false.obs;
 
   @override
   void onInit() async {
@@ -27,17 +29,14 @@ class OrderController extends GetxController {
   }
 
   Future<void> getCurrentRestaurantAndReservation() async {
-    var reservation = await _reservationService
-        .getActiveReservation(AuthService.to.user.value.id);
-
+    var reservation = await _reservationService.getActiveReservation(AuthService.to.user.value.id);
     restaurantId = reservation.restaurantId;
     reservationId = reservation.id;
   }
 
   // Preenche o OrderCardModel
   void getOrders() async {
-    var ordersFromRestaurant = await _orderService.getOrdersByUser(
-        AuthService.to.user.value.id, reservationId);
+    var ordersFromRestaurant = await _orderService.getOrdersByUser(AuthService.to.user.value.id, reservationId);
 
     for (var i = 0; i < ordersFromRestaurant.length; i++) {
       var order = ordersFromRestaurant[i];
@@ -51,6 +50,7 @@ class OrderController extends GetxController {
       cardTemp.name = orderTemp.name;
       cardTemp.price = orderTemp.price;
       cardTemp.measure = orderTemp.measure;
+      cardTemp.orderTime = order.orderTime;
       calculateTotal(orderTemp.price, order.quantity);
       orders.add(cardTemp);
     }
@@ -64,5 +64,19 @@ class OrderController extends GetxController {
   void calculateTotal(double price, int quantity) {
     double orderPrice = quantity * price;
     total.value += orderPrice;
+  }
+
+  Future<void> checkCancelRequest(Timestamp orderTime) async {
+    DateTime now = DateTime.now();
+    var date = new DateTime.fromMicrosecondsSinceEpoch(orderTime.microsecondsSinceEpoch);
+    var diff = date.difference(now);
+    if (diff.inMinutes >= (-10)) {
+      cancelRequest = true.obs;
+    } else
+      cancelRequest = false.obs;
+  }
+
+  Future<void> removeOrder(String orderId) async {
+    await _orderService.removeOrder(orderId);
   }
 }
