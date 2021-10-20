@@ -57,4 +57,16 @@ class OrderRepository {
       return <OrderModel>[];
     }
   }
+
+  // Remove pedido por ID
+  Future<void> removeOrder(String orderId) async {
+    try {
+      var orderItem = _firestore.collection("orders").doc(orderId);
+      orderItem.delete();
+    } catch (e) {
+      print(e.code);
+      Get.back();
+      _util.showErrorMessage("Erro", "Não foi possível remover o pedido.");
+    }
+  }
 }

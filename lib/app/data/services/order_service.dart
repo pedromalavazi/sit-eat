@@ -16,4 +16,8 @@ class OrderService extends GetxService {
   Future<List<OrderModel>> getOrdersByReservation(String reservationId) {
     return _orderRepository.getOrdersByReservation(reservationId);
   }
+
+  Future<void> removeOrder(String orderId) async {
+    await _orderRepository.removeOrder(orderId);
+  }
 }
