@@ -12,7 +12,6 @@ import 'package:sit_eat/app/data/services/restaurant_service.dart';
 import 'package:sit_eat/app/data/services/user_service.dart';
 import 'package:sit_eat/app/data/services/util_service.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
-import 'package:sit_eat/app/ui/android/navigation/navigation_page.dart';
 
 class QrCodeService extends GetxService {
   final QrCodeRepository _qrCodeRepository = QrCodeRepository();
@@ -68,6 +67,7 @@ class QrCodeService extends GetxService {
       Get.offAllNamed(Routes.NAVIGATION);
       _util.showErrorMessage(
           "Erro", "Mesa escaneada não é válida para esse usuário!");
+      return;
     }
 
     // Change login status;
@@ -79,6 +79,7 @@ class QrCodeService extends GetxService {
 
     Get.offAllNamed(Routes.NAVIGATION);
     _util.showSuccessMessage("Sucesso", "Mesa validada com sucesso!");
+    return;
   }
 
   Future<bool> isValidTable(ReservationModel reservation, String tableIdScanned,
@@ -90,8 +91,10 @@ class QrCodeService extends GetxService {
         reservation.restaurantId, reservation.id);
 
     // Verifica se o usuário realmente fez uma reserva
-    if (table.id.isEmpty || table.qrCode.isEmpty || table.reservationid.isEmpty)
-      return false;
+    if (table == null ||
+        table.id.isEmpty ||
+        table.qrCode.isEmpty ||
+        table.reservationid.isEmpty) return false;
 
     // Verifica se a mesa escaneada é a mesma mesa que o usuário devia sentar
     if (tableIdScanned != table.id ||

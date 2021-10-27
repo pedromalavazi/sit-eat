@@ -93,6 +93,6 @@ class RestaurantService extends GetxService {
   }
 
   Future<TableModel> getTable(String restaurantId, String reservationId) async {
-    await _restaurantRepository.getTable(restaurantId, reservationId);
+    return await _restaurantRepository.getTable(restaurantId, reservationId);
   }
 }
