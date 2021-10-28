@@ -15,6 +15,12 @@ export const tableFree = functions.firestore
   .document('restaurants/{restaurantId}/tables/{tableId}')
   .onUpdate(verifyQueue);
 
+export const createBill = functions.firestore
+  .document('orders/{orderId}').onCreate(updateTableBill);
+
+export const updateBill = functions.firestore
+  .document('orders/{orderId}').onDelete(updateTableBill);
+
 async function verifyTables(snap: any, context: any) {
   var nextReservation: ReservationDoneModel;
   const restaurantId = context.params.restaurantId;
@@ -200,4 +206,26 @@ async function sendMessage(reservationId: string) {
   } catch (error) {
     return null;    
   }
+}
+
+async function updateTableBill(snap: any, context: any) {
+  try {
+    let reservationId = snap.data().reservationId;
+  let orderId = context.params.orderId;
+
+    // verifica se existe bill pra essa reserva
+
+    // 
+
+    // se não tiver cria 
+
+    // 
+  } catch (error) {
+  throw new Error("Function not implemented.");
+    
+  }
+
+
+  
+
 }
