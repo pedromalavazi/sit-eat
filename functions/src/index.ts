@@ -3,6 +3,9 @@ import * as admin from "firebase-admin"
 import { convertTableFromDB, convertTablesFromDB, TableModel } from "./model/table_model";
 import { convertReservationFromDB, ReservationModel } from "./model/reservation_model";
 import { ReservationDoneModel } from "./model/reservation_done_model";
+import { BillModel, convertBillsFromDB } from "./model/bill_model";
+import { convertOrderFromDB } from "./model/order_model";
+import { convertProductFromDB } from "./model/product_model";
 
 admin.initializeApp();
 const db = admin.firestore();
@@ -210,22 +213,70 @@ async function sendMessage(reservationId: string) {
 
 async function updateTableBill(snap: any, context: any) {
   try {
-    let reservationId = snap.data().reservationId;
-  let orderId = context.params.orderId;
+    var bill = new BillModel();
+    
+    var reservationId = snap.data().reservationId;
+    var reservation = convertReservationFromDB(await db.collection(`reservations`).doc(reservationId).get());
+    var orderId = context.params.orderId;
+
+    // recupera order a ser inserida
+    var order = await GetOrder(orderId, reservation);
 
     // verifica se existe bill pra essa reserva
-
-    // 
+    var existBill = await GetExistingBill(reservation.id);
 
     // se não tiver cria 
+    if (existBill == null) {
+      bill.reservationId = reservationId; 
+      bill.total = order.total;
+    } else { // se tiver atualiza 
+      bill = existBill;
+      bill.total += order.total;
+    }
 
-    // 
+    // atualiza o valor da 
+    if (existBill == null) {
+      await InsertBill(bill);
+    } else {
+      await UpdateBill(bill);
+    }
+
+    return null;
   } catch (error) {
-  throw new Error("Function not implemented.");
-    
+    return null;
   }
+}
 
+async function GetExistingBill(reservationId: string) {
+  var billsFromDB = await db.collection(`bills`).where('paid', "==", false).where('asked', "==", false).get();
+  var bills = convertBillsFromDB(billsFromDB);
 
-  
+  var existingBill = bills.filter(b => b.reservationId == reservationId);
 
+  return existingBill.length > 1 ? existingBill[0] : null;
+}
+
+async function GetOrder(orderId: string, reservation: ReservationModel) {
+  var order = convertOrderFromDB(await db.collection('orders').doc(orderId).get());
+
+  var product = convertProductFromDB(await db.collection('products').doc(order.productId).get());
+
+  order.total = order.quantity * product.price;
+
+  return order;
+}
+
+async function InsertBill(bill: BillModel) {
+  await db.collection('bills').add({
+    'asked': bill.asked,
+    'paid': bill.paid,
+    'reservationId': bill.reservationId,
+    'total': bill.total
+  });
+}
+
+async function UpdateBill(bill: BillModel) {
+  await db.collection('bills').doc(bill.id).set({
+    'total': bill.total
+  });
 }
