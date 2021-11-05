@@ -13,6 +13,7 @@ import 'package:sit_eat/app/ui/android/login/login_page.dart';
 import 'package:sit_eat/app/ui/android/login/splash_page.dart';
 import 'package:sit_eat/app/ui/android/menu/menu_page.dart';
 import 'package:sit_eat/app/ui/android/menu/orders_page.dart';
+import 'package:sit_eat/app/ui/android/menu/payment_methods_page.dart';
 import 'package:sit_eat/app/ui/android/menu/product_detail_page.dart';
 import 'package:sit_eat/app/ui/android/navigation/navigation_page.dart';
 import 'package:sit_eat/app/ui/android/profile/about.dart';
@@ -93,6 +94,10 @@ class AppPages {
       name: Routes.RESTAURANT_ORDERS,
       page: () => OrdersPage(),
       binding: OrderBinding(),
+    ),
+    GetPage(
+      name: Routes.RESTAURANT_PAYMENT,
+      page: () => PaymentsPage(),
     ),
   ];
 }

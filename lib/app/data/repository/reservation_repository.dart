@@ -161,4 +161,11 @@ class ReservationRepository {
       return null;
     }
   }
+
+  //getBillByReservationId()
+  //AskBill(String id){
+  /*  update({
+    "asked": true,
+    })}
+  */
 }

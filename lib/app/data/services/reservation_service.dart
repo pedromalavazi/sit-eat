@@ -104,4 +104,6 @@ class ReservationService extends GetxService {
       return null;
     }
   }
+
+  //getBillByReservationId()
 }
