@@ -6,6 +6,7 @@ import 'package:sit_eat/app/data/model/product_model.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
 import 'package:sit_eat/app/data/services/menu_service.dart';
 import 'package:sit_eat/app/data/services/order_service.dart';
+import 'package:sit_eat/app/data/services/qr_code_service.dart';
 import 'package:sit_eat/app/data/services/reservation_service.dart';
 
 class OrderController extends GetxController {
@@ -29,14 +30,16 @@ class OrderController extends GetxController {
   }
 
   Future<void> getCurrentRestaurantAndReservation() async {
-    var reservation = await _reservationService.getActiveReservation(AuthService.to.user.value.id);
+    var reservation = await _reservationService
+        .getActiveReservation(AuthService.to.user.value.id);
     restaurantId = reservation.restaurantId;
     reservationId = reservation.id;
   }
 
   // Preenche o OrderCardModel
   void getOrders() async {
-    var ordersFromRestaurant = await _orderService.getOrdersByUser(AuthService.to.user.value.id, reservationId);
+    var ordersFromRestaurant = await _orderService.getOrdersByUser(
+        AuthService.to.user.value.id, reservationId);
 
     for (var i = 0; i < ordersFromRestaurant.length; i++) {
       var order = ordersFromRestaurant[i];
@@ -68,7 +71,8 @@ class OrderController extends GetxController {
 
   Future<void> checkCancelRequest(Timestamp orderTime) async {
     DateTime now = DateTime.now();
-    var date = new DateTime.fromMicrosecondsSinceEpoch(orderTime.microsecondsSinceEpoch);
+    var date = new DateTime.fromMicrosecondsSinceEpoch(
+        orderTime.microsecondsSinceEpoch);
     var diff = date.difference(now);
     if (diff.inMinutes >= (-10)) {
       cancelRequest = true.obs;

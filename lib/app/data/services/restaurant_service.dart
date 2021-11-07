@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
+import 'package:sit_eat/app/data/model/table_model.dart';
 import 'package:sit_eat/app/data/repository/restaurant_repository.dart';
 import 'package:sit_eat/app/data/services/image_service.dart';
 
@@ -50,6 +51,18 @@ class RestaurantService extends GetxService {
     return _restaurantRepository.getRestaurantByQrCode(envioQr);
   }
 
+  void setTableBusy(
+    String restaurantId,
+    String tableId,
+    String reservationId,
+  ) async {
+    await _restaurantRepository.setTableBusy(
+      restaurantId,
+      tableId,
+      reservationId,
+    );
+  }
+
   bool verifyIsOpen(DateTime openTime, DateTime closeTime) {
     var now = DateTime.now();
     var openDate = DateTime(now.year, now.month, now.day, openTime.hour,
@@ -77,5 +90,9 @@ class RestaurantService extends GetxService {
   Future<void> getRestaurantImage(RestaurantModel restaurant) async {
     restaurant.image = await _imageService.downloadRestaurantUrl(
         restaurant.image, restaurant.id);
+  }
+
+  Future<TableModel> getTable(String restaurantId, String reservationId) async {
+    return await _restaurantRepository.getTable(restaurantId, reservationId);
   }
 }
