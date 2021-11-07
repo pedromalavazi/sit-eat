@@ -33,9 +33,9 @@ export class OrderModel {
   
     if (orderFromDB) {
       order.id = orderFromDB.id;
-      order.orderTime = orderFromDB.data()["asked"];
-      order.productId = orderFromDB.data()["paid"];
-      order.quantity = orderFromDB.data()["total"];
+      order.orderTime = orderFromDB.data()["orderTime"];
+      order.productId = orderFromDB.data()["productId"];
+      order.quantity = orderFromDB.data()["quantity"];
       order.reservationId = orderFromDB.data()["reservationId"];
       order.userId = orderFromDB.data()["userId"];
     }

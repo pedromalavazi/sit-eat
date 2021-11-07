@@ -10,13 +10,13 @@ export class BillModel {
     var billList: BillModel[] = [];
     
     if (bills.docs.length > 0) {
-      bills.docs.forEach((table: any) => {
+      bills.docs.forEach((bill: any) => {
         var tempTable: BillModel = new BillModel();
-        tempTable.id = table.id;
-        tempTable.asked = table.data()["asked"];
-        tempTable.paid = table.data()["paid"];
-        tempTable.total = table.data()["total"];
-        tempTable.reservationId = table.data()["reservationId"];
+        tempTable.id = bill.id;
+        tempTable.asked = bill.data()["asked"];
+        tempTable.paid = bill.data()["paid"];
+        tempTable.total = bill.data()["total"];
+        tempTable.reservationId = bill.data()["reservationId"];
     
         billList.push(tempTable);
       });

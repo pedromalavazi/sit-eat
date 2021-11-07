@@ -221,7 +221,6 @@ async function updateTableBill(snap: any, context: any) {
 
     // recupera order a ser inserida
     var order = await GetOrder(orderId, reservation);
-
     // verifica se existe bill pra essa reserva
     var existBill = await GetExistingBill(reservation.id);
 
@@ -248,12 +247,12 @@ async function updateTableBill(snap: any, context: any) {
 }
 
 async function GetExistingBill(reservationId: string) {
-  var billsFromDB = await db.collection(`bills`).where('paid', "==", false).where('asked', "==", false).get();
+  var billsFromDB = await db.collection('bills').where('paid', "==", false).get();
   var bills = convertBillsFromDB(billsFromDB);
-
-  var existingBill = bills.filter(b => b.reservationId == reservationId);
-
-  return existingBill.length > 1 ? existingBill[0] : null;
+ 
+  var existingBill = bills.find(b => b.reservationId == reservationId);
+  
+  return existingBill ?? null;
 }
 
 async function GetOrder(orderId: string, reservation: ReservationModel) {
@@ -276,7 +275,7 @@ async function InsertBill(bill: BillModel) {
 }
 
 async function UpdateBill(bill: BillModel) {
-  await db.collection('bills').doc(bill.id).set({
+  await db.collection('bills').doc(bill.id).update({
     'total': bill.total
   });
 }
