@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sit_eat/app/data/model/bills_model.dart';
 import 'package:sit_eat/app/data/model/enum/reservation_status_enum.dart';
 import 'package:sit_eat/app/data/model/reservation_card_model.dart';
 import 'package:sit_eat/app/data/model/restaurant_model.dart';
@@ -85,5 +86,16 @@ class ReservationController extends GetxController {
       default:
         return Colors.white;
     }
+  }
+
+  Future<void> askBill(String id) async {
+    await _reservationService.askBill(id);
+  }
+
+  Future<String> getUserBill() async {
+    var reservationId = await _reservationService.getReservationIdByUser(AuthService.to.user.value.id);
+    BillModel currentBill = await _reservationService.getBillByReservationId(reservationId);
+    var billId = currentBill.id;
+    return billId;
   }
 }
