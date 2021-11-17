@@ -1,14 +1,14 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:sit_eat/app/controller/product_controller.dart';
+import 'package:sit_eat/app/controller/reservation_controller.dart';
 import 'package:sit_eat/app/data/services/util_service.dart';
-import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
+import 'package:sit_eat/app/routes/app_pages.dart';
 
-class PaymentsPage extends GetView<ProductController> {
-  //final ProductController _productController = Get.find<ProductController>();
+class PaymentsPage extends GetView<ReservationController> {
+  final ReservationController _reservationController = Get.find<ReservationController>();
   final UtilService _util = UtilService();
 
-  List<Item> items = <Item>[Item('Dinheiro'), Item('Cartão'), Item('Vale Refeição')];
+  final List<Item> items = <Item>[Item('Dinheiro'), Item('Cartão'), Item('Vale Refeição')];
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +71,11 @@ class PaymentsPage extends GetView<ProductController> {
                       child: Text("Não")),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(primary: Colors.red[500], padding: EdgeInsets.all(15)),
-                      onPressed: () {
+                      onPressed: () async {
                         Navigator.of(ctx).pop(false);
+                        Get.offNamed(Routes.NAVIGATION);
+                        var bill = await _reservationController.getUserBill();
+                        _reservationController.askBill(bill);
                         _util.showErrorMessage("Solicitação de fechamento", "Sua conta está a caminho!");
                       },
                       child: Text("Sim")),

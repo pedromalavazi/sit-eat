@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sit_eat/app/data/model/bills_model.dart';
 import 'package:sit_eat/app/data/model/reservation_model.dart';
 import 'package:sit_eat/app/data/repository/reservation_repository.dart';
 import 'package:sit_eat/app/data/services/util_service.dart';
@@ -106,4 +107,20 @@ class ReservationService extends GetxService {
   }
 
   //getBillByReservationId()
+  Future<BillModel> getBillByReservationId(String reservationId) async {
+    if (!GetUtils.isNullOrBlank(reservationId)) {
+      var bill = await _reservationRepository.getBillByReservationId(reservationId);
+      return bill;
+    } else {
+      return null;
+    }
+  }
+
+  Future<void> askBill(String id) async {
+    try {
+      await _reservationRepository.askBill(id);
+    } catch (e) {
+      return null;
+    }
+  }
 }

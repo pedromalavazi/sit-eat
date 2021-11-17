@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/controller/order_controller.dart';
 import 'package:sit_eat/app/data/services/util_service.dart';
+import 'package:sit_eat/app/routes/app_pages.dart';
 import 'package:sit_eat/app/ui/android/menu/widgets/order_card.dart';
 
 class OrdersPage extends GetView<OrderController> {
@@ -92,14 +92,17 @@ class OrdersPage extends GetView<OrderController> {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(10.0),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.toNamed(Routes.RESTAURANT_PAYMENT);
+          },
           style: ElevatedButton.styleFrom(primary: Colors.red[500], padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20), textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Fechar Conta'),
+              Text('Fechar conta'),
               Obx(
-                () => Text('R\$ ${_util.setCurrencyPattern(_orderController.total.value)}'),
+                () => Text(_orderController.totalPedidoText.value),
+                //Text('R\$ ${_util.setCurrencyPattern(_orderController.total.value)}'),
               ),
             ],
           ),

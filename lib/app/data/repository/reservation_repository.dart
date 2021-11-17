@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sit_eat/app/data/model/bills_model.dart';
 import 'package:sit_eat/app/data/model/enum/reservation_status_enum.dart';
 import 'package:sit_eat/app/data/services/util_service.dart';
 import 'package:sit_eat/app/data/model/reservation_model.dart';
@@ -163,9 +164,30 @@ class ReservationRepository {
   }
 
   //getBillByReservationId()
-  //AskBill(String id){
-  /*  update({
-    "asked": true,
-    })}
-  */
+  Future<BillModel> getBillByReservationId(String reservationId) async {
+    try {
+      var doc = await _firestore.collection("bills").where('asked', isEqualTo: false).where('paid', isEqualTo: false).where('reservationId', isEqualTo: reservationId).get();
+      if (doc.docs.length == 0) {
+        return null;
+      }
+      BillModel bill = BillModel.fromSnapshot(doc.docs[0]);
+      return bill;
+    } catch (e) {
+      print(e.code);
+      Get.back();
+      _util.showErrorMessage("Erro", "Bill não encontrada.");
+      return null;
+    }
+  }
+
+  Future<void> askBill(String id) async {
+    try {
+      await _firestore.collection("bills").doc(id).update({"asked": true});
+    } catch (e) {
+      print(e.code);
+      Get.back();
+      _util.showErrorMessage("Erro", "Bill não encontrada.");
+      return null;
+    }
+  }
 }

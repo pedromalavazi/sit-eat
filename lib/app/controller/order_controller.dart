@@ -7,11 +7,13 @@ import 'package:sit_eat/app/data/services/auth_service.dart';
 import 'package:sit_eat/app/data/services/menu_service.dart';
 import 'package:sit_eat/app/data/services/order_service.dart';
 import 'package:sit_eat/app/data/services/reservation_service.dart';
+import 'package:sit_eat/app/data/services/util_service.dart';
 
 class OrderController extends GetxController {
   final ReservationService _reservationService = ReservationService();
   final OrderService _orderService = OrderService();
   final ProductService _productService = ProductService();
+  final UtilService _util = UtilService();
 
   String restaurantId;
   String reservationId;
@@ -21,11 +23,32 @@ class OrderController extends GetxController {
   RxDouble total = 0.0.obs;
   RxBool cancelRequest = false.obs;
 
+  RxDouble totalPedido = 0.0.obs;
+  RxString totalPedidoText = "".obs;
+  RxBool possuiPedido = false.obs;
+
   @override
   void onInit() async {
     getCurrentRestaurantAndReservation();
     getOrders();
     super.onInit();
+  }
+
+  RxBool checkTotalPedidos() {
+    if (total.value == 0.0) {
+      possuiPedido.value = false;
+    } else {
+      possuiPedido.value = true;
+    }
+    return possuiPedido;
+  }
+
+  void calculatePedido(RxBool possuiPedido) {
+    if (possuiPedido.isTrue) {
+      totalPedidoText.value = ('R\$ ${_util.setCurrencyPattern(total.value)}');
+    } else {
+      totalPedidoText.value = ('R\$ 0,00');
+    }
   }
 
   Future<void> getCurrentRestaurantAndReservation() async {
@@ -54,6 +77,7 @@ class OrderController extends GetxController {
       calculateTotal(orderTemp.price, order.quantity);
       orders.add(cardTemp);
     }
+    calculatePedido(checkTotalPedidos());
   }
 
   Future<ProductModel> getProductProps(String productId) async {
