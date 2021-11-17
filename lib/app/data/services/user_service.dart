@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sit_eat/app/data/model/enum/login_status_enum.dart';
 import 'package:sit_eat/app/data/model/user_firebase_model.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/data/repository/user_repository.dart';
@@ -38,6 +39,12 @@ class UserService extends GetxService {
     } catch (e) {
       return false;
     }
+  }
+
+  void updateLoginStatus(LoginStatus status) async {
+    UserModel user = AuthService.to.user.value;
+    user.status = status;
+    await updateUser(user, '', '');
   }
 
   Stream<String> listenerUserPhoto() {

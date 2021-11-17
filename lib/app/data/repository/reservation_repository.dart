@@ -14,7 +14,11 @@ class ReservationRepository {
   Future<List<ReservationModel>> getAllReservations(String userId) async {
     try {
       var reservation = <ReservationModel>[];
-      await _firestore.collection('reservations').where('userId', isEqualTo: userId).get().then((QuerySnapshot querySnapshot) {
+      await _firestore
+          .collection('reservations')
+          .where('userId', isEqualTo: userId)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((restaurant) {
           reservation.add(ReservationModel.fromSnapshot(restaurant));
         });
@@ -31,7 +35,8 @@ class ReservationRepository {
   // Retorna reserva única pelo ID
   Future<ReservationModel> getReservation(String id) async {
     try {
-      DocumentSnapshot doc = await _firestore.collection("reservations").doc(id).get();
+      DocumentSnapshot doc =
+          await _firestore.collection("reservations").doc(id).get();
       ReservationModel reservation = ReservationModel.fromSnapshot(doc);
       reservation.id = id;
       return reservation;
@@ -44,10 +49,17 @@ class ReservationRepository {
   }
 
   // Cria reserva
-  Future<String> insert(String userId, String restaurantId, int occupationQty) async {
+  Future<String> insert(
+      String userId, String restaurantId, int occupationQty) async {
     try {
       var reservationId = await _firestore.collection("reservations").add(
-        {"userId": userId, "restaurantId": restaurantId, "occupationQty": occupationQty, "checkin": DateTime.now(), "status": ReservationStatus.RESERVADO.toUpper},
+        {
+          "userId": userId,
+          "restaurantId": restaurantId,
+          "occupationQty": occupationQty,
+          "checkin": DateTime.now(),
+          "status": ReservationStatus.RESERVADO.toUpper
+        },
       );
       return reservationId.id;
     } catch (e) {
@@ -58,7 +70,8 @@ class ReservationRepository {
     }
   }
 
-  Future<bool> insertIdReservation(String reservationId, String restaurantId) async {
+  Future<bool> insertIdReservation(
+      String reservationId, String restaurantId) async {
     try {
       await _firestore.collection("restaurants/$restaurantId/queue").add(
         {
@@ -78,7 +91,10 @@ class ReservationRepository {
   }
 
   Stream<List<String>> listenerReservationsFromQueue(String restaurantId) {
-    return _firestore.collection('restaurants/$restaurantId/queue').snapshots().map((doc) {
+    return _firestore
+        .collection('restaurants/$restaurantId/queue')
+        .snapshots()
+        .map((doc) {
       if (doc.docs.length > 0) {
         return queueFromFirebase(doc);
       }
@@ -87,7 +103,11 @@ class ReservationRepository {
   }
 
   Stream<List<ReservationModel>> listenerReservations(String userId) {
-    return _firestore.collection('reservations').where('userId', isEqualTo: userId).snapshots().map((doc) {
+    return _firestore
+        .collection('reservations')
+        .where('userId', isEqualTo: userId)
+        .snapshots()
+        .map((doc) {
       if (doc.docs.length == 0) {
         return <ReservationModel>[];
       }
@@ -107,7 +127,15 @@ class ReservationRepository {
 
   Future<ReservationModel> getActiveReservation(String userId) async {
     try {
-      var doc = await _firestore.collection("reservations").where('status', whereIn: [ReservationStatus.ATIVO.toUpper, ReservationStatus.AGUARDANDO.toUpper, ReservationStatus.RESERVADO.toUpper]).where('userId', isEqualTo: userId).get();
+      var doc = await _firestore
+          .collection("reservations")
+          .where('status', whereIn: [
+            ReservationStatus.ATIVO.toUpper,
+            ReservationStatus.AGUARDANDO.toUpper,
+            ReservationStatus.RESERVADO.toUpper
+          ])
+          .where('userId', isEqualTo: userId)
+          .get();
       if (doc.docs.length == 0) {
         return null;
       }
@@ -121,24 +149,41 @@ class ReservationRepository {
     }
   }
 
-  Future<bool> cancelReservation(String reservationId, String restaurantId) async {
+  Future<bool> cancelReservation(
+      String reservationId, String restaurantId) async {
     try {
       var batch = _firestore.batch();
 
       var reservationToCancel = _firestore.doc('reservations/$reservationId');
-      var reservation = ReservationModel.fromSnapshot(await reservationToCancel.get());
+      var reservation =
+          ReservationModel.fromSnapshot(await reservationToCancel.get());
 
       if (reservation.status == ReservationStatus.RESERVADO) {
-        var queueIdToDelete = (await _firestore.collection('restaurants/$restaurantId/queue').where("reservationId", isEqualTo: reservationId).get()).docs.first.id;
-        var queue = _firestore.doc('restaurants/$restaurantId/queue/$queueIdToDelete');
+        var queueIdToDelete = (await _firestore
+                .collection('restaurants/$restaurantId/queue')
+                .where("reservationId", isEqualTo: reservationId)
+                .get())
+            .docs
+            .first
+            .id;
+        var queue =
+            _firestore.doc('restaurants/$restaurantId/queue/$queueIdToDelete');
         batch.delete(queue);
       } else if (reservation.status == ReservationStatus.AGUARDANDO) {
-        var tableIdToDelete = (await _firestore.collection('restaurants/$restaurantId/tables').where("reservationid", isEqualTo: reservationId).get()).docs.first.id;
-        var table = _firestore.doc('restaurants/$restaurantId/tables/$tableIdToDelete');
+        var tableIdToDelete = (await _firestore
+                .collection('restaurants/$restaurantId/tables')
+                .where("reservationid", isEqualTo: reservationId)
+                .get())
+            .docs
+            .first
+            .id;
+        var table =
+            _firestore.doc('restaurants/$restaurantId/tables/$tableIdToDelete');
         batch.update(table, {"busy": false});
       }
 
-      batch.update(reservationToCancel, {"status": ReservationStatus.CANCELADO.toUpper});
+      batch.update(
+          reservationToCancel, {"status": ReservationStatus.CANCELADO.toUpper});
       await batch.commit();
       return true;
     } catch (e) {
@@ -149,7 +194,11 @@ class ReservationRepository {
 
   Future<String> getReservationIdByUser(String userId) async {
     try {
-      var doc = await _firestore.collection("reservations").where('status', whereIn: [ReservationStatus.ATIVO.toUpper]).where('userId', isEqualTo: userId).get();
+      var doc = await _firestore
+          .collection("reservations")
+          .where('status', whereIn: [ReservationStatus.ATIVO.toUpper])
+          .where('userId', isEqualTo: userId)
+          .get();
       if (doc.docs.length == 0) {
         return null;
       }
@@ -166,7 +215,12 @@ class ReservationRepository {
   //getBillByReservationId()
   Future<BillModel> getBillByReservationId(String reservationId) async {
     try {
-      var doc = await _firestore.collection("bills").where('asked', isEqualTo: false).where('paid', isEqualTo: false).where('reservationId', isEqualTo: reservationId).get();
+      var doc = await _firestore
+          .collection("bills")
+          .where('asked', isEqualTo: false)
+          .where('paid', isEqualTo: false)
+          .where('reservationId', isEqualTo: reservationId)
+          .get();
       if (doc.docs.length == 0) {
         return null;
       }
@@ -188,6 +242,17 @@ class ReservationRepository {
       Get.back();
       _util.showErrorMessage("Erro", "Bill não encontrada.");
       return null;
+    }
+  }
+
+  Future<void> updateReservationStatus(
+      String reservationId, ReservationStatus status) async {
+    try {
+      await _firestore.collection('reservations').doc(reservationId).update({
+        'status': status.toUpper,
+      });
+    } catch (e) {
+      _util.showErrorMessage("Erro", "Erro ao atualizar o status da reserva");
     }
   }
 }

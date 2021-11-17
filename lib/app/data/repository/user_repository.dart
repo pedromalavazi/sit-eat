@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sit_eat/app/data/model/enum/login_status_enum.dart';
 import 'package:sit_eat/app/data/model/user_model.dart';
 
 class UserRepository {
@@ -47,7 +48,10 @@ class UserRepository {
       await _firestore.collection("users").doc(user.id).update({
         "name": user.name,
         "phoneNumber": user.phoneNumber,
-        "image": user.image
+        "image": user.image,
+        "status": user.status == LoginStatus.IN
+            ? LoginStatus.IN.toUpper
+            : LoginStatus.OUT.toUpper,
       });
     } catch (e) {
       Get.defaultDialog(
