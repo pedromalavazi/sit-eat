@@ -15,6 +15,7 @@ class UserRepository {
         "email": email,
         "name": name,
         "phoneNumber": phoneNumber,
+        "image": "",
       });
 
       return true;
