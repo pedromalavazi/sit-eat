@@ -35,8 +35,6 @@ class OrdersPage extends GetView<OrderController> {
                     shrinkWrap: true,
                     itemCount: _orderController.orders.length,
                     itemBuilder: (BuildContext context, int index) {
-                      //return OrderCard(
-                      //order: _orderController.orders[index],
                       return Dismissible(
                         key: ValueKey(_orderController.orders[index]),
                         background: Container(
