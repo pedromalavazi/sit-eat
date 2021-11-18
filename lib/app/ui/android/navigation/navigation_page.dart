@@ -11,8 +11,7 @@ import 'package:sit_eat/app/ui/android/profile/profile_page.dart';
 import 'package:sit_eat/app/ui/android/reservation/reservation_page.dart';
 
 class NavigationPage extends GetView<NavigationController> {
-  final NavigationController _navigationController =
-      Get.put(NavigationController());
+  final NavigationController _navigationController = Get.put(NavigationController());
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +39,9 @@ class NavigationPage extends GetView<NavigationController> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //Get.find<HomeController>().scanQrCode();
+          Get.find<HomeController>().scanQrCode();
           //Get.toNamed(Routes.RESTAURANT_MENU);
-          Get.toNamed(Routes.RESTAURANT_ORDERS);
+          //Get.toNamed(Routes.RESTAURANT_ORDERS);
           //Get.toNamed(Routes.RESTAURANT_PAYMENT);
         },
         child: Icon(Icons.qr_code_scanner),
