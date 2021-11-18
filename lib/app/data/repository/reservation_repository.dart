@@ -172,7 +172,7 @@ class ReservationRepository {
       } else if (reservation.status == ReservationStatus.AGUARDANDO) {
         var tableIdToDelete = (await _firestore
                 .collection('restaurants/$restaurantId/tables')
-                .where("reservationid", isEqualTo: reservationId)
+                .where("reservationId", isEqualTo: reservationId)
                 .get())
             .docs
             .first
