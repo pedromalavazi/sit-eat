@@ -94,12 +94,12 @@ class QrCodeService extends GetxService {
     if (table == null ||
         table.id.isEmpty ||
         table.qrCode.isEmpty ||
-        table.reservationid.isEmpty) return false;
+        table.reservationId.isEmpty) return false;
 
     // Verifica se a mesa escaneada é a mesma mesa que o usuário devia sentar
     if (tableIdScanned != table.id ||
         qrCodeScanned != table.qrCode ||
-        reservation.id != table.reservationid) {
+        reservation.id != table.reservationId) {
       return false;
     }
 

@@ -92,7 +92,7 @@ class RestaurantRepository {
           .doc(tableId)
           .update({
         "busy": true,
-        "reservationid": reservationId,
+        "reservationId": reservationId,
       });
       return true;
     } catch (e) {
@@ -107,7 +107,7 @@ class RestaurantRepository {
       TableModel table;
       await _firestore
           .collection("restaurants/$restaurantId/tables")
-          .where('reservationid', isEqualTo: reservationId)
+          .where('reservationId', isEqualTo: reservationId)
           .get()
           .then(
             (QuerySnapshot doc) => {

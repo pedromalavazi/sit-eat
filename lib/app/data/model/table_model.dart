@@ -5,7 +5,7 @@ class TableModel {
   bool busy;
   int capacity;
   int number;
-  String reservationid;
+  String reservationId;
   String qrCode;
 
   TableModel({
@@ -13,7 +13,7 @@ class TableModel {
     this.busy,
     this.capacity,
     this.number,
-    this.reservationid,
+    this.reservationId,
     this.qrCode,
   });
 
@@ -22,6 +22,6 @@ class TableModel {
         busy = table.data()["busy"],
         capacity = table.data()["capacity"],
         number = table.data()["number"],
-        reservationid = table.data()["reservationid"],
+        reservationId = table.data()["reservationId"],
         qrCode = table.data()["qrCode"];
 }

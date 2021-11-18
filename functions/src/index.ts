@@ -58,7 +58,7 @@ async function verifyTables(snap: any, context: any) {
     var reservationForUpdate = db.doc(`reservations/${nextReservation.reservationId}`);
 
     // SETAR O RESERVATIONID NA MESA DEFINIDA.
-    batch.set(table, { reservationid: nextReservation.reservationId, busy: true }, { merge: true });
+    batch.set(table, { reservationId: nextReservation.reservationId, busy: true }, { merge: true });
     // REMOVER O RESERVATIONID DA QUEUE    
     batch.delete(reservationInQueue);
     // ATUALIZAR STATUS DA RESERVATION NA COLLECTION RESERVATIONS
@@ -113,7 +113,7 @@ async function verifyQueue(change: any, context: any) {
     var reservationForUpdate = db.doc(`reservations/${nextReservation.reservationId}`);
 
     // SETAR O RESERVATIONID NA MESA DEFINIDA.
-    batch.set(table, { reservationid: nextReservation.reservationId, busy: true }, { merge: true });
+    batch.set(table, { reservationId: nextReservation.reservationId, busy: true }, { merge: true });
     // REMOVER O RESERVATIONID DA QUEUE    
     batch.delete(reservationInQueue);
     // ATUALIZAR STATUS DA RESERVATION NA COLLECTION RESERVATIONS
