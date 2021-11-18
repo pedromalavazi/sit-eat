@@ -93,16 +93,19 @@ class OrdersPage extends GetView<OrderController> {
         padding: EdgeInsets.all(10.0),
         child: ElevatedButton(
           onPressed: () {
-            Get.toNamed(Routes.RESTAURANT_PAYMENT);
+            if (_orderController.totalPedidoText.value != null) {
+              Get.toNamed(Routes.RESTAURANT_PAYMENT);
+            } else {
+              _util.showErrorMessage("Erro", "Lista de pedidos vazia!");
+            }
           },
           style: ElevatedButton.styleFrom(primary: Colors.red[500], padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20), textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Fechar conta'),
+              Text('Fechar Conta'),
               Obx(
-                () => Text(_orderController.totalPedidoText.value),
-                //Text('R\$ ${_util.setCurrencyPattern(_orderController.total.value)}'),
+                () => Text(_orderController.totalPedidoText.value ?? "R\$ 0,00"),
               ),
             ],
           ),

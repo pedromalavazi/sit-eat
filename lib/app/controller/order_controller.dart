@@ -47,7 +47,7 @@ class OrderController extends GetxController {
     if (possuiPedido.isTrue) {
       totalPedidoText.value = ('R\$ ${_util.setCurrencyPattern(total.value)}');
     } else {
-      totalPedidoText.value = ('R\$ 0,00');
+      totalPedidoText.value = null;
     }
   }
 
