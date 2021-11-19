@@ -270,7 +270,8 @@ async function InsertBill(bill: BillModel) {
     'asked': bill.asked,
     'paid': bill.paid,
     'reservationId': bill.reservationId,
-    'total': bill.total
+    'total': bill.total,
+    'paymentType': ""
   });
 }
 

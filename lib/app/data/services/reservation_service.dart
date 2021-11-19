@@ -125,17 +125,19 @@ class ReservationService extends GetxService {
     if (!GetUtils.isNullOrBlank(reservationId)) {
       var bill =
           await _reservationRepository.getBillByReservationId(reservationId);
+
+      if (bill.isBlank) return null;
       return bill;
     } else {
       return null;
     }
   }
 
-  Future<void> askBill(String id) async {
+  Future<bool> askBill(String id, String paymentType) async {
     try {
-      await _reservationRepository.askBill(id);
+      return await _reservationRepository.askBill(id, paymentType);
     } catch (e) {
-      return null;
+      return false;
     }
   }
 

@@ -9,13 +9,17 @@ import 'package:sit_eat/app/data/model/user_model.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
 import 'package:sit_eat/app/data/services/reservation_service.dart';
 import 'package:sit_eat/app/data/services/restaurant_service.dart';
+import 'package:sit_eat/app/data/services/util_service.dart';
 
 class ReservationController extends GetxController {
   final ReservationService _reservationService = ReservationService();
   final RestaurantService _restaurantService = RestaurantService();
+  final UtilService _util = UtilService();
 
   RxList<ReservationCardModel> allReservations = RxList<ReservationCardModel>();
   Rx<UserModel> user = UserModel().obs;
+  RxString paymentType = "".obs;
+  RxBool billAsked = false.obs;
 
   @override
   void onInit() {
@@ -25,15 +29,22 @@ class ReservationController extends GetxController {
   }
 
   Future<RestaurantModel> getRestaurantProps(String restaurantId) async {
-    RestaurantModel currentRestaurant = await _restaurantService.get(restaurantId);
+    RestaurantModel currentRestaurant =
+        await _restaurantService.get(restaurantId);
     return currentRestaurant;
   }
 
   void getAllReservations(String userId) async {
-    _reservationService.listenerReservations(userId).listen((reservations) async {
+    _reservationService
+        .listenerReservations(userId)
+        .listen((reservations) async {
       allReservations.clear();
-      reservations = _reservationService.sortReservationsByCheckIn(reservations).reversed.toList();
+      reservations = _reservationService
+          .sortReservationsByCheckIn(reservations)
+          .reversed
+          .toList();
 
+      List<ReservationCardModel> tempAllReservations = <ReservationCardModel>[];
       for (var i = 0; i < reservations.length; i++) {
         var reservation = reservations[i];
         ReservationCardModel cardTemp = ReservationCardModel();
@@ -48,13 +59,15 @@ class ReservationController extends GetxController {
         cardTemp.address = restaurantTemp.address;
         cardTemp.menu = restaurantTemp.menu;
         cardTemp.status = reservation.status;
-        allReservations.add(cardTemp);
+        tempAllReservations.add(cardTemp);
       }
+      this.allReservations.addAll(tempAllReservations);
     });
   }
 
   double getStatusOpacity(ReservationStatus status) {
-    if (status == ReservationStatus.RESERVADO || status == ReservationStatus.AGUARDANDO) {
+    if (status == ReservationStatus.RESERVADO ||
+        status == ReservationStatus.AGUARDANDO) {
       return 1;
     }
     return 0.5;
@@ -88,13 +101,31 @@ class ReservationController extends GetxController {
     }
   }
 
-  Future<void> askBill(String id) async {
-    await _reservationService.askBill(id);
+  Future<void> askBill() async {
+    var billId = await getUserBill();
+
+    if (billId.isBlank) return;
+
+    this.billAsked.value =
+        await _reservationService.askBill(billId, paymentType.value);
+    Get.back();
+    _util.showSuccessMessage(
+        "Solicitação de fechamento", "Sua conta está a caminho!");
   }
 
   Future<String> getUserBill() async {
-    var reservationId = await _reservationService.getReservationIdByUser(AuthService.to.user.value.id);
-    BillModel currentBill = await _reservationService.getBillByReservationId(reservationId);
+    var reservationId = await _reservationService
+        .getReservationIdByUser(AuthService.to.user.value.id);
+    BillModel currentBill =
+        await _reservationService.getBillByReservationId(reservationId);
+
+    if (currentBill == null) {
+      Get.back();
+      _util.showSuccessMessage(
+          "Solicitação de fechamento", "Sua conta já está a caminho!");
+      return null;
+    }
+
     var billId = currentBill.id;
     return billId;
   }

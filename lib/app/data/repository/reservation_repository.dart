@@ -229,19 +229,21 @@ class ReservationRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      _util.showErrorMessage("Erro", "Bill não encontrada.");
+      _util.showErrorMessage("Erro", "Conta não encontrada.");
       return null;
     }
   }
 
-  Future<void> askBill(String id) async {
+  Future<bool> askBill(String id, String paymentType) async {
     try {
-      await _firestore.collection("bills").doc(id).update({"asked": true});
+      await _firestore
+          .collection("bills")
+          .doc(id)
+          .update({"asked": true, "paymentType": paymentType});
+
+      return true;
     } catch (e) {
-      print(e.code);
-      Get.back();
-      _util.showErrorMessage("Erro", "Bill não encontrada.");
-      return null;
+      return false;
     }
   }
 
