@@ -38,8 +38,7 @@ class ProductDetailPage extends GetView<ProductController> {
                       child: SizedBox(
                         width: 180,
                         height: 160,
-                        child: _productController.setProductImage(
-                            _productController.product.value.image),
+                        child: _productController.setProductImage(_productController.product.value.image),
                       ),
                     ),
                   ),
@@ -69,8 +68,7 @@ class ProductDetailPage extends GetView<ProductController> {
                                 Obx(
                                   () => Container(
                                     child: Text(
-                                      _productController.product.value.name ??
-                                          "",
+                                      _productController.product.value.name ?? "",
                                       style: TextStyle(
                                         fontSize: 32,
                                         color: Colors.black,
@@ -87,12 +85,7 @@ class ProductDetailPage extends GetView<ProductController> {
                                 Obx(
                                   () => Container(
                                     child: Text(
-                                      "R\$ " +
-                                              _productController
-                                                  .product.value.price
-                                                  .toString()
-                                                  .replaceFirst(".", ",") ??
-                                          "",
+                                      "R\$ " + _productController.product.value.price.toString().replaceFirst(".", ",") ?? "",
                                       style: TextStyle(
                                         fontSize: 32,
                                         color: Colors.green.shade600,
@@ -113,10 +106,7 @@ class ProductDetailPage extends GetView<ProductController> {
                                 children: [
                                   Obx(
                                     () => Text(
-                                      _productController
-                                              .product.value.description ??
-                                          "",
-                                      //"teste de uma descrição infinita só pra testar até quanto essa merda suporta de caracteres e se é possivel escrever um livro",
+                                      _productController.product.value.description ?? "",
                                       style: TextStyle(
                                         color: Colors.grey,
                                         fontSize: 20,
@@ -147,17 +137,12 @@ class ProductDetailPage extends GetView<ProductController> {
                                 ),
                                 Container(
                                   margin: EdgeInsets.symmetric(horizontal: 3),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 3, vertical: 2),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(3),
-                                      color: Colors.white),
+                                  padding: EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Colors.white),
                                   child: Obx(
                                     () => Text(
-                                      _productController.itemCount.toString() ??
-                                          "null",
-                                      style: TextStyle(
-                                          color: Colors.black54, fontSize: 26),
+                                      _productController.itemCount.toString() ?? "null",
+                                      style: TextStyle(color: Colors.black54, fontSize: 26),
                                     ),
                                   ),
                                 ),

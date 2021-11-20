@@ -4,6 +4,7 @@ import 'package:sit_eat/app/binding/login_binding.dart';
 import 'package:sit_eat/app/binding/menu_binding.dart';
 import 'package:sit_eat/app/binding/navigation_binding.dart';
 import 'package:sit_eat/app/binding/order_binding.dart';
+import 'package:sit_eat/app/binding/payment_biding.dart';
 import 'package:sit_eat/app/binding/product_binding.dart';
 import 'package:sit_eat/app/binding/reservation_binding.dart';
 import 'package:sit_eat/app/binding/restaurant_binding.dart';
@@ -98,6 +99,7 @@ class AppPages {
     GetPage(
       name: Routes.RESTAURANT_PAYMENT,
       page: () => PaymentsPage(),
+      binding: PaymentBinding(),
     ),
   ];
 }

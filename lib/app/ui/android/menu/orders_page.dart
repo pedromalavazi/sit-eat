@@ -101,7 +101,7 @@ class OrdersPage extends GetView<OrderController> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Fechar Conta'),
+              Text('Fechar conta'),
               Obx(
                 () => Text(_orderController.totalPedidoText.value ?? "R\$ 0,00"),
               ),
