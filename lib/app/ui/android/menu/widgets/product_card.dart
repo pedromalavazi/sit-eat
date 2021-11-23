@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sit_eat/app/data/model/product_model.dart';
+import 'package:sit_eat/app/data/services/util_service.dart';
 import 'package:sit_eat/app/routes/app_pages.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductModel product;
   ProductCard({this.product});
+  final UtilService _util = UtilService();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // Card Itens
       child: GestureDetector(
         onTap: () {
           Get.toNamed(Routes.RESTAURANT_MENU_DETAIL, arguments: product.id);
@@ -63,6 +64,7 @@ class ProductCard extends StatelessWidget {
                       SizedBox(
                         width: 10.0,
                       ),
+                      // Measure
                       Row(
                         children: [
                           Text(
@@ -94,7 +96,7 @@ class ProductCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          product.price.toString().replaceFirst(".", ",") ?? "",
+                          _util.setCurrencyPattern(product.price) ?? "",
                           style: TextStyle(
                             fontSize: 24,
                             color: Colors.green,

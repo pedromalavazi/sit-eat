@@ -7,7 +7,7 @@ class PaymentsPage extends GetView<PaymentController> {
   final PaymentController _paymentController = Get.find<PaymentController>();
   final UtilService _util = UtilService();
 
-  final List<Item> items = <Item>[Item('Dinheiro'), Item('Cartão'), Item('Vale Refeição')];
+  final List<Item> items = <Item>[Item('Dinheiro', Icon(Icons.attach_money)), Item('Cartão', Icon(Icons.credit_card)), Item('Vale Refeição', Icon(Icons.card_membership))];
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +52,13 @@ class PaymentsPage extends GetView<PaymentController> {
                       contentPadding: EdgeInsets.only(right: 50),
                       trailing: (items[index].selected.value)
                           ? Icon(
-                              Icons.radio_button_checked,
+                              items[index].iconImg.icon,
                               color: Colors.red[500],
                             )
-                          : Icon(Icons.radio_button_off),
+                          : Icon(
+                              items[index].iconImg.icon,
+                              color: Colors.black54,
+                            ),
                     ),
                   );
                 },
@@ -121,6 +124,7 @@ class PaymentsPage extends GetView<PaymentController> {
 
 class Item {
   final String title;
+  final Icon iconImg;
   RxBool selected = false.obs;
-  Item(this.title);
+  Item(this.title, this.iconImg);
 }
