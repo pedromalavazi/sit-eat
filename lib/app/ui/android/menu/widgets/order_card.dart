@@ -10,7 +10,6 @@ class OrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // Card Itens
       child: GestureDetector(
         onTap: () {},
         child: Card(
@@ -100,7 +99,6 @@ class OrderCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          //order.price.toString().replaceFirst(".", ",") ?? "",
                           _util.setCurrencyPattern(order.price) ?? "",
                           style: TextStyle(
                             fontSize: 24,

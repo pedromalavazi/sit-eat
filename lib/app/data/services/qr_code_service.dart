@@ -7,6 +7,7 @@ import 'package:sit_eat/app/data/model/reservation_model.dart';
 import 'package:sit_eat/app/data/model/table_model.dart';
 import 'package:sit_eat/app/data/repository/qr_code_repository.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
+import 'package:sit_eat/app/data/services/payment_service.dart';
 import 'package:sit_eat/app/data/services/reservation_service.dart';
 import 'package:sit_eat/app/data/services/restaurant_service.dart';
 import 'package:sit_eat/app/data/services/user_service.dart';
@@ -18,6 +19,7 @@ class QrCodeService extends GetxService {
 
   final ReservationService _reservationService = ReservationService();
   final RestaurantService _restaurantService = RestaurantService();
+  final PaymentService _paymentService = PaymentService();
   final UserService _userService = UserService();
   final _util = UtilService();
 
@@ -60,13 +62,11 @@ class QrCodeService extends GetxService {
 
   void loadTable(QrCodeModel qrCode) async {
     // Recupera reserva do usuário logado;
-    var reservation = await _reservationService
-        .getActiveReservation(AuthService.to.user.value.id);
+    var reservation = await _reservationService.getActiveReservation(AuthService.to.user.value.id);
 
     if (!(await isValidTable(reservation, qrCode.referenceId, qrCode.qrCode))) {
       Get.offAllNamed(Routes.NAVIGATION);
-      _util.showErrorMessage(
-          "Erro", "Mesa escaneada não é válida para esse usuário!");
+      _util.showErrorMessage("Erro", "Mesa escaneada não é válida para esse usuário!");
       return;
     }
 
@@ -74,32 +74,24 @@ class QrCodeService extends GetxService {
     _userService.updateLoginStatus(LoginStatus.IN);
 
     // Update Reservation Status
-    _reservationService.updateReservationStatus(
-        reservation.id, ReservationStatus.ATIVO);
+    _paymentService.updateReservationStatus(reservation.id, ReservationStatus.ATIVO);
 
     Get.offAllNamed(Routes.NAVIGATION);
     _util.showSuccessMessage("Sucesso", "Mesa validada com sucesso!");
     return;
   }
 
-  Future<bool> isValidTable(ReservationModel reservation, String tableIdScanned,
-      String qrCodeScanned) async {
+  Future<bool> isValidTable(ReservationModel reservation, String tableIdScanned, String qrCodeScanned) async {
     if (reservation == null) return false;
 
     // Recupera a mesa que é esperada que o usuário sente
-    TableModel table = await _restaurantService.getTable(
-        reservation.restaurantId, reservation.id);
+    TableModel table = await _restaurantService.getTable(reservation.restaurantId, reservation.id);
 
     // Verifica se o usuário realmente fez uma reserva
-    if (table == null ||
-        table.id.isEmpty ||
-        table.qrCode.isEmpty ||
-        table.reservationId.isEmpty) return false;
+    if (table == null || table.id.isEmpty || table.qrCode.isEmpty || table.reservationId.isEmpty) return false;
 
     // Verifica se a mesa escaneada é a mesma mesa que o usuário devia sentar
-    if (tableIdScanned != table.id ||
-        qrCodeScanned != table.qrCode ||
-        reservation.id != table.reservationId) {
+    if (tableIdScanned != table.id || qrCodeScanned != table.qrCode || reservation.id != table.reservationId) {
       return false;
     }
 

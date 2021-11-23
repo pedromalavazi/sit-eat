@@ -25,20 +25,15 @@ class ReservationService extends GetxService {
     }
   }
 
-  Future<String> insert(
-      String userId, String restaurantId, int occupationQty) async {
-    return await _reservationRepository.insert(
-        userId, restaurantId, occupationQty);
+  Future<String> insert(String userId, String restaurantId, int occupationQty) async {
+    return await _reservationRepository.insert(userId, restaurantId, occupationQty);
   }
 
-  Future<bool> insertIdReservation(
-      String reservationId, String restaurantId) async {
-    return await _reservationRepository.insertIdReservation(
-        reservationId, restaurantId);
+  Future<bool> insertIdReservation(String reservationId, String restaurantId) async {
+    return await _reservationRepository.insertIdReservation(reservationId, restaurantId);
   }
 
-  Future<int> getPositionInQueue(
-      List<String> restaurantsId, String userId) async {
+  Future<int> getPositionInQueue(List<String> restaurantsId, String userId) async {
     int position = 0;
     List<ReservationModel> reservations = <ReservationModel>[];
     restaurantsId.removeWhere((id) => id == null);
@@ -48,8 +43,7 @@ class ReservationService extends GetxService {
         reservations.add(reservation);
       }
 
-      position =
-          findUserPosition(sortReservationsByCheckIn(reservations), userId);
+      position = findUserPosition(sortReservationsByCheckIn(reservations), userId);
 
       return position;
     } else {
@@ -57,8 +51,7 @@ class ReservationService extends GetxService {
     }
   }
 
-  Stream<List<String>> listenerReservationsFromQueue(
-      String restaurantId, String userId) {
+  Stream<List<String>> listenerReservationsFromQueue(String restaurantId, String userId) {
     return _reservationRepository.listenerReservationsFromQueue(restaurantId);
   }
 
@@ -69,8 +62,7 @@ class ReservationService extends GetxService {
   int findUserPosition(List<ReservationModel> reservations, String userId) {
     int position = 0;
 
-    var userReservation =
-        reservations.where((reservation) => reservation.userId == userId);
+    var userReservation = reservations.where((reservation) => reservation.userId == userId);
     if (userReservation.isNotEmpty) {
       position = reservations.indexOf(userReservation.first) + 1;
     }
@@ -78,8 +70,7 @@ class ReservationService extends GetxService {
     return position;
   }
 
-  List<ReservationModel> sortReservationsByCheckIn(
-      List<ReservationModel> reservations) {
+  List<ReservationModel> sortReservationsByCheckIn(List<ReservationModel> reservations) {
     // Ordenar por data
     if (reservations.length == 1) {
       return reservations;
@@ -99,52 +90,20 @@ class ReservationService extends GetxService {
     return reservations;
   }
 
-  Future<bool> cancelReservation(
-      String reservationId, String restaurantId) async {
+  Future<bool> cancelReservation(String reservationId, String restaurantId) async {
     if (reservationId.isBlank || restaurantId.isBlank) {
-      _util.showInformationMessage(
-          "Erro", "Não foi possível cancelar sua reserva.");
+      _util.showInformationMessage("Erro", "Não foi possível cancelar sua reserva.");
       return false;
     }
-    return await _reservationRepository.cancelReservation(
-        reservationId, restaurantId);
+    return await _reservationRepository.cancelReservation(reservationId, restaurantId);
   }
 
   Future<String> getReservationIdByUser(String userId) async {
     if (!GetUtils.isNullOrBlank(userId)) {
-      var reservationId =
-          await _reservationRepository.getReservationIdByUser(userId);
+      var reservationId = await _reservationRepository.getReservationIdByUser(userId);
       return reservationId;
     } else {
       return null;
     }
-  }
-
-  //getBillByReservationId()
-  Future<BillModel> getBillByReservationId(String reservationId) async {
-    if (!GetUtils.isNullOrBlank(reservationId)) {
-      var bill =
-          await _reservationRepository.getBillByReservationId(reservationId);
-
-      if (bill.isBlank) return null;
-      return bill;
-    } else {
-      return null;
-    }
-  }
-
-  Future<bool> askBill(String id, String paymentType) async {
-    try {
-      return await _reservationRepository.askBill(id, paymentType);
-    } catch (e) {
-      return false;
-    }
-  }
-
-  void updateReservationStatus(
-    String reservationId,
-    ReservationStatus status,
-  ) async {
-    await _reservationRepository.updateReservationStatus(reservationId, status);
   }
 }

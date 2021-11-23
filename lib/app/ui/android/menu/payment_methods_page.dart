@@ -1,18 +1,13 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:sit_eat/app/controller/reservation_controller.dart';
+import 'package:sit_eat/app/controller/payment_controller.dart';
 import 'package:sit_eat/app/data/services/util_service.dart';
 
-class PaymentsPage extends GetView<ReservationController> {
-  final ReservationController _reservationController =
-      Get.find<ReservationController>();
+class PaymentsPage extends GetView<PaymentController> {
+  final PaymentController _paymentController = Get.find<PaymentController>();
   final UtilService _util = UtilService();
 
-  final List<Item> items = <Item>[
-    Item('Dinheiro'),
-    Item('Cartão'),
-    Item('Vale Refeição')
-  ];
+  final List<Item> items = <Item>[Item('Dinheiro', Icon(Icons.attach_money)), Item('Cartão', Icon(Icons.credit_card)), Item('Vale Refeição', Icon(Icons.card_membership))];
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +17,7 @@ class PaymentsPage extends GetView<ReservationController> {
         centerTitle: true,
       ),
       backgroundColor: Colors.white,
-      body: _reservationController.billAsked.value
+      body: _paymentController.billAsked.value
           ? Center(
               child: Text(
                 "Pedido de conta já realizado",
@@ -38,10 +33,8 @@ class PaymentsPage extends GetView<ReservationController> {
                     () => ListTile(
                       onTap: () {
                         resetItems(index);
-                        items[index].selected.value =
-                            !items[index].selected.value;
-                        _reservationController.paymentType.value =
-                            items[index].title;
+                        items[index].selected.value = !items[index].selected.value;
+                        _paymentController.paymentType.value = items[index].title;
                       },
                       selected: items[index].selected.value,
                       leading: GestureDetector(
@@ -54,24 +47,24 @@ class PaymentsPage extends GetView<ReservationController> {
                       selectedTileColor: Colors.grey,
                       title: Text(
                         items[index].title,
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54),
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black54),
                       ),
                       contentPadding: EdgeInsets.only(right: 50),
                       trailing: (items[index].selected.value)
                           ? Icon(
-                              Icons.radio_button_checked,
+                              items[index].iconImg.icon,
                               color: Colors.red[500],
                             )
-                          : Icon(Icons.radio_button_off),
+                          : Icon(
+                              items[index].iconImg.icon,
+                              color: Colors.black54,
+                            ),
                     ),
                   );
                 },
               ),
             ),
-      bottomNavigationBar: _reservationController.billAsked.value
+      bottomNavigationBar: _paymentController.billAsked.value
           ? Container()
           : Padding(
               padding: EdgeInsets.all(40.0),
@@ -85,35 +78,28 @@ class PaymentsPage extends GetView<ReservationController> {
                         content: Text("Tem certeza que deseja fechar a conta?"),
                         actions: [
                           ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  primary: Colors.red[500],
-                                  padding: EdgeInsets.all(15)),
+                              style: ElevatedButton.styleFrom(primary: Colors.red[500], padding: EdgeInsets.all(15)),
                               onPressed: () {
                                 Navigator.of(ctx).pop(false);
                               },
                               child: Text("Não")),
                           ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  primary: Colors.red[500],
-                                  padding: EdgeInsets.all(15)),
-                              onPressed: () {
-                                Navigator.of(ctx).pop(false);
-                                _reservationController.askBill();
-                              },
-                              child: Text("Sim")),
+                            style: ElevatedButton.styleFrom(primary: Colors.red[500], padding: EdgeInsets.all(15)),
+                            onPressed: () {
+                              Navigator.of(ctx).pop(false);
+                              _paymentController.askBill();
+                              Get.back();
+                            },
+                            child: Text("Sim"),
+                          ),
                         ],
                       ),
                     );
                   } catch (e) {
-                    _util.showErrorMessage(
-                        "Erro", "Selecione uma forma de pagamento.");
+                    _util.showErrorMessage("Erro", "Problema no fechamento da conta chame um atendente.");
                   }
                 },
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.red[500],
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                    textStyle:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                style: ElevatedButton.styleFrom(primary: Colors.red[500], padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20), textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -138,6 +124,7 @@ class PaymentsPage extends GetView<ReservationController> {
 
 class Item {
   final String title;
+  final Icon iconImg;
   RxBool selected = false.obs;
-  Item(this.title);
+  Item(this.title, this.iconImg);
 }
