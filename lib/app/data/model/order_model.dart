@@ -10,7 +10,16 @@ class OrderModel {
   double total;
   bool delivered;
 
-  OrderModel({this.id, this.orderTime, this.productId, this.quantity, this.reservationId, this.total, this.userId, this.delivered});
+  OrderModel({
+    this.id,
+    this.orderTime,
+    this.productId,
+    this.quantity,
+    this.reservationId,
+    this.total,
+    this.userId,
+    this.delivered,
+  });
 
   OrderModel.fromSnapshot(DocumentSnapshot order)
       : id = order.id,
