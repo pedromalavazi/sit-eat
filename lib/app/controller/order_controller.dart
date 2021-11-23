@@ -6,7 +6,6 @@ import 'package:sit_eat/app/data/model/product_model.dart';
 import 'package:sit_eat/app/data/services/auth_service.dart';
 import 'package:sit_eat/app/data/services/menu_service.dart';
 import 'package:sit_eat/app/data/services/order_service.dart';
-import 'package:sit_eat/app/data/services/qr_code_service.dart';
 import 'package:sit_eat/app/data/services/reservation_service.dart';
 import 'package:sit_eat/app/data/services/util_service.dart';
 
