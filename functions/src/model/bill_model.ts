@@ -3,6 +3,7 @@ export class BillModel {
     asked: boolean = false;
     paid: boolean = false;
     reservationId: string = "";
+    restaurantId: string = "";
     total: number = 0;
   }
   
