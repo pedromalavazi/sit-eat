@@ -226,7 +226,8 @@ async function updateTableBill(snap: any, context: any) {
 
     // se não tiver cria 
     if (existBill == null) {
-      bill.reservationId = reservationId; 
+      bill.reservationId = reservationId;
+      bill.restaurantId = reservation.restaurantId;
       bill.total = order.total;
     } else { // se tiver atualiza 
       bill = existBill;
@@ -270,6 +271,7 @@ async function InsertBill(bill: BillModel) {
     'asked': bill.asked,
     'paid': bill.paid,
     'reservationId': bill.reservationId,
+    'restaurantId': bill.restaurantId,
     'total': bill.total,
     'paymentType': ""
   });
