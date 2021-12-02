@@ -33,10 +33,10 @@ class OrdersPage extends GetView<OrderController> {
                 () => Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: _orderController.orders.length,
+                    itemCount: _orderController.allOrders.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Dismissible(
-                        key: ValueKey(_orderController.orders[index]),
+                        key: ValueKey(_orderController.allOrders[index]),
                         background: Container(
                           color: Colors.redAccent,
                           child: Icon(Icons.delete, color: Colors.white, size: 40),
@@ -60,11 +60,11 @@ class OrdersPage extends GetView<OrderController> {
                                 ElevatedButton(
                                     style: ElevatedButton.styleFrom(primary: Colors.red[500]),
                                     onPressed: () {
-                                      _orderController.checkCancelRequest(_orderController.orders[index].orderTime);
+                                      _orderController.checkCancelRequest(_orderController.allOrders[index].orderTime);
                                       if (_orderController.cancelRequest.isTrue) {
                                         Navigator.of(ctx).pop(true);
-                                        _orderController.orders.removeAt(index);
-                                        _orderController.removeOrder(_orderController.orders[index].id);
+                                        _orderController.allOrders.removeAt(index);
+                                        _orderController.removeOrder(_orderController.allOrders[index].id);
                                         _util.showSuccessMessage("Pedido cancelado", "O restaurante será notificado sobre o cancelamento!");
                                       } else {
                                         Navigator.of(ctx).pop(false);
@@ -77,7 +77,7 @@ class OrdersPage extends GetView<OrderController> {
                           );
                         },
                         onDismissed: (DismissDirection direction) {},
-                        child: OrderCard(order: _orderController.orders[index]),
+                        child: OrderCard(order: _orderController.allOrders[index]),
                       );
                     },
                   ),

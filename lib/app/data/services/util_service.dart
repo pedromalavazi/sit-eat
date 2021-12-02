@@ -54,8 +54,12 @@ class UtilService extends GetxService {
   }
 
   setCurrencyPattern(double value) {
+    var newValue;
+    if (value == null) {
+      return newValue = "-";
+    }
     var pattern = NumberFormat('###.00#', 'pt_BR');
-    var newValue = pattern.format(value);
+    newValue = pattern.format(value);
     return newValue;
   }
 }
