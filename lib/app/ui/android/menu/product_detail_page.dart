@@ -1,10 +1,13 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:sit_eat/app/controller/product_controller.dart';
+import 'package:sit_eat/app/data/services/util_service.dart';
 import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 
 class ProductDetailPage extends GetView<ProductController> {
   final ProductController _productController = Get.find<ProductController>();
+  final UtilService _util = UtilService();
+  double productPrice = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +88,8 @@ class ProductDetailPage extends GetView<ProductController> {
                                 Obx(
                                   () => Container(
                                     child: Text(
-                                      "R\$ " + _productController.product.value.price.toString().replaceFirst(".", ",") ?? "",
+                                      //"R\$ " + _productController.product.value.price.toString().replaceFirst(".", ",") ?? "",
+                                      "R\$ " + _util.setCurrencyPattern(_productController.product.value.price) ?? "",
                                       style: TextStyle(
                                         fontSize: 32,
                                         color: Colors.green.shade600,

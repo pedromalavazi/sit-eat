@@ -30,16 +30,10 @@ class OrderRepository {
   }
 
   // Retorna lista de pedidos/orders por reserva do usuário
-  Future<List<OrderModel>> getOrdersByUser(
-      String userId, String reservationId) async {
+  Future<List<OrderModel>> getOrdersByUser(String userId, String reservationId) async {
     try {
       var orders = <OrderModel>[];
-      await _firestore
-          .collection('orders')
-          .where('userId', isEqualTo: userId)
-          .where('reservationId', isEqualTo: reservationId)
-          .get()
-          .then((QuerySnapshot querySnapshot) {
+      await _firestore.collection('orders').where('userId', isEqualTo: userId).where('reservationId', isEqualTo: reservationId).get().then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((order) {
           orders.add(OrderModel.fromSnapshot(order));
         });
@@ -48,21 +42,15 @@ class OrderRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      _util.showErrorMessage(
-          "Erro", "Não foi possível recuperar a lista de pedidos.");
+      _util.showErrorMessage("Erro", "Não foi possível recuperar a lista de pedidos.");
       return <OrderModel>[];
     }
   }
 
-  // Retorna lista de pedidos/orders por reserva
   Future<List<OrderModel>> getOrdersByReservation(String reservationId) async {
     try {
       var orders = <OrderModel>[];
-      await _firestore
-          .collection('orders')
-          .where('reservationId', isEqualTo: reservationId)
-          .get()
-          .then((QuerySnapshot querySnapshot) {
+      await _firestore.collection('orders').where('reservationId', isEqualTo: reservationId).get().then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((order) {
           orders.add(OrderModel.fromSnapshot(order));
         });
@@ -71,8 +59,7 @@ class OrderRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      _util.showErrorMessage(
-          "Erro", "Não foi possível recuperar a lista de pedidos.");
+      _util.showErrorMessage("Erro", "Não foi possível recuperar a lista de pedidos.");
       return <OrderModel>[];
     }
   }
@@ -87,5 +74,14 @@ class OrderRepository {
       Get.back();
       _util.showErrorMessage("Erro", "Não foi possível remover o pedido.");
     }
+  }
+
+  Stream<List<OrderModel>> listenerOrders(String reservationId) {
+    return _firestore.collection('orders').where('reservationId', isEqualTo: reservationId).snapshots().map((doc) {
+      if (doc.docs.length == 0) {
+        return <OrderModel>[];
+      }
+      return convertOrdersFromDB(doc);
+    });
   }
 }

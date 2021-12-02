@@ -20,4 +20,8 @@ class OrderService extends GetxService {
   Future<void> removeOrder(String orderId) async {
     await _orderRepository.removeOrder(orderId);
   }
+
+  Stream<List<OrderModel>> listenerOrders(String reservationId) {
+    return _orderRepository.listenerOrders(reservationId);
+  }
 }
