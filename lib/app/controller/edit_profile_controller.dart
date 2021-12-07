@@ -45,9 +45,9 @@ class EditProfileController extends GetxController {
     UserModel userToUpdate = user.value;
     userToUpdate.name = nameTextController.text;
     userToUpdate.phoneNumber = phoneNumberTextController.text;
-    userToUpdate.image = image.value.name;
 
     if (needToUpdateImage) {
+      userToUpdate.image = image.value.name;
       await _imageService.uploadUserImage(image.value);
     }
 
