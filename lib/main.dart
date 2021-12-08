@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
       initialBinding: Binding(),
       initialRoute: Routes.SPLASH,
       theme: ThemeData(
+        primarySwatch: Colors.red,
         primaryColor: Colors.red[500],
         accentColor: Colors.white,
         brightness: Brightness.light,

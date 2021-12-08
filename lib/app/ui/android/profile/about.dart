@@ -32,8 +32,7 @@ class AboutPage extends StatelessWidget {
                 ),
                 Text(
                   'Aplicativo desenvolvido por: ',
-                  style: TextStyle(
-                      fontSize: 22, height: 1.4, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 22, height: 1.4, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   '\n'
