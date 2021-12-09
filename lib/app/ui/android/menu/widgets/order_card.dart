@@ -47,12 +47,18 @@ class OrderCard extends StatelessWidget {
                       // Nome Prato
                       Row(
                         children: [
-                          Text(
-                            order.name,
-                            style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.black54,
-                              fontWeight: FontWeight.bold,
+                          Container(
+                            constraints: BoxConstraints(maxWidth: 220.0),
+                            child: Text(
+                              order.name,
+                              overflow: TextOverflow.fade,
+                              maxLines: 1,
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -80,35 +86,29 @@ class OrderCard extends StatelessWidget {
                           ),
                         ],
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Text(
+                            "R\$ ",
+                            style: TextStyle(
+                              fontSize: 19,
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            _util.setCurrencyPattern(order.price) ?? "",
+                            style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // Price
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          "R\$ ",
-                          style: TextStyle(
-                            fontSize: 19,
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          _util.setCurrencyPattern(order.price) ?? "",
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
                 ),
               ],
             ),
