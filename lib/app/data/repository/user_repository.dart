@@ -8,8 +8,7 @@ class UserRepository {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Cria usuáio
-  Future<bool> createUser(
-      String id, String email, String name, String phoneNumber) async {
+  Future<bool> createUseSr(String id, String email, String name, String phoneNumber) async {
     try {
       await _firestore.collection("users").doc(id).set({
         "email": email,
@@ -22,8 +21,7 @@ class UserRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      Get.defaultDialog(
-          title: "ERROR", content: Text("Usuário não encontrado."));
+      Get.defaultDialog(title: "ERROR", content: Text("Não foi possível cadastrar o usuário."));
       return false;
     }
   }
@@ -38,8 +36,7 @@ class UserRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      Get.defaultDialog(
-          title: "ERROR", content: Text("Usuário não encontrado."));
+      Get.defaultDialog(title: "ERROR", content: Text("Usuário não encontrado."));
       return UserModel();
     }
   }
@@ -50,14 +47,10 @@ class UserRepository {
         "name": user.name,
         "phoneNumber": user.phoneNumber,
         "image": user.image,
-        "status": user.status == LoginStatus.IN
-            ? LoginStatus.IN.toUpper
-            : LoginStatus.OUT.toUpper,
+        "status": user.status == LoginStatus.IN ? LoginStatus.IN.toUpper : LoginStatus.OUT.toUpper,
       });
     } catch (e) {
-      Get.defaultDialog(
-          title: "ERROR",
-          content: Text("Não foi possível atualizar os dados."));
+      Get.defaultDialog(title: "ERROR", content: Text("Não foi possível atualizar os dados."));
     }
   }
 

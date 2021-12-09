@@ -7,7 +7,6 @@ import 'package:sit_eat/app/ui/android/widgets/button_widget.dart';
 class ProductDetailPage extends GetView<ProductController> {
   final ProductController _productController = Get.find<ProductController>();
   final UtilService _util = UtilService();
-  double productPrice = 0.0;
 
   @override
   Widget build(BuildContext context) {

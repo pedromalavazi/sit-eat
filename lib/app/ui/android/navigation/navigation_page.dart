@@ -10,8 +10,7 @@ import 'package:sit_eat/app/ui/android/profile/profile_page.dart';
 import 'package:sit_eat/app/ui/android/reservation/reservation_page.dart';
 
 class NavigationPage extends GetView<NavigationController> {
-  final NavigationController _navigationController =
-      Get.put(NavigationController());
+  final NavigationController _navigationController = Get.put(NavigationController());
 
   @override
   Widget build(BuildContext context) {

@@ -18,7 +18,6 @@ class OrderController extends GetxController {
   RxList<OrderCardModel> allOrders = RxList<OrderCardModel>();
   RxList<ProductModel> products = RxList<ProductModel>();
   RxDouble total = 0.0.obs;
-  RxBool cancelRequest = false.obs;
 
   RxDouble totalPedido = 0.0.obs;
   RxString totalPedidoText = "".obs;
@@ -26,58 +25,57 @@ class OrderController extends GetxController {
 
   @override
   void onInit() async {
-    getCurrentRestaurantAndReservation();
+    await getCurrentRestaurantAndReservation();
     getOrders();
     super.onInit();
   }
 
   RxBool checkTotalPedidos() {
     if (total.value == 0.0) {
-      possuiPedido.value = false;
+      this.possuiPedido.value = false;
     } else {
-      possuiPedido.value = true;
+      this.possuiPedido.value = true;
     }
-    return possuiPedido;
+    return this.possuiPedido;
   }
 
   void calculatePedido(RxBool possuiPedido) {
     if (possuiPedido.isTrue) {
-      totalPedidoText.value = ('R\$ ${_util.setCurrencyPattern(total.value)}');
+      this.totalPedidoText.value = ('R\$ ${_util.setCurrencyPattern(total.value)}');
     } else {
-      totalPedidoText.value = null;
+      this.totalPedidoText.value = null;
     }
   }
 
   Future<void> getCurrentRestaurantAndReservation() async {
     var reservation = await _reservationService.getActiveReservation(AuthService.to.user.value.id);
-    restaurantId = reservation.restaurantId;
-    reservationId = reservation.id;
+    this.restaurantId = reservation.restaurantId;
+    this.reservationId = reservation.id;
   }
 
   // Preenche o OrderCardModel
   void getOrders() async {
     _orderService.listenerOrders(reservationId).listen((ordersFromRestaurant) async {
-      allOrders.clear();
-      total.value = 0.0;
-      ordersFromRestaurant = await _orderService.getOrdersByUser(AuthService.to.user.value.id, reservationId);
+      this.allOrders.clear();
+      this.total.value = 0.0;
 
       List<OrderCardModel> tempAllOrders = <OrderCardModel>[];
-      for (var i = 0; i < ordersFromRestaurant.length; i++) {
-        var order = ordersFromRestaurant[i];
+      for (var order in ordersFromRestaurant) {
         OrderCardModel cardTemp = OrderCardModel();
-        var orderTemp = await getProductProps(order.productId);
+        var product = await getProductProps(order.productId);
         cardTemp.id = order.id;
         cardTemp.reservationId = order.reservationId;
         cardTemp.quantity = order.quantity;
         cardTemp.total = order.total;
-        cardTemp.image = orderTemp.image;
-        cardTemp.name = orderTemp.name;
-        cardTemp.price = orderTemp.price;
-        cardTemp.measure = orderTemp.measure;
+        cardTemp.image = product.image;
+        cardTemp.name = product.name;
+        cardTemp.price = product.price;
+        cardTemp.measure = product.measure;
         cardTemp.orderTime = order.orderTime;
-        calculateTotal(orderTemp.price, order.quantity);
+        calculateTotal(product.price, order.quantity);
         tempAllOrders.add(cardTemp);
       }
+
       this.allOrders.addAll(tempAllOrders);
       calculatePedido(checkTotalPedidos());
     });
@@ -90,20 +88,32 @@ class OrderController extends GetxController {
 
   void calculateTotal(double price, int quantity) {
     double orderPrice = quantity * price;
-    total.value += orderPrice;
+    this.total.value += orderPrice;
   }
 
-  Future<void> checkCancelRequest(Timestamp orderTime) async {
+  Future<bool> checkCancelRequest(Timestamp orderTime) async {
     DateTime now = DateTime.now();
     var date = new DateTime.fromMicrosecondsSinceEpoch(orderTime.microsecondsSinceEpoch);
     var diff = date.difference(now);
     if (diff.inMinutes >= (-10)) {
-      cancelRequest = true.obs;
+      return true;
     } else
-      cancelRequest = false.obs;
+      return false;
   }
 
   Future<void> removeOrder(String orderId) async {
     await _orderService.removeOrder(orderId);
+  }
+
+  void cancelOrder(int index) async {
+    var canDelete = await checkCancelRequest(this.allOrders[index].orderTime);
+    if (canDelete) {
+      Get.back();
+      this.removeOrder(this.allOrders[index].id);
+      _util.showSuccessMessage("Pedido cancelado", "O restaurante será notificado sobre o cancelamento!");
+    } else {
+      Get.back();
+      _util.showSuccessMessage("Erro no cancelamento", "Restaurante já está preparando o pedido!");
+    }
   }
 }

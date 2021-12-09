@@ -60,16 +60,7 @@ class OrdersPage extends GetView<OrderController> {
                                 ElevatedButton(
                                     style: ElevatedButton.styleFrom(primary: Colors.red[500]),
                                     onPressed: () {
-                                      _orderController.checkCancelRequest(_orderController.allOrders[index].orderTime);
-                                      if (_orderController.cancelRequest.isTrue) {
-                                        Navigator.of(ctx).pop(true);
-                                        _orderController.allOrders.removeAt(index);
-                                        _orderController.removeOrder(_orderController.allOrders[index].id);
-                                        _util.showSuccessMessage("Pedido cancelado", "O restaurante será notificado sobre o cancelamento!");
-                                      } else {
-                                        Navigator.of(ctx).pop(false);
-                                        _util.showSuccessMessage("Erro no cancelamento", "Restaurante já está preparando o pedido!");
-                                      }
+                                      _orderController.cancelOrder(index);
                                     },
                                     child: Text("Confirmar")),
                               ],
@@ -97,7 +88,10 @@ class OrdersPage extends GetView<OrderController> {
               _util.showErrorMessage("Erro", "Lista de pedidos vazia!");
             }
           },
-          style: ElevatedButton.styleFrom(primary: Colors.red[500], padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20), textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          style: ElevatedButton.styleFrom(
+              primary: Colors.red[500],
+              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+              textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
