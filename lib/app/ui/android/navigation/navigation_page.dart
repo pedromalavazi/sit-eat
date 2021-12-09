@@ -28,7 +28,6 @@ class NavigationPage extends GetView<NavigationController> {
                   // Usuário sentado na mesa
                   MenuPage(),
                   OrdersPage(),
-                  ReservationPage(),
                   ProfilePage(),
                 ],
           onPageChanged: _navigationController.onPageChanged,
