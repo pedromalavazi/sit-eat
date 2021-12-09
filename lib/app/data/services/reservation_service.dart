@@ -47,7 +47,7 @@ class ReservationService extends GetxService {
       }
 
       position =
-          findUserPosition(sortReservationsByCheckIn(reservations), userId);
+          findUserPosition((await sortReservationsByCheckIn(reservations)), userId);
 
       return position;
     } else {
@@ -76,8 +76,8 @@ class ReservationService extends GetxService {
     return position;
   }
 
-  List<ReservationModel> sortReservationsByCheckIn(
-      List<ReservationModel> reservations) {
+  Future<List<ReservationModel>> sortReservationsByCheckIn(
+      List<ReservationModel> reservations) async {
     // Ordenar por data
     if (reservations.length == 1) {
       return reservations;

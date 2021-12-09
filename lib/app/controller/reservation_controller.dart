@@ -33,7 +33,7 @@ class ReservationController extends GetxController {
   void getAllReservations(String userId) async {
     _reservationService.listenerReservations(userId).listen((reservations) async {
       allReservations.clear();
-      reservations = _reservationService.sortReservationsByCheckIn(reservations).reversed.toList();
+      reservations = (await _reservationService.sortReservationsByCheckIn(reservations)).reversed.toList();
 
       List<ReservationCardModel> tempAllReservations = <ReservationCardModel>[];
       for (var i = 0; i < reservations.length; i++) {
