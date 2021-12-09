@@ -31,13 +31,11 @@ class OrderRepository {
   }
 
   // Retorna lista de pedidos/orders por reserva do usuário
-  Future<List<OrderModel>> getOrdersByUser(
-      String userId, String reservationId) async {
+  Future<List<OrderModel>> getOrdersByUser(String reservationId) async {
     try {
       var orders = <OrderModel>[];
       await _firestore
           .collection('orders')
-          .where('userId', isEqualTo: userId)
           .where('reservationId', isEqualTo: reservationId)
           .get()
           .then((QuerySnapshot querySnapshot) {
@@ -49,8 +47,7 @@ class OrderRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      _util.showErrorMessage(
-          "Erro", "Não foi possível recuperar a lista de pedidos.");
+      _util.showErrorMessage("Erro", "Não foi possível recuperar a lista de pedidos.");
       return <OrderModel>[];
     }
   }
@@ -71,8 +68,7 @@ class OrderRepository {
     } catch (e) {
       print(e.code);
       Get.back();
-      _util.showErrorMessage(
-          "Erro", "Não foi possível recuperar a lista de pedidos.");
+      _util.showErrorMessage("Erro", "Não foi possível recuperar a lista de pedidos.");
       return <OrderModel>[];
     }
   }
@@ -90,11 +86,7 @@ class OrderRepository {
   }
 
   Stream<List<OrderModel>> listenerOrders(String reservationId) {
-    return _firestore
-        .collection('orders')
-        .where('reservationId', isEqualTo: reservationId)
-        .snapshots()
-        .map((doc) {
+    return _firestore.collection('orders').where('reservationId', isEqualTo: reservationId).snapshots().map((doc) {
       if (doc.docs.length == 0) {
         return <OrderModel>[];
       }
