@@ -28,6 +28,7 @@ class NavigationPage extends GetView<NavigationController> {
                   // Usuário sentado na mesa
                   MenuPage(),
                   OrdersPage(),
+                  ReservationPage(),
                   ProfilePage(),
                 ],
           onPageChanged: _navigationController.onPageChanged,
@@ -38,9 +39,6 @@ class NavigationPage extends GetView<NavigationController> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Get.find<HomeController>().scanQrCode();
-          //Get.toNamed(Routes.RESTAURANT_MENU);
-          //Get.toNamed(Routes.RESTAURANT_ORDERS);
-          //Get.toNamed(Routes.RESTAURANT_PAYMENT);
         },
         child: Icon(Icons.qr_code_scanner),
         backgroundColor: Colors.red,
