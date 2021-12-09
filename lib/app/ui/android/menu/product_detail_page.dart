@@ -69,10 +69,11 @@ class ProductDetailPage extends GetView<ProductController> {
                               children: [
                                 Obx(
                                   () => Container(
+                                    constraints: BoxConstraints(maxWidth: 350.0),
                                     child: Text(
                                       _productController.product.value.name ?? "",
                                       style: TextStyle(
-                                        fontSize: 32,
+                                        fontSize: 30,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -80,6 +81,9 @@ class ProductDetailPage extends GetView<ProductController> {
                                   ),
                                 ),
                               ],
+                            ),
+                            SizedBox(
+                              height: 20,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -100,7 +104,7 @@ class ProductDetailPage extends GetView<ProductController> {
                               ],
                             ),
                             SizedBox(
-                              height: 15,
+                              height: 10,
                             ),
                             Container(
                               padding: EdgeInsets.only(bottom: 30),
@@ -108,11 +112,14 @@ class ProductDetailPage extends GetView<ProductController> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Obx(
-                                    () => Text(
-                                      _productController.product.value.description ?? "",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 20,
+                                    () => Container(
+                                      constraints: BoxConstraints(maxWidth: 350.0),
+                                      child: Text(
+                                        _productController.product.value.description ?? "",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 20,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -176,7 +183,7 @@ class ProductDetailPage extends GetView<ProductController> {
                                     _productController.createOrder();
                                   },
                                   text: "Realizar pedido",
-                                  height: 80,
+                                  height: 60,
                                   width: 180,
                                 ),
                               ],
